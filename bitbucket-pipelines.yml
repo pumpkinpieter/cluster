@@ -1,14 +1,24 @@
-# This is an example Starter pipeline configuration
-# Use a skeleton to build, test and deploy using manual and parallel steps
-# -----
-# You can specify a custom docker image from Docker Hub as your build environment.
+#  Template python-build
 
-image: atlassian/default-image:3
+#  This template allows you to validate your python code.
+#  The workflow allows running tests and code linting on the default branch.
+
+image: python:3.8
 
 pipelines:
   default:
     - parallel:
+#      - step:
+#          name: Test
+#          caches:
+#            - pip
+#          script:
+#            - if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+#            - pip install pytest
+#            - pytest -v tests/* --junitxml=test-reports/report.xml
       - step:
-          name: 'Lint Code'
+          name: Lint code
+          script:
+            # Enforce style consistency across Python projects https://flake8.pycqa.org/en/latest/manpage.html
             - pip install flake8
             - flake8 . --extend-exclude=dist,build --show-source --statistics
