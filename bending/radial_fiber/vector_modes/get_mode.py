@@ -58,4 +58,3 @@ if __name__ == '__main__':
                         phi, p, beta, Zs, None)
 
             del Robj, beta, E, phi, Zs
-

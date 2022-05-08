@@ -55,10 +55,10 @@ if __name__ == '__main__':
     dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p) 
-        + 'betas'), betas)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p) 
-        + 'dofs'), dofs)
+    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
+                            + 'betas'), betas)
+    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
+                            + 'dofs'), dofs)
 
     del a, Robj, beta, ref, p, center, radius, nspan, npts
     del main, studyname, path, np, os, sys, ARF

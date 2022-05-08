@@ -59,8 +59,8 @@ CL = 20 * BBB / np.log(10)
 
 for i in range(0, CL.shape[0]):
     plt.plot(np.log(dofs[i, :]), CL[i, :],
-              'o-', label='ref='+str(2),
-              linewidth=2.5, markersize=8)
+             'o-', label='ref='+str(2),
+             linewidth=2.5, markersize=8)
 
 betas = np.load(path + '/betas3.npy').imag
 dofs = np.load(path + '/dofs3.npy')
@@ -76,8 +76,8 @@ CL = 20 * BBB / np.log(10)
 
 for i in range(0, CL.shape[0]):
     plt.plot(np.log(dofs[i, :]), CL[i, :],
-              'o-',
-              linewidth=2.5, markersize=8)
+             'o-',
+             linewidth=2.5, markersize=8)
 
 
 plt.legend()

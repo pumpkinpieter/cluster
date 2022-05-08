@@ -39,7 +39,7 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
 
     a.curve(max(p+1, 3))  # set curvature based on p
-    
+
     _, _, _, beta, P, _ = a.leakymode(p=p, ctr=center, rad=radius, alpha=alpha,
                                       nspan=nspan, npts=npts,
                                       niterations=20, nrestarts=0,
@@ -49,10 +49,10 @@ if __name__ == '__main__':
     dofs[:] = P.fes.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p) 
-        + 'betas'), betas)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p) 
-        + 'dofs'), dofs)
+    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
+                            + 'betas'), betas)
+    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
+                            + 'dofs'), dofs)
 
     del a, P, beta, ref, p, center, radius, nspan, npts
     del main, studyname, path, np, os, sys, ARF
