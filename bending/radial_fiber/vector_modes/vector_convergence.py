@@ -6,7 +6,7 @@ import os
 import sys
 from fiberamp.fiber.microstruct import ARF
 
-main = '/home/piet2/local/fiberamp/fiber/microstruct/convergence/arf_fiber'
+main = '/~/local/convergence/bending/radial_fiber'
 studyname = 'vector_modes'
 
 path = main + '/' + studyname + '/outputs'

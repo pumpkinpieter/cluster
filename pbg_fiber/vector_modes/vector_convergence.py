@@ -7,7 +7,7 @@ import sys
 from fiberamp.fiber.microstruct.pbg import PBG
 from fiberamp.fiber.microstruct.pbg.fiber_dicts.lyr6cr2 import params
 
-main = '/home/piet2/local/fiberamp/fiber/microstruct/convergence/pbg_fiber'
+main = '/~/local/convergence/pbg_fiber'
 studyname = 'vector_modes'
 
 path = main + '/' + studyname + '/outputs'

@@ -8,7 +8,7 @@ import os
 import sys
 from fiberamp.fiber.microstruct import ARF
 
-main = '/home/piet2/local/fiberamp/fiber/microstruct/convergence/arf_fiber'
+main = '/~/local/convergence/arf_fiber'
 studyname = 'scalar_modes'
 
 path = main + '/' + studyname + '/modes'
