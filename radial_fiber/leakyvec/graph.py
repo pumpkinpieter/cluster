@@ -25,7 +25,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 z_exact = 3.7969194313378907-0.725805740812567j
 
 path = os.path.relpath(
-    '/home/pv/local/fiberamp/fiber/microstruct/pbg\
+    '/~/local/pbg\
 /convergence_code/leakyvec/outputs')
 
 

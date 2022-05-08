@@ -24,7 +24,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
 path = os.path.relpath(
-    '/home/pv/local/fiberamp/fiber/microstruct/convergence/\
+    '/~/local/convergence/\
 pbg_fiber/vector_modes/outputs')
 
 plt.figure(figsize=(18, 16))

@@ -5,7 +5,7 @@ import os
 from fiberamp.fiber.microstruct import ARF
 from netgen.libngpy._meshing import NgException
 
-main = '/home/pv/local/fiberamp/fiber/microstruct/convergence/arf_fiber'
+main = '/~/local/convergence/arf_fiber'
 studyname = 'vector_modes'
 
 path = main + '/' + studyname + '/outputs'

@@ -41,7 +41,7 @@ centers = {'LP01': 1.242933 - 2.471929e-09j,
 
 
 # Folder setup.  Enter your path to pbg folder. ##################
-pbg_home = '/home/pv/local/fiberamp/fiber/microstruct/pbg/'
+pbg_home = '/~/local/pbg/'
 folder = pbg_home + '/outputs/' + fiber_name + \
     '/' + mode_name + '/' + 'convergence'   # Make this directory
 

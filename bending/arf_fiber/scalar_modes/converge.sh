@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-#SBATCH --job-name guidedvec_convergence
+#SBATCH --job-name scalar_vec_convergence 
 #SBATCH --nodes 1
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 24
@@ -7,8 +7,9 @@
 #SBATCH --partition himem
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --mail-type ALL
-#SBATCH --output=guidedvec_convergence.log
-#SBATCH --error=guidedvec_convergence.err
+#SBATCH --output=logs/ref1_%a.log
+#SBATCH --error=errors/ref1_%a.err
+#SBATCH --array=1-17%2
 
 echo "Starting at wall clock time:"
 date
@@ -22,6 +23,6 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-python3 guidedvecmode_convergence.py
+python3 scalar_convergence.py 1 $SLURM_ARRAY_TASK_ID
 echo "Ending convergence study:"
 date

@@ -19,7 +19,7 @@ mode_type_index = mode_types.index(mode_type)
 ps = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 refs = [0, 1, 2, 3]
 
-folder = '/home/pv/local/fiberamp/fiber/microstruct/pbg/\
+folder = '/~/local/pbg/\
 outputs/lyr6cr2/' + mode + '/convergence'
 
 if not os.path.isdir(os.path.relpath(folder)):

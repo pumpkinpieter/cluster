@@ -32,7 +32,7 @@ import os
 R = 2.5
 
 # Folder setup.  Enter your path to pbg folder. ##################
-pbg_home = '/home/pv/local/fiberamp/fiber/microstruct/pbg/'
+pbg_home = '/~/local/pbg/'
 folder = pbg_home + '/outputs'   # Make this directory
 
 if not os.path.isdir(os.path.relpath(folder)):
