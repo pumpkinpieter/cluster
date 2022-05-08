@@ -14,74 +14,36 @@ SMALL_SIZE = 14
 MEDIUM_SIZE = 18
 BIGGER_SIZE = 22
 
-plt.rc('font', size=MEDIUM_SIZE)          # controls default text sizes
+plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
 plt.rc('axes', titlesize=BIGGER_SIZE)    # fontsize of the axes title
 plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
 plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=MEDIUM_SIZE)    # legend fontsize
+plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-
-path = os.path.relpath(
-    '/~/local/convergence/bending/\
-arf_fiber/vector_modes/outputs')
-
-betas = np.load(path + '/betas.npy').imag
-dofs = np.load(path + '/dofs.npy')
-
-# Filter out bad values
-
-B = np.where(betas != 0, betas, 1e99)
-BB = np.min(B, axis=2)
-BBB = np.where(BB != 1e99, BB, 0)
-
-CL = 20 * BBB / np.log(10)
+main = os.path.expanduser('~/local/convergence/bending/radial_fiber/\
+scalar_modes/outputs')
+path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for i in range(0, CL.shape[0]-1):
-    plt.plot(np.log(dofs[i, :]), CL[i, :],
-             'o-', label='ref='+str(i),
-             linewidth=2.5, markersize=8)
+for r in range(4):
 
-betas = np.load(path + '/betas2.npy').imag
-dofs = np.load(path + '/dofs2.npy')
+    nus = np.load(path + '/ref'+str(r)+'all_nus.npy')
+    dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
-# Filter out bad values
+    CL = 20 * (nus[1:, 0]).imag / np.log(10)
 
-B = np.where(betas != 0, betas, 1e99)
-BB = np.min(B, axis=2)
-BBB = np.where(BB != 1e99, BB, 0)
-
-CL = 20 * BBB / np.log(10)
-
-
-for i in range(0, CL.shape[0]):
-    plt.plot(np.log(dofs[i, :]), CL[i, :],
-              'o-', label='ref='+str(2),
-              linewidth=2.5, markersize=8)
-
-betas = np.load(path + '/betas3.npy').imag
-dofs = np.load(path + '/dofs3.npy')
-
-# Filter out bad values
-
-B = np.where(betas != 0, betas, 1e99)
-BB = np.min(B, axis=2)
-BBB = np.where(BB != 1e99, BB, 0)
-
-CL = 20 * BBB / np.log(10)
-
-
-for i in range(0, CL.shape[0]):
-    plt.plot(np.log(dofs[i, :]), CL[i, :],
-              'o-',
-              linewidth=2.5, markersize=8)
-
+    plt.plot(dofs[1:], CL, 'o-', label='ref='+str(r), linewidth=2.5,
+             markersize=8)
 
 plt.legend()
 
 plt.xlabel('log of ndofs')
-plt.ylabel('log of error')
+plt.ylabel('CL')
+plt.title('Bending Convergence for Nufern Fiber\n Bend \
+Radius = 1333*r_core\nCL = 0.0095717362')
+# plt.yscale('log')
+plt.xscale('log')
 plt.grid()
