@@ -12,8 +12,8 @@ from netgen.libngpy._meshing import NgException
 z_exact = -15.817570072953
 
 # Folder setup.  Enter your path to pbg folder. ##################
-folder =
-os.path.expanduser('~/local/convergence/radial_fiber/guidedvec/outputs')
+folder = os.path.expanduser(
+    '~/local/convergence/radial_fiber/guidedvec/outputs')
 
 if not os.path.isdir(os.path.relpath(folder)):
     raise FileNotFoundError("Given folder is not a directory. Make this \

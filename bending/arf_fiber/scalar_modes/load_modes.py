@@ -6,6 +6,7 @@ Created on Sun Apr 24 12:05:08 2022
 @author: pv
 """
 import ngsolve as ng
+import os
 from fiberamp.fiber.microstruct.arf import loadarfmode
 
 
