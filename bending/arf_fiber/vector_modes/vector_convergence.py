@@ -6,7 +6,7 @@ import os
 import sys
 from fiberamp.fiber.microstruct import ARF
 
-main = '/~/local/convergence/bending/arf_fiber'
+main = os.path.expanduser('~/local/convergence/bending/arf_fiber')
 studyname = 'vector_modes'
 
 path = main + '/' + studyname + '/outputs'

@@ -9,7 +9,7 @@ import ngsolve as ng
 from fiberamp.fiber.microstruct.arf import loadarfmode
 
 
-main = '/~/local/convergence/bending/arf_fiber'
+main = os.path.expanduser('~/local/convergence/bending/arf_fiber')
 studyname = 'scalar_modes'
 path = main + '/' + studyname + '/modes'
 

@@ -28,7 +28,7 @@ path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(4):
 
     nus = np.load(path + '/ref'+str(r)+'all_nus.npy')
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
@@ -44,7 +44,7 @@ plt.legend()
 plt.xlabel('log of ndofs')
 plt.ylabel('CL')
 plt.title('Bending Convergence for Nufern Fiber (Vector Method)\n Bend \
-Radius = 1333*r_core\nCL = 0.009593')
+Radius = 1333*r_core\nCL = 0.0095931')
 # plt.yscale('log')
 plt.xscale('log')
 plt.grid()

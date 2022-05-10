@@ -24,8 +24,8 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
 path = os.path.relpath(
-    '/~/local/convergence/bending/\
-arf_fiber/vector_modes/outputs')
+    os.path.expanduser('~/local/convergence/bending/\
+arf_fiber/vector_modes/outputs'))
 
 plt.figure(figsize=(18, 16))
 
