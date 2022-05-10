@@ -38,7 +38,7 @@ if __name__ == '__main__':
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
 
-    a.curve(max(p+1, 3))  # set curvature based on p
+#    a.curve(max(p+1, 3))  # set curvature based on p
 
     beta, _, _, _, Robj = a.leakyvecmodes(ctr=center,
                                           rad=radius,
@@ -49,7 +49,7 @@ if __name__ == '__main__':
                                           niterations=30,
                                           nrestarts=0,
                                           stop_tol=1e-10,
-                                          inverse='pardiso')
+                                          inverse='umfpack')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof
