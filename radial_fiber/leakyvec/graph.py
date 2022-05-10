@@ -25,8 +25,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 z_exact = 3.7969194313378907-0.725805740812567j
 
 path = os.path.relpath(
-    '/~/local/pbg\
-/convergence_code/leakyvec/outputs')
+    os.path.expanduser('~/local/convergence/radial_fiber/leakyvec/outputs'))
 
 
 Zs = np.load(path + '/leakyvec_Zs_a3.npy')

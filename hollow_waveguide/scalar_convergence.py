@@ -32,7 +32,7 @@ import os
 R = 2.5
 
 # Folder setup.  Enter your path to pbg folder. ##################
-pbg_home = '/~/local/pbg/'
+pbg_home = os.path.expanduser('~/local/convergence/hollow_waveguide')
 folder = pbg_home + '/outputs'   # Make this directory
 
 if not os.path.isdir(os.path.relpath(folder)):

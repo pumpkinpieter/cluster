@@ -24,8 +24,8 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
 path = os.path.relpath(
-    '/~/local/convergence/\
-arf_fiber/vector_modes/outputs')
+    os.path.expanduser('~/local/convergence/\
+arf_fiber/vector_modes/outputs'))
 
 betas = np.load(path + '/betas.npy').imag
 dofs = np.load(path + '/dofs.npy')

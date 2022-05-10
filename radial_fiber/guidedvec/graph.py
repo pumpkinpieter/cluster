@@ -25,8 +25,8 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 z_exact = -15.817570072953
 
 path = os.path.relpath(
-    '/~/local/convergence\
-/guidedvec/outputs')
+    os.path.expanduser('~/local/convergence\
+/guidedvec/outputs'))
 
 
 Zs = np.load(path + '/guidedvec_Zs.npy')

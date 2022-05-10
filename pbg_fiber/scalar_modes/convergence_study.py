@@ -41,9 +41,8 @@ centers = {'LP01': 1.242933 - 2.471929e-09j,
 
 
 # Folder setup.  Enter your path to pbg folder. ##################
-pbg_home = '/~/local/pbg/'
-folder = pbg_home + '/outputs/' + fiber_name + \
-    '/' + mode_name + '/' + 'convergence'   # Make this directory
+pbg_home = os.path.expanduser('~/local/convergence/pbg_fiber')
+folder = pbg_home + '/scalar_modes/outputs/'
 
 if not os.path.isdir(os.path.relpath(folder)):
     raise FileNotFoundError("Given folder is not a directory. Make this \
