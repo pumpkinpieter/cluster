@@ -6,7 +6,7 @@ import os
 import sys
 from fiberamp.fiber.microstruct import ARF
 
-main = '/~/local/convergence/arf_fiber'
+main = os.path.expanduser('~/local/convergence/arf_fiber')
 studyname = 'scalar_modes'
 
 path = main + '/' + studyname + '/outputs'

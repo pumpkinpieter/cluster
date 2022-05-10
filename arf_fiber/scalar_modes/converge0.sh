@@ -7,9 +7,9 @@
 #SBATCH --partition himem
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --mail-type ALL
-#SBATCH --output=logs/ref1_%a.log
-#SBATCH --error=errors/ref1_%a.err
-#SBATCH --array=18-23%2
+#SBATCH --output=logs/ref0_%a.log
+#SBATCH --error=errors/ref0_%a.err
+#SBATCH --array=23%1
 
 echo "Starting at wall clock time:"
 date
