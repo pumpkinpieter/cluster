@@ -9,7 +9,7 @@
 #SBATCH --mail-type ALL
 #SBATCH --output=logs/ref1_p%a.log
 #SBATCH --error=errors/ref1_p%a.err
-#SBATCH --array=0-19%2
+#SBATCH --array=9%1
 
 echo "Starting at wall clock time:"
 date

@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-#SBATCH --job-name arfvcref2 
+#SBATCH --job-name arfvcrf3 
 #SBATCH --nodes 1
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 24
@@ -7,9 +7,9 @@
 #SBATCH --partition himem
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --mail-type ALL
-#SBATCH --output=logs/ref2_p%a.log
-#SBATCH --error=errors/ref2_p%a.err
-#SBATCH --array=6-10%2
+#SBATCH --output=logs/ref3_p%a.log
+#SBATCH --error=errors/ref3_p%a.err
+#SBATCH --array=0-5%2
 
 echo "Starting at wall clock time:"
 date
@@ -23,6 +23,6 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-python3 vector_convergence.py 2 $SLURM_ARRAY_TASK_ID
+python3 vector_convergence.py 3 $SLURM_ARRAY_TASK_ID
 echo "Ending convergence study:"
 date
