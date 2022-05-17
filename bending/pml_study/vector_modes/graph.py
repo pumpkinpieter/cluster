@@ -23,7 +23,7 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 main = os.path.expanduser('~/local/convergence/bending/radial_fiber/\
-scalar_modes/outputs')
+vector_modes/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
@@ -33,7 +33,8 @@ for r in range(4):
     nus = np.load(path + '/ref'+str(r)+'all_nus.npy')
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
-    CL = 20 * (nus[1:, 0]).imag / np.log(10)
+    Nus = (nus[1:, 0] + nus[1:, 1]) / 2
+    CL = 20 * Nus.imag / np.log(10)
 
     plt.plot(dofs[1:], CL, 'o-', label='ref='+str(r), linewidth=2.5,
              markersize=8)
@@ -42,9 +43,8 @@ plt.legend()
 
 plt.xlabel('log of ndofs')
 plt.ylabel('CL')
-plt.title('Scalar Bending Convergence for Nufern Fiber\n Bend \
-Radius = 1333*r_core\nCL = 0.0095717362')
+plt.title('Bending Convergence for Nufern Fiber (Vector Method)\n Bend \
+Radius = 1333*r_core\nCL = 0.0095931')
 # plt.yscale('log')
 plt.xscale('log')
 plt.grid()
-plt.show()

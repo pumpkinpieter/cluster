@@ -42,9 +42,8 @@ plt.legend()
 
 plt.xlabel('log of ndofs')
 plt.ylabel('CL')
-plt.title('Scalar Bending Convergence for Nufern Fiber\n Bend \
+plt.title('Bending Convergence for Nufern Fiber\n Bend \
 Radius = 1333*r_core\nCL = 0.0095717362')
 # plt.yscale('log')
 plt.xscale('log')
 plt.grid()
-plt.show()
