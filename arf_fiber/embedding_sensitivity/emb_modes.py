@@ -21,6 +21,10 @@ radius = .05      # search radius
 nspan = 5
 npts = 4
 
+# Embedding parameter array
+
+E = np.linspace(0.001, 1, 40)
+
 # PML strength
 alpha = 5
 
@@ -29,13 +33,13 @@ betas = np.zeros(nspan, dtype=complex)
 
 if __name__ == '__main__':
 
-    ref, p, e = int(sys.argv[1]), int(sys.argv[2]), float(sys.argv[3]),
+    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]),
 
     a = ARF(name='poletti', outermaterials='air', freecapil=False,
-            refine=ref, e=e)
+            refine=ref, e=E[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
-          ', degree: ' + str(p) + ', e: ' + str(e) + '#'*8 + '\n', flush=True)
+          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n', flush=True)
 
     a.curve(max(p+1, 3))  # set curvature based on p
 
@@ -53,7 +57,7 @@ if __name__ == '__main__':
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/e' + str(e)), betas)
+    np.save(os.path.relpath(path + '/e' + str(i)), betas)
 
-    del a, Robj, beta, e, center, radius, nspan, npts
+    del a, Robj, beta, i, center, radius, nspan, npts
     del main, studyname, path, np, betas, os, sys, ARF
