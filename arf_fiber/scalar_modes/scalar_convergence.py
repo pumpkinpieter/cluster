@@ -18,7 +18,7 @@ if not os.path.isdir(os.path.relpath(path)):
 # Center, radius and span
 center = 2.24       # center of circle to search for Z-resonance values
 radius = .02      # search radius
-nspan = 4
+nspan = 6
 npts = 4
 
 # PML strength
