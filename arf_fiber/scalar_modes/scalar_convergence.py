@@ -18,8 +18,8 @@ if not os.path.isdir(os.path.relpath(path)):
 # Center, radius and span
 center = 2.24       # center of circle to search for Z-resonance values
 radius = .02      # search radius
-nspan = 6
-npts = 8
+nspan = 4
+npts = 4
 
 # PML strength
 alpha = 5
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     _, _, _, beta, P, _ = a.leakymode(p=p, ctr=center, rad=radius, alpha=alpha,
                                       nspan=nspan, npts=npts,
                                       niterations=20, nrestarts=0,
-                                      stop_tol=1e-11, inverse='pardiso')
+                                      stop_tol=1e-11, inverse='umfpack')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = P.fes.ndof
