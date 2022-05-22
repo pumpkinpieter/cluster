@@ -39,7 +39,8 @@ if __name__ == '__main__':
             refine=ref, e=E[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
-          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n', flush=True)
+          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
+          flush=True)
 
     a.curve(max(p+1, 3))  # set curvature based on p
 
