@@ -20,6 +20,6 @@ echo "Starting convergence study: "
 date
 for i in {0..39}
     do
-        srun --exclusive --nodes 1 --ntasks 1 python3 emb_modes.py 0 12 ${i} &
+        srun --exclusive --nodes 1 --ntasks 1 python3 emb_modes.py 0 13 ${i} &
 done
 wait

@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
     a.curve(max(p+1, 3))  # set curvature based on p
 
-    beta, _, _, _, Robj = a.leakymode(ctr=center,
+    _, _, _, beta, _, _ = a.leakymode(ctr=center,
                                       rad=radius,
                                       alpha=alpha,
                                       nspan=nspan,
