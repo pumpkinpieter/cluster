@@ -7,13 +7,8 @@
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --mail-type ALL
-#SBATCH --output=logs/e%a.log
-#SBATCH --error=errors/e%a.err
-#SBATCH --array=0-39%2
-
-echo "Starting at wall clock time:"
-date
-echo "Running CMT on $SLURM_CPUS_ON_NODE CPU cores"
+#SBATCH --output=logs/himem_e.log
+#SBATCH --error=errors/himem_e.err
 
 # Load needed modules.
 module load ngsolve/serial
@@ -23,6 +18,8 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-python3 emb_modes.py 0 12 $SLURM_ARRAY_TASK_ID
-echo "Ending convergence study:"
-date
+for i in {0..39}
+    do
+        srun --exclusive --nodes 1 --ntasks 1 python3 emb_modes.py 0 12 ${i} &
+done
+wait
