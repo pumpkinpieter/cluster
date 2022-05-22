@@ -53,7 +53,7 @@ if __name__ == '__main__':
                                           niterations=30,
                                           nrestarts=0,
                                           stop_tol=1e-10,
-                                          inverse='umfpack')
+                                          inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 

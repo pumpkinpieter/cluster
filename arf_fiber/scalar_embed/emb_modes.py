@@ -7,7 +7,7 @@ import sys
 from fiberamp.fiber.microstruct import ARF
 
 main = os.path.expanduser('~/local/convergence/arf_fiber')
-studyname = 'embedding_sensitivity'
+studyname = 'scalar_embed'
 
 path = main + '/' + studyname + '/outputs'
 
@@ -16,9 +16,9 @@ if not os.path.isdir(os.path.relpath(path)):
     os.makedirs(os.path.relpath(path))
 
 # Center, radius and span
-center = 5.066       # center of circle to search for Z-resonance values
-radius = .05      # search radius
-nspan = 5
+center = 2.247       # center of circle to search for Z-resonance values
+radius = .01      # search radius
+nspan = 2
 npts = 4
 
 # Embedding parameter array
@@ -44,16 +44,16 @@ if __name__ == '__main__':
 
     a.curve(max(p+1, 3))  # set curvature based on p
 
-    beta, _, _, _, Robj = a.leakyvecmodes(ctr=center,
-                                          rad=radius,
-                                          alpha=alpha,
-                                          nspan=nspan,
-                                          npts=npts,
-                                          p=p,
-                                          niterations=30,
-                                          nrestarts=0,
-                                          stop_tol=1e-10,
-                                          inverse='umfpack')
+    beta, _, _, _, Robj = a.leakymode(ctr=center,
+                                      rad=radius,
+                                      alpha=alpha,
+                                      nspan=nspan,
+                                      npts=npts,
+                                      p=p,
+                                      niterations=30,
+                                      nrestarts=0,
+                                      stop_tol=1e-10,
+                                      inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 
