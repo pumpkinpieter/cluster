@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-#SBATCH --job-name arfemb 
+#SBATCH --job-name arfemb
 #SBATCH --nodes 1
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 24
@@ -7,8 +7,9 @@
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --mail-type ALL
-#SBATCH --output=logs/himem_e.log
-#SBATCH --error=errors/himem_e.err
+#SBATCH --output=logs/himem_e%a.log
+#SBATCH --error=errors/himem_e%a.err
+#SBATCH --array=0-39%2
 
 # Load needed modules.
 module load ngsolve/serial
@@ -18,8 +19,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..39}
-    do
-        srun --exclusive --nodes 1 --ntasks 1 python3 emb_modes.py 0 13 ${i} &
-done
-wait
+srun python3 emb_modes.py 0 12 $SLURM_ARRAY_TASK_ID
+echo "Ending convergence study:"
+date
+
