@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = AR2(refine=ref, curve=max(p+1,3))
+    a = ARF2(refine=ref, curve=max(p+1, 3))
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
