@@ -23,7 +23,7 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/scalar_modes/outputs')
+main = os.path.expanduser('~/local/convergence/csg_arf/scalar_modes/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
@@ -45,7 +45,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('Arf Poletti Scalar convergence.')
+plt.title('CSG Arf Poletti Scalar convergence.')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()

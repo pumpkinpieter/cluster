@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name csgarf
-#SBATCH -N 20
-#SBATCH -n 20
+#SBATCH -N 10
+#SBATCH -n 10
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -18,7 +18,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..20}
+for i in {11..20}
     do
         srun --exclusive --nodes 1 --ntasks 1 python3 scalar_convergence.py 0 ${i} &
 done

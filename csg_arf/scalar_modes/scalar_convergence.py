@@ -50,6 +50,3 @@ if __name__ == '__main__':
                             + 'betas'), betas)
     np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
                             + 'dofs'), dofs)
-
-    del a, P, beta, ref, p, center, radius, nspan, npts
-    del main, studyname, path, np, os, sys, ARF
