@@ -10,6 +10,8 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+plt.close()
+
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
 BIGGER_SIZE = 22
@@ -32,19 +34,22 @@ plt.figure(figsize=(18, 16))
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.001, 1, 40)
 
-B = np.where(raw != 0, np.abs(raw), 1e99)
-BB = np.min(B, axis=1)
-BBB = np.where(BB != 1e99, BB, 0)
+base = np.zeros_like(es)
 
-CL = 20 * BBB / np.log(10)
+for j in range(len(es)-1):
+    b = raw[j, :]
+    c = np.where((b != 0) * (np.abs(b) < 1) * (b > 0), 1, 0)
+    base[j] = np.mean(b, where=list(c))
 
-plt.plot(es, CL, 'o-', linewidth=2.5, markersize=8)
+CL = 20 * base / np.log(10)
+
+plt.plot(1-es[1:], CL[1:], 'o-', linewidth=2.5, markersize=8)
 
 # plt.legend()
 
 plt.xlabel('log of ndofs')
 plt.ylabel('log of error')
-# plt.yscale('log')
+plt.yscale('log')
 # plt.xscale('log')
 plt.grid()
 plt.show()
