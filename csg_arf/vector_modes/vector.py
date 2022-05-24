@@ -37,7 +37,8 @@ if __name__ == '__main__':
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
 
-    beta, _, _, Robj, _ = a.leakyvecmodes(p=p, ctr=center, rad=radius, alpha=alpha,
+    beta, _, _, Robj, _ = a.leakyvecmodes(p=p, ctr=center, rad=radius,
+                                          alpha=alpha,
                                           nspan=nspan, npts=npts,
                                           niterations=30, nrestarts=0,
                                           stop_tol=1e-11, inverse='pardiso')
