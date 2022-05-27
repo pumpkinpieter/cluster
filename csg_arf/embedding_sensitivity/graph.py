@@ -30,7 +30,7 @@ embedding_sensitivity/outputs'))
 plt.figure(figsize=(22, 16))
 
 raw = np.load(path + '/all_e.npy').imag
-es = np.linspace(0.002, .9999, 80)
+es = np.linspace(0.002, .9999, 240)
 
 base = np.zeros_like(es)
 
