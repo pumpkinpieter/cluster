@@ -17,9 +17,9 @@ if not os.path.isdir(os.path.relpath(path)):
 
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
-radius = .05      # search radius
-nspan = 6
-npts = 6
+radius = .1      # search radius
+nspan = 4
+npts = 4
 
 # PML strength
 alpha = 5
@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3))
+    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
