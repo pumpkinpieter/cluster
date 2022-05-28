@@ -10,24 +10,17 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-SMALL_SIZE = 14
-MEDIUM_SIZE = 18
-BIGGER_SIZE = 22
+plt.close()
 
-plt.rc('font', size=MEDIUM_SIZE)          # controls default text sizes
-plt.rc('axes', titlesize=BIGGER_SIZE)    # fontsize of the axes title
-plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=MEDIUM_SIZE)    # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+plt.rc('axes', titlesize=30)    # fontsize of the axes title
+plt.rc('figure', titlesize=30)  # fontsize of the figure title
 
 
 path = os.path.relpath(
     os.path.expanduser('~/local/convergence/\
 arf_fiber/vector_modes/outputs'))
 
-plt.figure(figsize=(18, 16))
+plt.figure(figsize=(22, 16))
 
 for r in range(3):
 
@@ -46,8 +39,10 @@ for r in range(3):
 
 plt.legend()
 
-plt.xlabel('log of ndofs')
-plt.ylabel('log of error')
+plt.title('Convergence for ARF fiber\n Vectorial Solver (no Static Condensatio\
+n)\n')
+plt.xlabel('ndof')
+plt.ylabel('CL')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
