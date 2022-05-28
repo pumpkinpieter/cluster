@@ -12,17 +12,8 @@ import matplotlib.pyplot as plt
 
 plt.close()
 
-SMALL_SIZE = 20
-MEDIUM_SIZE = 20
-BIGGER_SIZE = 30
-
-plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
-plt.rc('axes', titlesize=BIGGER_SIZE)    # fontsize of the axes title
-plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+plt.rc('axes', titlesize=30)    # fontsize of the axes title
+plt.rc('figure', titlesize=30)  # fontsize of the figure title
 
 path = os.path.relpath(os.path.expanduser('~/local/convergence/csg_arf/\
 embedding_sensitivity/outputs'))
@@ -36,7 +27,7 @@ base = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b != 0) * (np.abs(b) < 10) * (b > 0), 1, 0)
+    c = np.where((b != 0) * (np.abs(b) < 20) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
