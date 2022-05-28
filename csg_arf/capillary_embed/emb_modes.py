@@ -16,7 +16,6 @@ if not os.path.isdir(os.path.relpath(path)):
     os.makedirs(os.path.relpath(path))
 
 # Center, radius and span
-center = 5.066       # center of circle to search for Z-resonance values
 radius = .01         # search radius
 nspan = 4
 npts = 4
@@ -24,6 +23,12 @@ npts = 4
 # Embedding parameter array
 
 E = np.linspace(0.002, .9999, 240)
+
+# Linear fit for finding search centers
+m, b = -0.2758566730320395, 5.07341374920433
+
+# Seach centers
+center = b + m * E
 
 # PML strength
 alpha = 5
@@ -41,7 +46,7 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, _, _, _, _ = a.leakyvecmodes(ctr=center,
+    beta, _, _, _, _ = a.leakyvecmodes(ctr=center[i],
                                        rad=radius,
                                        alpha=alpha,
                                        nspan=nspan,
