@@ -7,7 +7,7 @@ import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
 main = os.path.expanduser('~/local/convergence/csg_arf')
-studyname = 'embedding_sensitivity'
+studyname = 'capillary_embed'
 
 path = main + '/' + studyname + '/outputs'
 

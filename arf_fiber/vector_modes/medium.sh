@@ -1,7 +1,7 @@
 #!/usr/bin/bash
-#SBATCH --job-name mcsgarf
-#SBATCH -N 45
-#SBATCH -n 45
+#SBATCH --job-name vecarf
+#SBATCH -N 9
+#SBATCH -n 9
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -18,18 +18,18 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..17}
+for i in {12..20}
     do
         srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 0 ${i} &
 done
 
-for j in {0..11}
-    do
-        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
-done
+#for j in {0..11}
+#    do
+#        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
+#done
 
-for k in {0..4}
-    do
-        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 2 ${k} &
-done
+#for k in {0..4}
+#    do
+#        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 2 ${k} &
+#done
 wait
