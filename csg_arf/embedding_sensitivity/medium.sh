@@ -20,8 +20,8 @@ date
 for i in {0..239}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
-            --output="logs/e_${i}_task_%t.out" \
-            --error="errors/e_${i}_task_%t.err" \
-            python3 emb_modes.py 1 7 ${i} &
+            --output="logs/e_${i}.out" \
+            --error="errors/e_${i}.err" \
+            python3 emb_modes.py 1 8 ${i} &
 done
 wait
