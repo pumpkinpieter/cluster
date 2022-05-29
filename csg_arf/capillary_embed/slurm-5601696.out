@@ -1,0 +1,4 @@
+Starting convergence study: 
+Sat May 28 19:12:54 PDT 2022
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 5601696 ON compute037 CANCELLED AT 2022-05-28T19:14:32 ***
