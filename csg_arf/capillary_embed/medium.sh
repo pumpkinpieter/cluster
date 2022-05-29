@@ -6,6 +6,7 @@
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
 #SBATCH --mem 0
+#SBATCH --output=/log.out
 
 # Load needed modules.
 module load ngsolve/serial
