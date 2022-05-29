@@ -72,5 +72,5 @@ if __name__ == '__main__':
     print('method done, saving.\n', flush=True)
     np.save(os.path.relpath(path + '/e' + str(i)), betas)
     if len(sys.argv) > 4 and i in save_index:
-        np.save(os.path.relpath(modes + '/mode_e' + str(E[i])),
-                Es.tonumpy())
+        a.save_mesh(os.path.relpath(modes + '/mesh_e' + str(i)))
+        a.save_modes(Es, os.path.relpath(modes + '/mode_e' + str(i)))

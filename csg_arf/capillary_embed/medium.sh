@@ -7,6 +7,7 @@
 #SBATCH --partition medium
 #SBATCH --mem 0
 #SBATCH --output=logs/log.out
+#SBATCH --error=errors/log.out
 
 # Load needed modules.
 module load ngsolve/serial
