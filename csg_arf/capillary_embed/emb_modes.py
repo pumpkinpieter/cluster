@@ -10,10 +10,15 @@ main = os.path.expanduser('~/local/convergence/csg_arf')
 studyname = 'capillary_embed'
 
 path = main + '/' + studyname + '/outputs'
+modes = main + '/' + studyname + '/modes'
 
 if not os.path.isdir(os.path.relpath(path)):
     print('Making directory: ' + path)
     os.makedirs(os.path.relpath(path))
+
+if not os.path.isdir(os.path.relpath(modes)):
+    print('Making directory: ' + modes)
+    os.makedirs(os.path.relpath(modes))
 
 # Center, radius and span
 radius = .1         # search radius
@@ -46,7 +51,7 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, _, _, _, _ = a.leakyvecmodes(ctr=center[i],
+    beta, E, _, _, _ = a.leakyvecmodes(ctr=center[i],
                                        rad=radius,
                                        alpha=alpha,
                                        nspan=nspan,
@@ -61,3 +66,4 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
     np.save(os.path.relpath(path + '/e' + str(i)), betas)
+    np.save(os.path.relpath(modes + '/mode_e' + str(i)), E.tonumpy())
