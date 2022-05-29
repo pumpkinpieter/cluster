@@ -47,15 +47,16 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 4:
         L, R = float(sys.argv[4]), float(sys.argv[5])
-        save_index = np.where((L < E) * (E < R))
+        save_index = np.where((L < E) * (E < R))[0]
 
-    a = ARF2(poly_core=True, refine=ref, curve=max(p+1, 3), e=E[i])
+    a = ARF2(poly_core=True, refine=ref, curve=max(p+1, 3),
+             shift_capillaries=True, e=E[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, Es, _, _, _ = a.leakyvecmodes(ctr=center[i],
+    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center[i],
                                         rad=radius,
                                         alpha=alpha,
                                         nspan=nspan,
