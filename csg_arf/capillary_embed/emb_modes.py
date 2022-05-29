@@ -21,7 +21,7 @@ if not os.path.isdir(os.path.relpath(modes)):
     os.makedirs(os.path.relpath(modes))
 
 # Center, radius and span
-radius = .1         # search radius
+radius = .007         # search radius
 nspan = 4
 npts = 4
 
