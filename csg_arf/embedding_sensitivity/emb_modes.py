@@ -17,7 +17,7 @@ if not os.path.isdir(os.path.relpath(path)):
 
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
-radius = .01         # search radius
+radius = .007         # search radius
 nspan = 4
 npts = 4
 
