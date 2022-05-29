@@ -43,7 +43,11 @@ betas = np.zeros(nspan, dtype=complex)
 
 if __name__ == '__main__':
 
-    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]),
+    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+
+    if len(sys.argv) > 4:
+        L, R = float(sys.argv[4]), float(sys.argv[5])
+        save_index = np.where((L < E) * (E < R))
 
     a = ARF2(poly_core=True, refine=ref, curve=max(p+1, 3), e=E[i])
 
@@ -51,19 +55,21 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, E, _, _, _ = a.leakyvecmodes(ctr=center[i],
-                                       rad=radius,
-                                       alpha=alpha,
-                                       nspan=nspan,
-                                       npts=npts,
-                                       p=p,
-                                       niterations=9,
-                                       nrestarts=0,
-                                       stop_tol=1e-9,
-                                       inverse='pardiso')
+    beta, Es, _, _, _ = a.leakyvecmodes(ctr=center[i],
+                                        rad=radius,
+                                        alpha=alpha,
+                                        nspan=nspan,
+                                        npts=npts,
+                                        p=p,
+                                        niterations=9,
+                                        nrestarts=0,
+                                        stop_tol=1e-9,
+                                        inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
     np.save(os.path.relpath(path + '/e' + str(i)), betas)
-    np.save(os.path.relpath(modes + '/mode_e' + str(i)), E.tonumpy())
+    if len(sys.argv) > 4 and i in save_index:
+        np.save(os.path.relpath(modes + '/mode_e' + str(E[i])),
+                Es.tonumpy())
