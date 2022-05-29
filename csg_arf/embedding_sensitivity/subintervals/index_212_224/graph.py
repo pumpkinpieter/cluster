@@ -25,12 +25,12 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 path = os.path.relpath(os.path.expanduser('~/local/convergence/csg_arf/\
-embedding_sensitivity/outputs'))
+embedding_sensitivity/subintervals/index_212_224/outputs'))
 
 plt.figure(figsize=(30, 16))
 
-raw = np.load(path + '/all_e.npy').imag
-es = np.linspace(0.002, .9999, 240)
+raw = np.load(path + '/all_e_subs.npy').imag
+es = np.load(path + '/E_sub_212_224.npy')
 
 base = np.zeros_like(es)
 
@@ -43,8 +43,8 @@ CL = 20 * base / np.log(10)
 
 plt.plot(1-es, CL, 'o-', linewidth=2.5, markersize=8)
 
-plt.title("Embedding Sensitivity Vector Method.\n")
-plt.xticks(np.linspace(0, 1, 21))
+plt.title("Embedding Sensitivity Vector Method, Subinterval.\n")
+plt.xticks(np.linspace(min(1-es), max(1-es), 16))
 
 plt.xlabel("\nFraction of Capillary Tube Embedded")
 plt.ylabel("CL")
