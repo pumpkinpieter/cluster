@@ -49,12 +49,10 @@ if __name__ == '__main__':
     constants = study + '/outputs'
     modes = study + '/modes'
 
-    if not os.path.isdir(os.path.relpath(study)):
-        print('Making study directory tree: ' + studyname)
-        os.makedirs(os.path.relpath(constants))
-        os.makedirs(os.path.relpath(modes))
-        os.makedirs(os.path.relpath(study + '/' + 'errors'))
-        os.makedirs(os.path.relpath(study + '/' + 'logs'))
+    os.makedirs(os.path.relpath(constants), exist_ok=True)
+    os.makedirs(os.path.relpath(modes), exist_ok=True)
+    os.makedirs(os.path.relpath(study + '/' + 'errors'), exist_ok=True)
+    os.makedirs(os.path.relpath(study + '/' + 'logs'), exist_ok=True)
 
     # Form refined array of e values (with endpoints in E_main)
     E_sub = np.linspace(E_main[L], E_main[R], N)
