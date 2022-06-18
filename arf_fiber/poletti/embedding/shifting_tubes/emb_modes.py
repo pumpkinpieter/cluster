@@ -6,19 +6,13 @@ import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
-main = os.path.expanduser('~/local/convergence/csg_arf')
-studyname = 'capillary_embed'
+if not os.path.isdir('outputs'):
+    print('Making directory: outputs')
+    os.makedirs('outputs')
 
-path = main + '/' + studyname + '/outputs'
-modes = main + '/' + studyname + '/modes'
-
-if not os.path.isdir(os.path.relpath(path)):
-    print('Making directory: ' + path)
-    os.makedirs(os.path.relpath(path))
-
-if not os.path.isdir(os.path.relpath(modes)):
-    print('Making directory: ' + modes)
-    os.makedirs(os.path.relpath(modes))
+if not os.path.isdir('modes'):
+    print('Making directory: modes')
+    os.makedirs('modes')
 
 # Center, radius and span
 radius = .007         # search radius
@@ -70,7 +64,9 @@ if __name__ == '__main__':
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/e' + str(i)), betas)
+
+    np.save('outputs/e' + str(i), betas)
+
     if len(sys.argv) > 4 and i in save_index:
-        a.save_mesh(os.path.relpath(modes + '/mesh_e' + str(i)))
-        a.save_modes(Es, os.path.relpath(modes + '/mode_e' + str(i)))
+        a.save_mesh('modes/mesh_e' + str(i))
+        a.save_modes(Es, 'modes/mode_e' + str(i))

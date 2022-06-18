@@ -6,14 +6,9 @@ import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
-main = os.path.expanduser('~/local/convergence/csg_arf')
-studyname = 'embedding_sensitivity'
-
-path = main + '/' + studyname + '/outputs'
-
-if not os.path.isdir(os.path.relpath(path)):
-    print('Making directory: ' + path)
-    os.makedirs(os.path.relpath(path))
+if not os.path.isdir('outputs'):
+    print('Making directory: outputs')
+    os.makedirs('outputs')
 
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
@@ -55,4 +50,4 @@ if __name__ == '__main__':
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/e' + str(i)), betas)
+    np.save('outputs' + '/e' + str(i), betas)

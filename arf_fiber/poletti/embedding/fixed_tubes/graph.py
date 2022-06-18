@@ -6,13 +6,14 @@ Created on Sat Mar 19 20:33:33 2022
 @author: pv
 """
 
-import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-SMALL_SIZE = 14
-MEDIUM_SIZE = 18
-BIGGER_SIZE = 22
+plt.close()
+
+SMALL_SIZE = 18
+MEDIUM_SIZE = 25
+BIGGER_SIZE = 40
 
 plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
 plt.rc('axes', titlesize=BIGGER_SIZE)    # fontsize of the axes title
@@ -22,31 +23,27 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
+plt.figure(figsize=(30, 16))
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/scalar_modes/outputs')
-path = os.path.relpath(main)
+raw = np.load('outputs/all_e.npy').imag
+es = np.linspace(0.002, .9999, 240)
 
-plt.figure(figsize=(18, 16))
+base = np.zeros_like(es)
 
-for r in range(2):
-    betas = np.load(path + '/ref'+str(r)+'all_betas.npy')
-    dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
+for j in range(len(es)):
+    b = raw[j, :]
+    c = np.where((b != 0) * (np.abs(b) < 1.2) * (b > 0), 1, 0)
+    base[j] = np.mean(b, where=list(c))
 
-    # Filter out bad values
+CL = 20 * base / np.log(10)
 
-    B = np.where(betas != 0, betas, 1e99)
-    BB = np.min(B, axis=1)
+plt.plot(1-es, CL, 'o-', linewidth=2.5, markersize=8)
 
-    CL = 20 * BB / np.log(10)
-    plt.plot(dofs, CL, 'o-', label='ref='+str(r),
-             linewidth=2.5, markersize=8)
+plt.title("Embedding Sensitivity Vector Method.\n")
+plt.xticks(np.linspace(0, 1, 21))
 
-plt.legend()
-
-plt.xlabel('ndofs')
-plt.ylabel('CL')
-plt.title('Arf Poletti Scalar convergence.')
+plt.xlabel("\nFraction of Capillary Tube Embedded")
+plt.ylabel("CL")
 plt.yscale('log')
-plt.xscale('log')
 plt.grid()
 plt.show()

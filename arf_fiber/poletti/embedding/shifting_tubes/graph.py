@@ -6,7 +6,6 @@ Created on Sat Mar 19 20:33:33 2022
 @author: pv
 """
 
-import os
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -15,12 +14,9 @@ plt.close()
 plt.rc('axes', labelsize=20)    # fontsize of the axes title
 plt.rc('figure', titlesize=40)  # fontsize of the figure title
 
-path = os.path.relpath(os.path.expanduser('~/local/convergence/csg_arf/\
-capillary_embed/outputs'))
-
 plt.figure(figsize=(22, 16))
 
-raw = np.load(path + '/all_e.npy').imag
+raw = np.load('outputs/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
 
 base = np.zeros_like(es)

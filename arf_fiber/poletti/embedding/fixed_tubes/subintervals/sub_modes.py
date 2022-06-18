@@ -6,9 +6,6 @@ import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
-main = os.path.expanduser('~/local/convergence/csg_arf/embedding_sensitivity\
-/subintervals')
-
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
 radius = .007         # search radius
@@ -45,14 +42,14 @@ if __name__ == '__main__':
 
     # Make folders for this subinterval
     studyname = 'index_' + str(L) + '_' + str(R)
-    study = main + '/' + studyname
+    study = 'subintervals/' + studyname
     constants = study + '/outputs'
     modes = study + '/modes'
 
-    os.makedirs(os.path.relpath(constants), exist_ok=True)
-    os.makedirs(os.path.relpath(modes), exist_ok=True)
-    os.makedirs(os.path.relpath(study + '/' + 'errors'), exist_ok=True)
-    os.makedirs(os.path.relpath(study + '/' + 'logs'), exist_ok=True)
+    os.makedirs(constants, exist_ok=True)
+    os.makedirs(modes, exist_ok=True)
+    os.makedirs(study + '/' + 'errors', exist_ok=True)
+    os.makedirs(study + '/' + 'logs', exist_ok=True)
 
     # Form refined array of e values (with endpoints in E_main)
     E_sub = np.linspace(E_main[L], E_main[R], N)
@@ -81,5 +78,5 @@ if __name__ == '__main__':
     np.save(os.path.relpath(constants + '/e_sub_' + str(i)), betas)
     np.save(os.path.relpath(constants + '/E_sub_'+str(L)+'_'+str(R)), E_sub)
     if i in save_index:
-        a.save_mesh(os.path.relpath(modes + '/mesh_e_sub' + str(i)))
-        a.save_modes(E_modes, os.path.relpath(modes + '/mode_e_sub' + str(i)))
+        a.save_mesh(modes + '/mesh_e_sub' + str(i))
+        a.save_modes(E_modes, modes + '/mode_e_sub' + str(i))
