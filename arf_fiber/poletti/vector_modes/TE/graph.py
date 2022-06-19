@@ -9,7 +9,7 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close()
+plt.close('all')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -44,7 +44,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence.')
+plt.title('Arf Poletti TE Mode Vector Convergence.')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()

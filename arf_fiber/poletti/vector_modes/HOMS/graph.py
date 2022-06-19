@@ -9,7 +9,7 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close()
+plt.close('all')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -33,7 +33,7 @@ for r in range(3):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas.imag != 0, betas.imag, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
