@@ -37,7 +37,7 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=30, nrestarts=0,
+                                          niterations=15, nrestarts=0,
                                           stop_tol=1e-11, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]

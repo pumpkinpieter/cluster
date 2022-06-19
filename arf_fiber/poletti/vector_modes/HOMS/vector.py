@@ -13,8 +13,8 @@ if not os.path.isdir(outputs):
     os.makedirs(outputs)
 
 # Center, radius and span
-center = 12.766       # center of circle to search for Z-resonance values
-radius = .005      # search radius
+center = 12.766 - .001j     # center of circle to search for Z-resonance values
+radius = .007      # search radius
 nspan = 4
 npts = 4
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=30, nrestarts=0,
+                                          niterations=15, nrestarts=0,
                                           stop_tol=1e-11, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]

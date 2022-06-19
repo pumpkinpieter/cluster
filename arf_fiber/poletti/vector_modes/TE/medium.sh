@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name TE
-#SBATCH -N 36
-#SBATCH -n 36
+#SBATCH -N 42 
+#SBATCH -n 42
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -17,7 +17,7 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {0..17}
+for i in {0..19}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="logs/ref0_p${i}.out" \
@@ -25,7 +25,7 @@ for i in {0..17}
             python3 vector.py 0 ${i} &
 done
 
-for j in {0..11}
+for j in {0..13}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="logs/ref1_p${j}.out" \
@@ -33,7 +33,7 @@ for j in {0..11}
             python3 vector.py 1 ${j} &
 done
 
-for k in {0..5}
+for k in {0..7}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="logs/ref2_p${k}.out" \
