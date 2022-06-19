@@ -76,9 +76,8 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
     np.save(constants + '/e_sub_' + str(i), betas)
-    np.save(constants + '/E_sub_'+str(L)+'_'+str(R), E_sub)
+    np.save(constants + '/E_sub_' + str(L) + '_' + str(R), E_sub)
     if i in save_index:
-        a.save_mesh(modes + '/mesh_e_sub' + str(i))
-        a.save_modes(E_modes, modes + '/E_modes_e_sub' +
-                     str(i) + '_p_' + str(p))
-        a.save_modes(phi, modes + '/phi_modes_e_sub' + str(i) + '_p_' + str(p))
+        a.save_mesh(modes + '/mesh_e_sub' + str(i) + '.pkl')
+        a.save_modes(E_modes, modes + '/Es_e_sub' + str(i) + '_p' + str(p))
+        a.save_modes(phi, modes + '/phis_e_sub' + str(i) + '_p' + str(p))
