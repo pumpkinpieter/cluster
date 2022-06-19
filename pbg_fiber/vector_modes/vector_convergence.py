@@ -7,14 +7,9 @@ import sys
 from fiberamp.fiber.microstruct.pbg import PBG
 from fiberamp.fiber.microstruct.pbg.fiber_dicts.lyr6cr2 import params
 
-main = os.path.expanduser('~/local/convergence/pbg_fiber')
-studyname = 'vector_modes'
-
-path = main + '/' + studyname + '/outputs'
-
-if not os.path.isdir(os.path.relpath(path)):
-    print('Making directory: ' + path)
-    os.makedirs(os.path.relpath(path))
+if not os.path.isdir('outputs'):
+    print('Making directory: outputs')
+    os.makedirs('outputs')
 
 # Center, radius and span
 
@@ -51,10 +46,5 @@ if __name__ == '__main__':
     dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
-                            + 'betas'), betas)
-    np.save(os.path.relpath(path + '/ref' + str(ref) + 'p' + str(p)
-                            + 'dofs'), dofs)
-
-    del a, Robj, beta, ref, p, center, radius, nspan, npts
-    del main, studyname, path, np, os, sys, PBG
+    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
+    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
