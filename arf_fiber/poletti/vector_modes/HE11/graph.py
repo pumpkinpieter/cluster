@@ -9,7 +9,7 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close()
+plt.close('all')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -27,8 +27,10 @@ outputs = 'outputs'
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
-    betas = np.load(outputs + '/ref'+str(r)+'all_betas.npy')
+refs = 2
+
+for r in range(refs+1):
+    betas = np.load(outputs + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(outputs + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values

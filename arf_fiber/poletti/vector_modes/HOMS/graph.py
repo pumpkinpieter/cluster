@@ -27,7 +27,7 @@ outputs = 'outputs'
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(1):
     betas = np.load(outputs + '/ref'+str(r)+'all_betas.npy')
     Zs = np.load(outputs + '/ref'+str(r)+'all_Zs.npy')
 
