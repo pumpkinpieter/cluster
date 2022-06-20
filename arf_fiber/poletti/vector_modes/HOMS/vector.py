@@ -6,6 +6,11 @@ import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
+locations = [12.74372428,
+             12.75428731, 12.75442679,
+             12.77602774,
+             12.80818931, 12.81076203]
+
 outputs = 'outputs'
 
 if not os.path.isdir(outputs):
@@ -13,8 +18,8 @@ if not os.path.isdir(outputs):
     os.makedirs(outputs)
 
 # Center, radius and span
-center = 12.766 - .001j     # center of circle to search for Z-resonance values
-radius = .007      # search radius
+center = 12.77602774    # center of circle to search for Z-resonance values
+radius = .01      # search radius
 nspan = 4
 npts = 4
 
@@ -22,6 +27,7 @@ npts = 4
 alpha = 5
 
 # Set result arrays
+Zs = np.zeros(nspan, dtype=complex)
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
@@ -34,15 +40,17 @@ if __name__ == '__main__':
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
 
-    beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
+    beta, Z, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
                                           niterations=15, nrestarts=0,
-                                          stop_tol=1e-11, inverse='pardiso')
+                                          stop_tol=1e-10, inverse='pardiso')
 
+    Zs[: len(Z)] = Z[:]
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
+    np.save(outputs + '/ref' + str(ref) + 'p' +  str(p) + 'Zs', Zs)
     np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
     np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)

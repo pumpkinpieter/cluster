@@ -18,12 +18,12 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-#for i in {14..18}
-#    do
-#        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 0 ${i} &
-#done
+for i in {16..17}
+    do
+        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 0 ${i} &
+done
 
-for j in {10..13}
+for j in {10..11}
     do
         srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
 done
