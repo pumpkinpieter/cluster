@@ -29,6 +29,8 @@ plt.figure(figsize=(18, 16))
 
 for r in range(3):
     betas = np.load(outputs + '/ref'+str(r)+'all_betas.npy')
+    Zs = np.load(outputs + '/ref'+str(r)+'all_Zs.npy')
+
     dofs = np.load(outputs + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
@@ -44,7 +46,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence.')
+plt.title('CSG Arf Poletti Vector Convergence, High Order Mode')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
