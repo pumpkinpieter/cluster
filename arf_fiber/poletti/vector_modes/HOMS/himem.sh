@@ -27,4 +27,9 @@ for j in {10..11}
     do
         srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
 done
+
+for k in {6..7}
+    do
+        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 2 ${k} &
+done
 wait

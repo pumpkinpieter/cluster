@@ -43,7 +43,7 @@ if __name__ == '__main__':
     beta, Z, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=15, nrestarts=0,
+                                          niterations=10, nrestarts=0,
                                           stop_tol=1e-10, inverse='pardiso')
 
     Zs[: len(Z)] = Z[:]

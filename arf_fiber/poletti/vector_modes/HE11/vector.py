@@ -15,7 +15,7 @@ if not os.path.isdir(outputs):
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
 radius = .1      # search radius
-nspan = 4
+nspan = 6
 npts = 4
 
 # PML strength
@@ -38,7 +38,7 @@ if __name__ == '__main__':
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
                                           niterations=15, nrestarts=0,
-                                          stop_tol=1e-11, inverse='pardiso')
+                                          stop_tol=1e-10, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof
