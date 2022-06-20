@@ -51,6 +51,6 @@ if __name__ == '__main__':
     dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(outputs + '/ref' + str(ref) + 'p' +  str(p) + 'Zs', Zs)
+    np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'Zs', Zs)
     np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
     np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
