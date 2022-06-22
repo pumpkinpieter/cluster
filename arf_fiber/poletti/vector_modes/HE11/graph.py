@@ -35,7 +35,7 @@ for r in range(refs+1):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where((betas > 0) * (betas < 1), betas, 1)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
@@ -46,7 +46,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence.')
+plt.title('CSG Arf Poletti Vector Convergence: Copy Starting Method 2')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
