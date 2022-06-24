@@ -61,22 +61,23 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', e: ' + str(E_sub[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, _, E_modes, _, _ = a.leakyvecmodes(ctr=center,
-                                             rad=radius,
-                                             alpha=alpha,
-                                             nspan=nspan,
-                                             npts=npts,
-                                             p=p,
-                                             niterations=9,
-                                             nrestarts=0,
-                                             stop_tol=1e-9,
-                                             inverse='pardiso')
+    beta, _, E_modes, phi, _ = a.leakyvecmodes(ctr=center,
+                                               rad=radius,
+                                               alpha=alpha,
+                                               nspan=nspan,
+                                               npts=npts,
+                                               p=p,
+                                               niterations=9,
+                                               nrestarts=0,
+                                               stop_tol=1e-9,
+                                               inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
-    np.save(os.path.relpath(constants + '/e_sub_' + str(i)), betas)
-    np.save(os.path.relpath(constants + '/E_sub_'+str(L)+'_'+str(R)), E_sub)
+    np.save(constants + '/e_sub_' + str(i), betas)
+    np.save(constants + '/E_sub_' + str(L) + '_' + str(R), E_sub)
     if i in save_index:
-        a.save_mesh(modes + '/mesh_e_sub' + str(i))
-        a.save_modes(E_modes, modes + '/mode_e_sub' + str(i))
+        a.save_mesh(modes + '/mesh_e_sub' + str(i) + '.pkl')
+        a.save_modes(E_modes, modes + '/Es_e_sub' + str(i) + '_p' + str(p))
+        a.save_modes(phi, modes + '/phis_e_sub' + str(i) + '_p' + str(p))

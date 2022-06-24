@@ -7,9 +7,10 @@ Created on Sat Mar 19 20:33:33 2022
 """
 
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 
-plt.close()
+plt.close('all')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -23,13 +24,15 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-outputs = 'outputs'
+main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/vector_modes/\
+TE/outputs')
+path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
 for r in range(3):
-    betas = np.load(outputs + '/ref'+str(r)+'all_betas.npy')
-    dofs = np.load(outputs + '/ref'+str(r)+'all_dofs.npy')
+    betas = np.load(path + '/ref'+str(r)+'all_betas.npy')
+    dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
 
@@ -44,7 +47,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence.')
+plt.title('Arf Poletti TE Mode Vector Convergence.')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()

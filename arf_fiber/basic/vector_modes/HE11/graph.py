@@ -6,11 +6,11 @@ Created on Sat Mar 19 20:33:33 2022
 @author: pv
 """
 
-import numpy as np
 import os
+import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close('all')
+plt.close()
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -24,16 +24,15 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
+
 main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/vector_modes/\
-HOMS/outputs')
+HE11/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
 for r in range(3):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
-    Zs = np.load(path + '/ref'+str(r)+'all_Zs.npy')
-
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
@@ -49,7 +48,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence, High Order Mode')
+plt.title('CSG Arf Poletti Vector Convergence, HE11 mode.')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
