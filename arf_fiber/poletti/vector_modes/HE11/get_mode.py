@@ -16,7 +16,7 @@ if not os.path.isdir('modes'):
 
 # Center, radius and span
 center = 5.066       # center of circle to search for Z-resonance values
-radius = .05      # search radius
+radius = .1      # search radius
 nspan = 4
 npts = 4
 
@@ -40,7 +40,7 @@ if __name__ == '__main__':
                                               alpha=alpha,
                                               nspan=nspan, npts=npts,
                                               niterations=15, nrestarts=0,
-                                              stop_tol=1e-11,
+                                              stop_tol=1e-10,
                                               inverse='pardiso')
 
     betas[: len(beta)] = beta[:]

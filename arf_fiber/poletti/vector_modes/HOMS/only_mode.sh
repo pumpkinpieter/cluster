@@ -3,8 +3,8 @@
 #SBATCH -N 1
 #SBATCH -n 1
 #SBATCH --tasks-per-node 1
-#SBATCH --cpus-per-task 24
-#SBATCH --partition himem
+#SBATCH --cpus-per-task 20
+#SBATCH --partition medium
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --output=logs/getmode.log
