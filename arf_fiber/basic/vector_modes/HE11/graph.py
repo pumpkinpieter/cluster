@@ -25,7 +25,7 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/vector_modes/\
+main = os.path.expanduser('~/local/convergence/arf_fiber/basic/vector_modes/\
 HE11/outputs')
 path = os.path.relpath(main)
 
@@ -37,7 +37,7 @@ for r in range(3):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas > 0.13, betas, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
@@ -48,7 +48,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence, HE11 mode.')
+plt.title('CSG Arf "Basic" Vector Convergence, HE11 mode.')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
