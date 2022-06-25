@@ -13,7 +13,7 @@ if not os.path.isdir(outputs):
     os.makedirs(outputs)
 
 # Center, radius and span
-center = 5.066       # center of circle to search for Z-resonance values
+center = 3.345    # center of circle to search for Z-resonance values
 radius = .1      # search radius
 nspan = 4
 npts = 4
@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
+    a = ARF2(refine=ref, curve=max(p+1, 3), name='basic', poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
@@ -37,8 +37,8 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=30, nrestarts=0,
-                                          stop_tol=1e-11, inverse='pardiso')
+                                          niterations=20, nrestarts=0,
+                                          stop_tol=1e-10, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof
