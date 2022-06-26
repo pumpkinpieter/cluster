@@ -47,8 +47,8 @@ if __name__ == '__main__':
 
     os.makedirs(constants, exist_ok=True)
     os.makedirs(modes, exist_ok=True)
-    os.makedirs(study + '/' + 'errors', exist_ok=True)
-    os.makedirs(study + '/' + 'logs', exist_ok=True)
+    # os.makedirs(study + '/' + 'errors', exist_ok=True)
+    # os.makedirs(study + '/' + 'logs', exist_ok=True)
 
     # Form refined array of e values (with endpoints in E_main)
     E_indices = np.where((E_main > l) * (E_main < r))[0]
@@ -69,7 +69,7 @@ if __name__ == '__main__':
                                                nspan=nspan,
                                                npts=npts,
                                                p=p,
-                                               niterations=9,
+                                               niterations=20,
                                                nrestarts=0,
                                                stop_tol=1e-9,
                                                inverse='pardiso')
