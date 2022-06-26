@@ -31,13 +31,13 @@ fixed_tubes/outputs')
 path = os.path.relpath(main)
 
 raw = np.load(path + '/all_e.npy').imag
-es = np.linspace(0.002, .9999, 250)
+es = np.linspace(0.002, .9999, 400)
 
 base = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b > 0) * (np.abs(b) < 10) * (b > 0), 1, 0)
+    c = np.where((b > 0.01) * (np.abs(b) < 10) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)

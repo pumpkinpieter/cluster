@@ -8,12 +8,12 @@ from fiberamp.fiber.microstruct.pbg import ARF2
 
 # Center, radius and span
 center = 3.345    # center of circle to search for Z-resonance values
-radius = .1         # search radius
+radius = .02         # search radius
 nspan = 4
 npts = 4
 
 # Main array of embedding values
-E_main = np.linspace(0.002, .9999, 240)
+E_main = np.linspace(0.002, .9999, 400)
 
 # PML strength
 alpha = 5
@@ -26,23 +26,22 @@ if __name__ == '__main__':
     # Command Line arguments:
     if len(sys.argv) != 9:
         raise ValueError('Too few or too many command line arguments given.\
- Arguments: refinements, polynomial order, index (for sub interval), L, R,\
- (specify left and right indices to form subarray), N (number of points in sub\
--array), low, high (floats that determine when we save modes).')
+ Arguments: refinements, polynomial order, index (for sub interval), l, r,\
+ (specify left and right limits to form subarray), N (number of points in\
+  sub-array), low, high (floats that determine when we save modes).')
 
     # refinements, polynomial order, index of embedding (for E_sub)
     ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
 
-    # Left index, Right index (of E_main) and Number of points
+    # Left lim, Right lim (of vals in E_main) and Number of points
     # This picks out subinterval of E_main to refine.
-    L, R, N = int(sys.argv[4]), int(sys.argv[5]), int(sys.argv[6])
+    l, r, N = float(sys.argv[4]), float(sys.argv[5]), int(sys.argv[6])
 
     # low, high : limits on e for which we want to save modes
     low, high = float(sys.argv[7]), float(sys.argv[8])
 
     # Make folders for this subinterval
-    studyname = 'index_' + str(L) + '_' + str(R)
-    study = 'subintervals/' + studyname
+    study = 'range_' + str(l) + '_' + str(r)
     constants = study + '/outputs'
     modes = study + '/modes'
 
@@ -52,10 +51,13 @@ if __name__ == '__main__':
     os.makedirs(study + '/' + 'logs', exist_ok=True)
 
     # Form refined array of e values (with endpoints in E_main)
-    E_sub = np.linspace(E_main[L], E_main[R], N)
+    E_indices = np.where((E_main > l) * (E_main < r))[0]
+    L, R = np.min(E_indices), np.max(E_indices)
+    E_sub = np.linspace(E_main[L-1], E_main[R+1], N+2)
     save_index = np.where((low < E_sub) * (E_sub < high))[0]
 
-    a = ARF2(poly_core=True, refine=ref, curve=max(p+1, 3), e=E_sub[i])
+    a = ARF2(poly_core=True, name='basic',
+             refine=ref, curve=max(p+1, 3), e=E_sub[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E_sub[i]) + '#'*8 + '\n',

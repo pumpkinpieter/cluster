@@ -39,15 +39,16 @@ base = np.zeros_like(es_sub)
 
 for j in range(len(es_sub)):
     b = raw_sub[j, :]
-    c = np.where((b > 0) * (np.abs(b) < 10) * (b > 0), 1, 0)
+    c = np.where((b > 0) * (np.abs(b) < 30) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
 
-plt.plot(es_sub, CL, 'o-', linewidth=2.5, markersize=8)
+plt.plot(es_sub, CL, 'o-', linewidth=2.5, markersize=8,
+         color='green')
 
 raw = np.load(main + '/outputs/all_e.npy').imag
-es = np.linspace(0.002, .9999, 250)
+es = np.linspace(0.002, .9999, 400)
 
 base = np.zeros_like(es)
 
@@ -58,7 +59,13 @@ for j in range(len(es)):
 
 CL = 20 * base / np.log(10)
 
-plt.plot(es[:192], CL[:192], 'o-', linewidth=2.5, markersize=8)
+maskl = np.where((es < .77147))[0]
+maskr = np.where((es > .862))[0]
+
+plt.plot(es[maskl], CL[maskl], 'o-', linewidth=2.5, markersize=8,
+         color='orange')
+plt.plot(es[maskr], CL[maskr], 'o-', linewidth=2.5, markersize=8,
+         color='orange')
 
 
 plt.title("Embedding Sensitivity Vector Method, Subinterval.\n")
