@@ -24,28 +24,28 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-plt.figure(figsize=(30, 16))
-
 main = os.path.expanduser('~/local/convergence/arf_fiber/basic/embedding/\
-fixed_tubes/outputs')
+fixed_tubes/subintervals/range_0.26_0.28/outputs')
 path = os.path.relpath(main)
 
-raw = np.load(path + '/all_e.npy').imag
-es = np.linspace(0.002, .9999, 80)
+plt.figure(figsize=(30, 16))
+
+raw = np.load(path + '/all_e_subs.npy').imag
+es = np.load(path + '/E_sub_104_111.npy')
 
 base = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b > 0.01) * (np.abs(b) < 10) * (b > 0), 1, 0)
+    c = np.where((b > 0) * (np.abs(b) < 100) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
 
 plt.plot(es, CL, 'o-', linewidth=2.5, markersize=8)
 
-plt.title("Embedding Sensitivity 'Basic' ARF Fiber\n")
-plt.xticks(np.linspace(0, 1, 21))
+plt.title("Embedding Sensitivity Vector Method, Subinterval.\n")
+plt.xticks(np.linspace(min(es), max(es), 16))
 
 plt.xlabel("\nFraction of Capillary Tube Embedded")
 plt.ylabel("CL")
