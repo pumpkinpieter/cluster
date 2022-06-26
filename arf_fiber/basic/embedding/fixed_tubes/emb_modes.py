@@ -12,13 +12,13 @@ if not os.path.isdir('outputs'):
 
 # Center, radius and span
 center = 3.345       # center of circle to search for Z-resonance values
-radius = .1         # search radius
+radius = .02         # search radius
 nspan = 4
 npts = 4
 
 # Embedding parameter array
 
-E = np.linspace(0.002, .9999, 240)
+E = np.linspace(0.002, .9999, 250)
 
 # PML strength
 alpha = 5
