@@ -7,8 +7,8 @@ import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
 # Center, radius and span
-center = 5.066       # center of circle to search for Z-resonance values
-radius = .007         # search radius
+center = 3.345    # center of circle to search for Z-resonance values
+radius = .1         # search radius
 nspan = 4
 npts = 4
 

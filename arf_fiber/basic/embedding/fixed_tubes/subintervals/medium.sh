@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
 #SBATCH --job-name arfemb 
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 50
+#SBATCH -n 50
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -15,11 +15,11 @@ module load intel
 
 ref=1
 p=8
-L=212
-R=224
-N=60
-l=0.905
-h=0.92
+L=192
+R=215
+N=150
+l=0.0
+h=0.0
 
 # Run the code.
 echo "Starting convergence study: "
@@ -31,6 +31,7 @@ end="$((N-1))"
 
 for i in $(seq 0 $end)
     do
+	module load gcc-9.2.0
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="index_${L}_${R}/logs/e_${i}.out" \
             --error="index_${L}_${R}/errors/e_${i}.err" \
