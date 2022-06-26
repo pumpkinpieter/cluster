@@ -15,7 +15,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..249}
+for i in {0..399}
     do
         module load gcc-9.2.0
         module load intel
@@ -23,6 +23,6 @@ for i in {0..249}
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="logs/task_%s_e_${i}.out" \
             --error="errors/task_%s_e_${i}.err" \
-            python3 emb_modes.py 1 7 ${i} &
+            python3 emb_modes.py 1 8 ${i} &
 done
 wait

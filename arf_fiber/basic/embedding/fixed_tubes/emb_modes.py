@@ -18,7 +18,7 @@ npts = 4
 
 # Embedding parameter array
 
-E = np.linspace(0.002, .9999, 250)
+E = np.linspace(0.002, .9999, 400)
 
 # PML strength
 alpha = 5
