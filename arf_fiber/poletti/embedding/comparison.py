@@ -7,6 +7,7 @@ Created on Sat Mar 19 20:33:33 2022
 """
 
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
@@ -14,11 +15,13 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
+main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/')
+
 # Get paths to data
 
-path1 = 'shifting_tubes/outputs'
+path1 = os.path.relpath(main + 'shifting_tubes/outputs')
 
-path2 = 'fixed_tubes/outputs'
+path2 = os.path.relpath(main + 'fixed_tubes/outputs')
 
 # Load data and range of embeddings (es)
 
