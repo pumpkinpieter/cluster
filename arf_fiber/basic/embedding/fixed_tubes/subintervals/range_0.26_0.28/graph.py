@@ -37,12 +37,12 @@ base = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b > 0) * (np.abs(b) < 100) * (b > 0), 1, 0)
+    c = np.where((b > 0) * (np.abs(b) < 1000) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
 
-plt.plot(es, CL, 'o-', linewidth=2.5, markersize=8)
+plt.plot(es, base, 'o-', linewidth=2.5, markersize=6)
 
 plt.title("Embedding Sensitivity Vector Method, Subinterval.\n")
 plt.xticks(np.linspace(min(es), max(es), 16))
