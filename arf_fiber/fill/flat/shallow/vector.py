@@ -25,7 +25,7 @@ alpha = 5
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
-fill = {'beta': .03, 'sigma': 0}
+fill = {'delta': .03, 'sigma': 0}
 
 if __name__ == '__main__':
 
