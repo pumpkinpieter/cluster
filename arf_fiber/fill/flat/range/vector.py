@@ -25,11 +25,15 @@ alpha = 5
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
+fill_range = np.linspace(.05, .6, 81)
+
 if __name__ == '__main__':
 
-    ref, p = int(sys.argv[1]), int(sys.argv[2])
+    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
+    fill = {'delta': fill_range[i], 'sigma': 0}
+
+    a = ARF2(refine=ref, curve=max(p+1, 3), fill=fill, poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)

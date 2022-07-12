@@ -10,7 +10,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.close()
+plt.close('all')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -24,14 +24,13 @@ plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
 plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
-
-main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/vector_modes/\
-HE11/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/fill/flat/mid/\
+outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(1):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
@@ -48,7 +47,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence, HE11 mode.')
+plt.title('Arf Poletti Vector Convergence, HE11 mode\n Mid Flat Fill')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
