@@ -1,5 +1,5 @@
 #!/usr/bin/bash
-#SBATCH --job-name funarf 
+#SBATCH --job-name fillarf 
 #SBATCH -N 30
 #SBATCH -n 30
 #SBATCH --tasks-per-node 1
@@ -7,8 +7,8 @@
 #SBATCH --partition medium
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
-#SBATCH --output=logs/funarf.out
-#SBATCH --error=errors/funarf.err
+#SBATCH --output=logs/fillarf.out
+#SBATCH --error=errors/fillarf.err
 
 # Load needed modules.
 module load ngsolve/serial

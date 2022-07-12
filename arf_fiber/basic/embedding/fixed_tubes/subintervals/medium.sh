@@ -14,10 +14,10 @@ module load gcc-9.2.0
 module load intel
 
 ref=1
-p=7
+p=8
 L=0.26
 R=0.28
-N=150
+N=250
 l=0.0
 h=0.0
 

@@ -25,11 +25,14 @@ alpha = 5
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
+fill = {'beta': .3, 'sigma': 0}
+
 if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
+    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True,
+             fill=fill)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)

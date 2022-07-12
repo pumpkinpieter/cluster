@@ -1,14 +1,14 @@
 #!/usr/bin/bash
-#SBATCH --job-name funarf 
-#SBATCH -N 30
-#SBATCH -n 30
+#SBATCH --job-name hard
+#SBATCH -N 34
+#SBATCH -n 34
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
-#SBATCH --output=logs/funarf.out
-#SBATCH --error=errors/funarf.err
+#SBATCH --output=logs/hard.out
+#SBATCH --error=errors/hard.err
 
 # Load needed modules.
 module load ngsolve/serial
@@ -17,7 +17,7 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {0..14}
+for i in {0..18}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
            --output="logs/ref0_p${i}_task%s.out" \
