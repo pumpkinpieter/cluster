@@ -41,12 +41,10 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=30, nrestarts=0,
-                                          stop_tol=1e-11, inverse='pardiso')
+                                          niterations=9, nrestarts=0,
+                                          stop_tol=1e-9, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
-    dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
-    np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
+    np.save(outputs + '/fill_' + str(i) + '_betas', betas)
