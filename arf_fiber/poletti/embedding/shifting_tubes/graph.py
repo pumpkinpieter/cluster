@@ -7,16 +7,16 @@ Created on Sat Mar 19 20:33:33 2022
 """
 
 import numpy as np
+import os
 import matplotlib.pyplot as plt
+from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
-plt.close()
+plt.close('all')
 
-plt.rc('axes', labelsize=20)    # fontsize of the axes title
-plt.rc('figure', titlesize=40)  # fontsize of the figure title
+main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/')
+path = os.path.relpath(main + 'shifting_tubes/outputs')
 
-plt.figure(figsize=(22, 16))
-
-raw = np.load('outputs/all_e.npy').imag
+raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
 
 base = np.zeros_like(es)
@@ -28,14 +28,65 @@ for j in range(len(es)):
 
 CL = 20 * base / np.log(10)
 
-plt.plot(1-es, CL, 'o-', linewidth=2.5, markersize=8)
+# Set up the figure and subplots
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
-plt.title("Embedding Sensitivity Vector Method, Constant Cladding Radius.\n\
- Capillary Tubes Shift into Cladding.\n")
+# Plot the data
+ax1.plot(es, CL, '^-', color='blue',
+         label='shifting_capillaries',
+         linewidth=2.5, markersize=3.4)
 
-plt.xlabel("\nFraction of Capillary Tube Embedded")
-plt.ylabel("CL")
-plt.yscale('log')
-# plt.xscale('log')
-plt.grid()
+# Set Figure and Axes parameters ################################
+
+# Set titles
+fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
+fixed Cladding Position",  fontsize=40)
+
+# Set axis labels
+ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
+ax1.set_ylabel("CL", fontsize=25)
+
+# Set up ticks and grids
+
+plt.rc('xtick', labelsize=16)
+plt.rc('ytick', labelsize=16)
+
+ax1.xaxis.set_major_locator(MultipleLocator(.05))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.yaxis.set_major_locator(MultipleLocator(1))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
+ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
+
+# # Set log scale on y axes
+ax1.set_yscale('log')
+
+# Turn on subplot tool when graphing to allow finer control of spacing
+# plt.subplot_tool(fig)
+
+# After fine tuning, these are the values we want (use export from tool)
+plt.subplots_adjust(top=0.905,
+                    bottom=0.11,
+                    left=0.065,
+                    right=0.95,
+                    hspace=0.2,
+                    wspace=0.2)
+
+# Show figure (needed for running from command line)
 plt.show()
+
+
+# %%
+
+# Save to .dat file for pgfplots
+
+paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+figures'))
+
+x = np.random.rand(10)
+y = np.random.rand(10)
+mask = ~np.isnan(CL)
+# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+both = np.column_stack((es[mask], CL[mask]))
+# both = np.column_stack((x,y))
+np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')
