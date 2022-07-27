@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name arffillrange 
-#SBATCH -N 81
-#SBATCH -n 81
+#SBATCH -N 50
+#SBATCH -n 50
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -17,7 +17,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..80}
+for i in {0..200}
     do
         module load ngsolve/serial
         module load intel

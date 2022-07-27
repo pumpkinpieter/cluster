@@ -4,7 +4,7 @@
 import numpy as np
 import os
 import sys
-from fiberamp.fiber.microstruct.pbg import ARF2
+from fiberamp.fiber.microstruct.pbg import ARFcsg as ARF2
 
 outputs = 'outputs'
 
@@ -25,15 +25,11 @@ alpha = 5
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
-fill_range = np.linspace(.05, .6, 201)
-
 if __name__ == '__main__':
 
-    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+    ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    fill = {'delta': fill_range[i], 'sigma': 0}
-
-    a = ARF2(refine=ref, curve=max(p+1, 3), fill=fill, poly_core=True)
+    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
@@ -41,10 +37,12 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=9, nrestarts=0,
-                                          stop_tol=1e-9, inverse='pardiso')
+                                          niterations=30, nrestarts=0,
+                                          stop_tol=1e-11, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
+    dofs[:] = Robj.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save(outputs + '/fill_' + str(i) + '_betas', betas)
+    np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
+    np.save(outputs + '/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
