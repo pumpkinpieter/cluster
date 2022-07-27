@@ -25,7 +25,7 @@ alpha = 5
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
-fill_range = np.linspace(.05, .6, 81)
+fill_range = np.linspace(.05, .6, 201)
 
 if __name__ == '__main__':
 

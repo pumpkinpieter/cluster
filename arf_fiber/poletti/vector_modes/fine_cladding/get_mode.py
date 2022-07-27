@@ -4,8 +4,7 @@
 import numpy as np
 import os
 import sys
-from fiberamp.fiber.microstruct.pbg import ARF2
-
+from fiberamp.fiber.microstruct.pbg import ARFcsg as ARF2
 
 if not os.path.isdir('outputs'):
     print('Making directory: ' + 'outputs')
