@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name funarf 
-#SBATCH -N 30
-#SBATCH -n 30
+#SBATCH -N 16
+#SBATCH -n 16
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -17,7 +17,7 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {0..14}
+for i in {0..9}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
            --output="logs/ref0_p${i}_task%s.out" \
@@ -25,7 +25,7 @@ for i in {0..14}
            python3 vector.py 0 ${i} &
 done
 
-for j in {0..9}
+for j in {0..5}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
            --output="logs/ref1_p${j}_task%s.out"\
@@ -33,11 +33,11 @@ for j in {0..9}
            python3 vector.py 1 ${j} &
 done
 
-for k in {0..4}
-    do
-        srun --exclusive --nodes 1 --ntasks 1 \
-           --output="logs/ref2_p${k}_task%s.out"\
-           --error="errors/re2_p${k}_task%s.err"\
-           python3 vector.py 2 ${k} &
-done
+#for k in {0..4}
+#    do
+#        srun --exclusive --nodes 1 --ntasks 1 \
+#           --output="logs/ref2_p${k}_task%s.out"\
+#           --error="errors/re2_p${k}_task%s.err"\
+#           python3 vector.py 2 ${k} &
+#done
 wait
