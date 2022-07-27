@@ -20,7 +20,7 @@ n_air = 1.00027717
 n_soft_polymer = 1.44
 n_hard_polymer = 1.56
 
-T_soft_polymer = 30 / scaling
+T_soft_polymer = 10 / scaling
 T_hard_polymer = 30 / scaling
 
 T_outer = 30 / scaling
@@ -33,34 +33,26 @@ outer_materials = [
     {'material': 'soft_polymer',
      'n': n_soft_polymer,
      'T': T_soft_polymer,
-     'maxh': 2},
+     'maxh': .05},
 
     # {'material': 'hard_polymer',
     #  'n': n_hard_polymer,
     #  'T': T_hard_polymer,
     #  'maxh': 2},
 
-    {'material': 'buffer',
-     'n': n0,
-     'T': T_buffer,
-     'maxh': 2},
+    # {'material': 'buffer',
+    #  'n': n0,
+    #  'T': T_buffer,
+    #  'maxh': .05},
 
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': 4}
+     'maxh': .06}
 ]
 
-# Center, radius and span
-center = 5.066
-radius = .1
-nspan = 4
-npts = 4
-
-# PML strength
-alpha = 5
-
 # Set result arrays
+nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
@@ -68,8 +60,15 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True,
+    a = ARF2(refine=ref, curve=max(p+1, 3),
+             name='fine_cladding',
+             poly_core=True,
              outer_materials=outer_materials)
+
+    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + 5.066
+    radius = .1
+    npts = 4
+    alpha = 5
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)

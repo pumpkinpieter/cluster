@@ -33,17 +33,17 @@ outer_materials = [
     {'material': 'soft_polymer',
      'n': n_soft_polymer,
      'T': T_soft_polymer,
-     'maxh': 2},
+     'maxh': .05},
 
     {'material': 'hard_polymer',
      'n': n_hard_polymer,
      'T': T_hard_polymer,
-     'maxh': 2},
+     'maxh': .075},
 
     {'material': 'buffer',
      'n': n0,
      'T': T_buffer,
-     'maxh': 2},
+     'maxh': .1},
 
     {'material': 'Outer',
      'n': n0,
@@ -68,7 +68,9 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True,
+    a = ARF2(refine=ref, curve=max(p+1, 3),
+             name='fine_cladding',
+             poly_core=True,
              outer_materials=outer_materials)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
