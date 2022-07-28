@@ -41,15 +41,15 @@ for r in range(2):
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
-    plt.plot(dofs[0:], CL[0:], 'o-', label='ref='+str(r),
+    plt.plot(dofs, CL, 'o-', label='ref='+str(r),
              linewidth=2.5, markersize=8)
 
 plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('Arf Convergence, HE11 mode\n Outer Materials: Double Polymer\
- with polymer in outer region.\n limit CL =~ .05')
+plt.title('Arf Convergence, HE11 mode\n Outer Materials: Hard Polymer\
+ with hard polymer in outer region.\n limit CL =~ .46')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
