@@ -31,7 +31,7 @@ path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(1):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
@@ -41,7 +41,7 @@ for r in range(3):
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
-    plt.plot(dofs[1:], CL[1:], 'o-', label='ref='+str(r),
+    plt.plot(dofs[0:], CL[0:], 'o-', label='ref='+str(r),
              linewidth=2.5, markersize=8)
 
 plt.legend()

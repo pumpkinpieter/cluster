@@ -31,7 +31,7 @@ path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(2):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
@@ -48,7 +48,8 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('Arf Convergence, HE11 mode\n Outer Materials: All Glass\n CL=0.44')
+plt.title('Arf Convergence, HE11 mode\n Outer Materials: All Glass\n\
+limit CL=0.461')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
