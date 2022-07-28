@@ -30,15 +30,15 @@ n0 = n_air  # Sets buffer and outer region refractive index.
 
 outer_materials = [
 
-    {'material': 'soft_polymer',
-     'n': n_soft_polymer,
-     'T': T_soft_polymer,
-     'maxh': .06},
+    # {'material': 'soft_polymer',
+    #  'n': n_soft_polymer,
+    #  'T': T_soft_polymer,
+    #  'maxh': .06},
 
     {'material': 'hard_polymer',
      'n': n_hard_polymer,
      'T': T_hard_polymer,
-     'maxh': .06},
+     'maxh': .05},
 
     {'material': 'buffer',
      'n': n0,
