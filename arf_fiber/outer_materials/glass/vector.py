@@ -48,7 +48,7 @@ outer_materials = [
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': .06}
+     'maxh': .2}
 ]
 
 # Set result arrays

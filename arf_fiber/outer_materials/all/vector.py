@@ -23,8 +23,8 @@ n_hard_polymer = 1.56
 T_soft_polymer = 30 / scaling
 T_hard_polymer = 30 / scaling
 
-T_outer = 30 / scaling
-T_buffer = 10 / scaling
+T_outer = 20 / scaling
+T_buffer = 20 / scaling
 
 n0 = n_air  # Sets buffer and outer region refractive index.
 
@@ -38,22 +38,22 @@ outer_materials = [
     {'material': 'hard_polymer',
      'n': n_hard_polymer,
      'T': T_hard_polymer,
-     'maxh': .075},
+     'maxh': .05},
 
     {'material': 'buffer',
      'n': n0,
      'T': T_buffer,
-     'maxh': .1},
+     'maxh': .75},
 
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': 4}
+     'maxh': 2}
 ]
 
 # Center, radius and span
-center = 5.066
-radius = .1
+center = 5.067
+radius = .01
 nspan = 4
 npts = 4
 
@@ -79,8 +79,8 @@ if __name__ == '__main__':
     beta, _, _, _, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
-                                          niterations=30, nrestarts=0,
-                                          stop_tol=1e-11, inverse='pardiso')
+                                          niterations=10, nrestarts=0,
+                                          stop_tol=1e-10, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof

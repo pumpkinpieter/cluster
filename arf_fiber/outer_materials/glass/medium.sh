@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name glass 
-#SBATCH -N 4
-#SBATCH -n 4
+#SBATCH -N 15
+#SBATCH -n 15
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -17,21 +17,22 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {15..18}
+for i in {0..9}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
            --output="logs/ref0_p${i}_task%s.out" \
            --error="errors/ref0_p${i}_task%s.err" \
            python3 vector.py 0 ${i} &
 done
+
+for j in {0..4}
+    do
+        srun --exclusive --nodes 1 --ntasks 1 \
+           --output="logs/ref1_p${j}_task%s.out"\
+           --error="errors/ref1_p${j}_task%s.err"\
+           python3 vector.py 1 ${j} &
+done
 wait
-#for j in {0..9}
-#    do
-#        srun --exclusive --nodes 1 --ntasks 1 \
-#           --output="logs/ref1_p${j}_task%s.out"\
-#           --error="errors/ref1_p${j}_task%s.err"\
-#           python3 vector.py 1 ${j} &
-#done
 
 #for k in {0..4}
 #    do
