@@ -15,8 +15,8 @@ if not os.path.isdir('modes'):
     os.makedirs('modes')
 
 # Center, radius and span
-center = 5.066
-radius = .1
+center0 = 5.066
+radius0 = .1
 nspan = 4
 npts = 4
 
@@ -25,10 +25,10 @@ npts = 4
 E = np.linspace(0.002, .9999, 240)
 
 # Linear fit for finding search centers
-# m, b = -0.2758566730320395, 5.07341374920433
+m, b = -0.2758566730320395, 5.07341374920433
 
 # Seach centers
-# center = b + m * E
+centers = b + m * E
 
 # PML strength
 alpha = 5
@@ -50,7 +50,12 @@ if __name__ == '__main__':
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
-
+    if E[i] < .4:
+        center = center0
+        radius = radius0
+    else:
+        center = centers[i]
+        radius = .007
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
                                         rad=radius,
                                         alpha=alpha,
