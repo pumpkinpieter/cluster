@@ -48,7 +48,8 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Vector Convergence, HE11 mode.')
+plt.title('CSG Arf Poletti Vector Convergence, HE11 mode.\n Glass cladding, \
+air in outer region, no polymer.  \n limit CL =~ .153')
 plt.yscale('log')
 plt.xscale('log')
 plt.xticks([10**5, 10**6])

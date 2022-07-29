@@ -31,7 +31,7 @@ path = os.path.relpath(main)
 
 plt.figure(figsize=(18, 16))
 
-for r in range(3):
+for r in range(2):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
@@ -48,7 +48,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('Arf Convergence, HE11 mode\n Outer Materials: Single Polymer\
+plt.title('Arf Convergence, HE11 mode\n Outer Materials: Soft Polymer only\
  with polymer in outer region.\n')
 plt.yscale('log')
 plt.xscale('log')

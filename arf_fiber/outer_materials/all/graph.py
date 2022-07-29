@@ -49,7 +49,7 @@ plt.legend()
 plt.xlabel('ndofs')
 plt.ylabel('CL')
 plt.title('Arf Convergence, HE11 mode\n Outer Materials: Double Polymer\
- with Air in outer region.\n')
+ with Air in outer region.\n limit CL =~ .042')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()
