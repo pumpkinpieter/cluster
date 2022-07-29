@@ -23,7 +23,7 @@ base = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b != 0) * (np.abs(b) < 2) * (b > 0), 1, 0)
+    c = np.where((b != 0) * (np.abs(b) < 1.3) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
@@ -80,13 +80,13 @@ plt.show()
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+# figures'))
 
-x = np.random.rand(10)
-y = np.random.rand(10)
-mask = ~np.isnan(CL)
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((es[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')
+# x = np.random.rand(10)
+# y = np.random.rand(10)
+# mask = ~np.isnan(CL)
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+# both = np.column_stack((es[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+# np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')

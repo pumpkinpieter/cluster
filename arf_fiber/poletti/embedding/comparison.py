@@ -21,34 +21,28 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/')
 
 path1 = os.path.relpath(main + 'shifting_tubes/outputs')
 
-path2 = os.path.relpath(main + 'fixed_tubes/outputs')
-
 # Load data and range of embeddings (es)
 
 raw1 = np.load(path1 + '/all_e.npy').imag
-raw2 = np.load(path2 + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
 
 # Process the data
 base1 = np.zeros_like(es)
-base2 = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw1[j, :]
     c = np.where((b != 0) * (np.abs(b) < 2) * (b > 0), 1, 0)
     base1[j] = np.mean(b, where=list(c))
-    b = raw2[j, :]
-    c = np.where((b != 0) * (np.abs(b) < 1.3) * (b > 0), 1, 0)
-    base2[j] = np.mean(b, where=list(c))
 
 CL1 = 20 * base1 / np.log(10)
-CL2 = 20 * base2 / np.log(10)
+mask = ~np.isnan(CL1)
+CL2 = np.load(main + 'fixed_cap_clean_CL.npy')
 
 # Set up the figure and subplots
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False, figsize=(30, 30))
 
 # Plot the data
-ax1.plot(es, CL1, '^-', color='blue',
+ax1.plot(es[mask], CL1[mask], '^-', color='blue',
          label='shifting_capillaries',
          linewidth=2.5, markersize=3.4)
 

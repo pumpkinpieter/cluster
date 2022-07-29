@@ -29,7 +29,7 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/vector_modes/\
 fine_cladding/outputs')
 path = os.path.relpath(main)
 
-plt.figure(figsize=(18, 16))
+plt.figure(figsize=(20, 16))
 
 fig = plt.gcf()
 ax = plt.gca()
@@ -52,13 +52,13 @@ for r in range(2):
             ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
                         textcoords='offset points',
                         arrowprops=dict(arrowstyle="-",
-                        connectionstyle="arc3")
+                        connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
             ax.annotate('p=' + str(i), xy=dc, xytext=(0, 40),
                         textcoords='offset points',
                         arrowprops=dict(arrowstyle="-",
-                        connectionstyle="arc3")
+                        connectionstyle="arc3", color='orange')
                         )
 
 xmin, xmax = ax.get_xlim()
