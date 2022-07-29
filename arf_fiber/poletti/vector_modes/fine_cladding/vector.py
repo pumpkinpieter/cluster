@@ -29,7 +29,7 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(name='fine_cladding', refine=ref, curve=max(p+1, 3),
+    a = ARF2(name='fine_cladding', refine=ref, curve=max(p+1, 8),
              poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +

@@ -15,7 +15,8 @@ if not os.path.isdir('modes'):
     os.makedirs('modes')
 
 # Center, radius and span
-radius = .007         # search radius
+center = 5.066
+radius = .1
 nspan = 4
 npts = 4
 
@@ -24,10 +25,10 @@ npts = 4
 E = np.linspace(0.002, .9999, 240)
 
 # Linear fit for finding search centers
-m, b = -0.2758566730320395, 5.07341374920433
+# m, b = -0.2758566730320395, 5.07341374920433
 
 # Seach centers
-center = b + m * E
+# center = b + m * E
 
 # PML strength
 alpha = 5
@@ -44,19 +45,19 @@ if __name__ == '__main__':
         save_index = np.where((L < E) * (E < R))[0]
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 3), shift_capillaries=True, e=E[i])
+             curve=max(p+1, 8), shift_capillaries=True, e=E[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center[i],
+    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
                                         rad=radius,
                                         alpha=alpha,
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
-                                        niterations=9,
+                                        niterations=12,
                                         nrestarts=0,
                                         stop_tol=1e-9,
                                         inverse='pardiso')

@@ -31,7 +31,7 @@ if __name__ == '__main__':
     ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]),
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 3), e=E[i])
+             curve=max(p+1, 8), e=E[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
