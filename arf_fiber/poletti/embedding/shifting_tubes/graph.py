@@ -34,7 +34,7 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 # Plot the data
 ax1.plot(es, CL, '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=2.5, markersize=3.4)
+         linewidth=2.5, markersize=5)
 
 # Set Figure and Axes parameters ################################
 
@@ -75,6 +75,11 @@ plt.subplots_adjust(top=0.905,
 # Show figure (needed for running from command line)
 plt.show()
 
+# %%
+
+# Save cleaned data to numpy arrays for comparison plot
+
+np.save(os.path.relpath(main + 'shifting_cap_clean_CL'), CL)
 
 # %%
 
@@ -83,10 +88,5 @@ plt.show()
 # paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
 # figures'))
 
-# x = np.random.rand(10)
-# y = np.random.rand(10)
-# mask = ~np.isnan(CL)
-# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-# both = np.column_stack((es[mask], CL[mask]))
-# # both = np.column_stack((x,y))
+# both = np.column_stack((es, CL))
 # np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')
