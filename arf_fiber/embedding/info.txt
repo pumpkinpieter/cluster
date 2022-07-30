@@ -1,0 +1,10 @@
+Embedding sensitivity studies with various configurations of outermaterials.
+Base case is given in 'air' folder which gives arf fiber with only air outside
+cladding.  We also have:
+
+'glass': only glass as outer material, essentially same as claddding extending
+to infinity.
+
+'hard_hard': hard polymer coating cladding, PML located in polymer.
+
+'hard_air': hard polyer coating, then air. PML located in air.
