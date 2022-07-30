@@ -13,7 +13,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
 path = os.path.relpath(main + 'shifting_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag

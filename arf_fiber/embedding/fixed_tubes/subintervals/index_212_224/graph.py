@@ -26,7 +26,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 plt.figure(figsize=(30, 16))
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/\
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
 fixed_tubes/subintervals/index_212_224')
 path = os.path.relpath(main + '/outputs')
 

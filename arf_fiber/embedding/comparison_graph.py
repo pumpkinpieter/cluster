@@ -15,7 +15,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/poletti/embedding/')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
 
 # Load range of embeddings (es)
 es = np.linspace(0.002, .9999, 240)
