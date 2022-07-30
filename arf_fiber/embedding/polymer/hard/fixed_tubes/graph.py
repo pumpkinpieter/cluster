@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'fixed_tubes/outputs')
+path = os.path.relpath(main + 'polymer/hard/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -24,33 +24,8 @@ base = np.zeros_like(es)
 for j in range(len(es)):
 
     b = raw[j, :]
-
-    # Deal with multi mode cases: these need to be investigated!
-
-    if j == 102:
-        c = np.where((b > .4) * (b < .5), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 116:
-        c = np.where((b > 0) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 133:
-        c = np.where((b > 0) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 180:
-        c = np.where((b > 0) * (b < .9), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 192:
-        c = np.where((b > 0.001) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 213:
-        c = np.where((b > 0) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-
-    # The following works for all the rest
-
-    else:
-        c = np.where((b > 0), 1, 0)
-        base[j] = np.mean(b, where=list(c))
+    c = np.where((b > 0), 1, 0)
+    base[j] = np.mean(b, where=list(c))
 
 
 CL = 20 * base / np.log(10)
@@ -66,7 +41,8 @@ ax1.plot(es, CL, '^-', color='blue',
 
 # Set titles
 fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position",  fontsize=40)
+fixed Cladding Position \n Hard Polymer Coating, PML in polymer",
+             fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
