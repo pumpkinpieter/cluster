@@ -20,8 +20,8 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
 # Load range of embeddings (es)
 es = np.linspace(0.002, .9999, 240)
 
-CL1 = np.load(main + 'shifting_cap_clean_CL.npy')
-CL2 = np.load(main + 'fixed_cap_clean_CL.npy')
+CL1 = np.load(main + 'data/shifting_cap_clean_CL.npy')
+CL2 = np.load(main + 'data/fixed_cap_clean_CL.npy')
 
 # Set up the figure and subplots
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False, figsize=(30, 30))
