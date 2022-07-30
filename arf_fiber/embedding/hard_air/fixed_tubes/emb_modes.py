@@ -36,7 +36,7 @@ outer_materials = [
     {'material': 'buffer',
      'n': n0,
      'T': T_buffer,
-     'maxh': .4}
+     'maxh': .4},
 
     {'material': 'Outer',
      'n': n0,
