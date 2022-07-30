@@ -1,0 +1,3 @@
+The embedding/polymer subfolder is for running the embedding study on arf with
+a polymer coating (Standard embedding study is done without polymer coating
+with air as outer material).
