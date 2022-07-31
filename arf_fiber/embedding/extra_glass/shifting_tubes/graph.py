@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'air/fixed_tubes/outputs')
+path = os.path.relpath(main + 'shifting_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -22,36 +22,9 @@ es = np.linspace(0.002, .9999, 240)
 base = np.zeros_like(es)
 
 for j in range(len(es)):
-
     b = raw[j, :]
-
-    # Deal with multi mode cases: these need to be investigated!
-
-    if j == 102:
-        c = np.where((b > .4) * (b < .5), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 116:
-        c = np.where((b > 0) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 133:
-        c = np.where((b > 0) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 180:
-        c = np.where((b > 0) * (b < .9), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 192:
-        c = np.where((b > 0.001) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 213:
-        c = np.where((b > 0) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-
-    # The following works for all the rest
-
-    else:
-        c = np.where((b > 0), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-
+    c = np.where((b != 0) * (np.abs(b) < 1.3) * (b > 0), 1, 0)
+    base[j] = np.mean(b, where=list(c))
 
 CL = 20 * base / np.log(10)
 
@@ -61,12 +34,13 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 # Plot the data
 ax1.plot(es, CL, '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=2.5, markersize=3.4)
+         linewidth=2.5, markersize=5)
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
 fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position\n Air outside glass cladding",  fontsize=30)
+fixed Cladding Position",  fontsize=40)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
@@ -105,20 +79,14 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
-
+np.save(os.path.relpath(main + 'shifting_cap_clean_CL'), CL)
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+# figures'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
-
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((es[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+# both = np.column_stack((es, CL))
+# np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')

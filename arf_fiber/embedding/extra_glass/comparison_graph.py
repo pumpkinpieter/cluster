@@ -11,41 +11,44 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
+# Close old graphs
+
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'glass/fixed_tubes/outputs')
 
-raw = np.load(path + '/all_e.npy').imag
+# Load range of embeddings (es)
 es = np.linspace(0.002, .9999, 240)
 
-base = np.zeros_like(es)
-
-for j in range(len(es)):
-
-    b = raw[j, :]
-    c = np.where((b > 0), 1, 0)
-    base[j] = np.mean(b, where=list(c))
-
-
-CL = 20 * base / np.log(10)
+CL1 = np.load(main + 'data/shifting_cap_clean_CL.npy')
+CL2 = np.load(main + 'data/fixed_cap_clean_CL.npy')
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False, figsize=(30, 30))
 
 # Plot the data
-ax1.plot(es, CL, '^-', color='blue',
+ax1.plot(es, CL1, '^-', color='blue',
          label='shifting_capillaries',
          linewidth=2.5, markersize=3.4)
+
+ax2.plot(es, CL2, 'o-', color='green',
+         label='fixed_capillaries',
+         linewidth=2.5, markersize=3.4)
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position\nGlass cladding extending to infinity",  fontsize=30)
+fig.suptitle("Comparison of Embedding Sensitivity", fontsize=42)
+
+ax1.set_title('Shifting Capillaries, Fixed Cladding Position:\n',
+              fontsize=30)
+ax2.set_title('Fixed Capillaries, Shifting Cladding Position:\n',
+              fontsize=30)
 
 # Set axis labels
-ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
-ax1.set_ylabel("CL", fontsize=25)
+ax2.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
+ax1.set_ylabel("CL", fontsize=20)
+ax2.set_ylabel("CL", fontsize=20)
 
 # Set up ticks and grids
 
@@ -59,41 +62,28 @@ ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
+
+ax2.xaxis.set_major_locator(MultipleLocator(.05))
+ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
+ax2.yaxis.set_major_locator(MultipleLocator(1))
+ax2.yaxis.set_minor_locator(AutoMinorLocator(1))
+ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
+
 # # Set log scale on y axes
 ax1.set_yscale('log')
+ax2.set_yscale('log')
 
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.905,
+plt.subplots_adjust(top=0.88,
                     bottom=0.11,
-                    left=0.065,
-                    right=0.95,
-                    hspace=0.2,
+                    left=0.085,
+                    right=0.935,
+                    hspace=0.3,
                     wspace=0.2)
 
 # Show figure (needed for running from command line)
 plt.show()
-
-# %%
-
-# Save cleaned data to numpy arrays for comparison plot
-
-np.save(os.path.relpath(main + 'data/glass_fixedcap.npy'), CL)
-
-
-# %%
-
-# Save to .dat file for pgfplots
-
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
-
-mask = ~np.isnan(CL)
-mask[14] = False
-
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((es[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')

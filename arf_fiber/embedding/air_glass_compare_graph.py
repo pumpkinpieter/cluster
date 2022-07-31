@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sat Mar 19 20:33:33 2022
+Created on Sun Jul 31 09:15:37 2022
 
 @author: pv
 """
@@ -13,36 +13,31 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'glass/fixed_tubes/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/data/')
 
-raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
-
-base = np.zeros_like(es)
-
-for j in range(len(es)):
-
-    b = raw[j, :]
-    c = np.where((b > 0), 1, 0)
-    base[j] = np.mean(b, where=list(c))
-
-
-CL = 20 * base / np.log(10)
+air = np.load(main + 'air_fixedcap.npy')
+glass = np.load(main + 'glass_fixedcap.npy')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
 # Plot the data
-ax1.plot(es, CL, '^-', color='blue',
-         label='shifting_capillaries',
-         linewidth=2.5, markersize=3.4)
+ax1.plot(es, air, 'o-', color='blue',
+         linewidth=1.5, markersize=5,
+         markerfacecolor='None',
+         label='Air outside glass cladding')
+
+ax1.plot(es, glass, 'o-', color='orange',
+         linewidth=1.5, markersize=5,
+         markerfacecolor='None',
+         label='Glass extending to infinity')
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position\nGlass cladding extending to infinity",  fontsize=30)
-
+fig.suptitle("Comparison of Outer Materials: Glass v. Air\n\
+embedding sensitivity,fixed capillaries",  fontsize=30)
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
 ax1.set_ylabel("CL", fontsize=25)
@@ -62,6 +57,8 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 # # Set log scale on y axes
 ax1.set_yscale('log')
 
+plt.legend(fontsize=25)
+
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
 
@@ -75,25 +72,3 @@ plt.subplots_adjust(top=0.905,
 
 # Show figure (needed for running from command line)
 plt.show()
-
-# %%
-
-# Save cleaned data to numpy arrays for comparison plot
-
-np.save(os.path.relpath(main + 'data/glass_fixedcap.npy'), CL)
-
-
-# %%
-
-# Save to .dat file for pgfplots
-
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
-
-mask = ~np.isnan(CL)
-mask[14] = False
-
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((es[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
