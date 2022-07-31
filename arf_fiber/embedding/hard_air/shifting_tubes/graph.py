@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'shifting_tubes/outputs')
+path = os.path.relpath(main + 'hard_air/shifting_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)

@@ -14,6 +14,36 @@ if not os.path.isdir('modes'):
     print('Making directory: modes')
     os.makedirs('modes')
 
+# Set outer materials
+scaling = 15
+n_glass = 1.4388164768221814
+n_air = 1.00027717
+
+n_hard_polymer = 1.56
+T_hard_polymer = 10 / scaling
+
+T_outer = 10 / scaling
+T_buffer = 10 / scaling
+n0 = n_air  # Sets buffer and outer region refractive index.
+
+outer_materials = [
+
+    {'material': 'hard_polymer',
+     'n': n_hard_polymer,
+     'T': T_hard_polymer,
+     'maxh': .04},
+
+    {'material': 'buffer',
+     'n': n0,
+     'T': T_buffer,
+     'maxh': .4},
+
+    {'material': 'Outer',
+     'n': n0,
+     'T': T_outer,
+     'maxh': 1}
+]
+
 # Center, radius and span
 center0 = 5.066
 radius0 = .1
@@ -45,17 +75,21 @@ if __name__ == '__main__':
         save_index = np.where((L < E) * (E < R))[0]
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 8), shift_capillaries=True, e=E[i])
+             curve=max(p+1, 8), shift_capillaries=True, e=E[i],
+             outer_materials=outer_materials)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
+
     if E[i] < .4:
         center = center0
         radius = radius0
+
     else:
         center = centers[i]
         radius = .007
+
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
                                         rad=radius,
                                         alpha=alpha,
