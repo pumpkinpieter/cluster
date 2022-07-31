@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'fixed_tubes/outputs')
+path = os.path.relpath(main + 'hard_air/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -25,31 +25,35 @@ for j in range(len(es)):
 
     b = raw[j, :]
 
-    # Deal with multi mode cases: these need to be investigated!
-
-    if j == 102:
-        c = np.where((b > .4) * (b < .5), 1, 0)
+    if j == 30:
+        c = np.where((b > .0004) * (b < .5), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 116:
-        c = np.where((b > 0) * (b < 1), 1, 0)
+    elif j == 41:
+        c = np.where((b > 0) * (b < .2), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 133:
-        c = np.where((b > 0) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 180:
-        c = np.where((b > 0) * (b < .9), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 192:
-        c = np.where((b > 0.001) * (b < 1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 213:
+    elif j == 80:
         c = np.where((b > 0) * (b < .1), 1, 0)
         base[j] = np.mean(b, where=list(c))
-
-    # The following works for all the rest
-
+    elif j == 83:
+        c = np.where((b > 1e-6) * (b < .9), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+    elif j == 103:
+        c = np.where((b > 0.001) * (b < 1), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+    elif j == 110:
+        c = np.where((b > 0) * (b < .08), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+    elif j == 121:
+        c = np.where((b > 0) * (b < 3), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+    elif j == 173:
+        c = np.where((b > 0) * (b < 1), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+    elif j == 199:
+        c = np.where((b > 0) * (b < 2), 1, 0)
+        base[j] = np.mean(b, where=list(c))
     else:
-        c = np.where((b > 0), 1, 0)
+        c = np.where((b > 1e-8) * (b < 2.1), 1, 0)
         base[j] = np.mean(b, where=list(c))
 
 
@@ -66,7 +70,7 @@ ax1.plot(es, CL, '^-', color='blue',
 
 # Set titles
 fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position",  fontsize=40)
+fixed Cladding Position\n Hard Polymer with air",  fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
