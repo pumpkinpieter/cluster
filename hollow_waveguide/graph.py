@@ -49,5 +49,5 @@ plt.xlabel('log of ndofs')
 plt.ylabel('log of error')
 plt.grid()
 # plt.ylim(-16)
-plt.title('Leaky Mode Convergence for Vectorial Solver\nNufern Ytterbium Fiber \
+plt.title('Leaky Mode Convergence for Vectorial Solver\nNufern Ytterbium Fiber\
  (Fundamental Mode)\n')

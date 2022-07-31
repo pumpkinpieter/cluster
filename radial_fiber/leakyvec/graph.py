@@ -70,7 +70,7 @@ plt.xlabel('log of ndofs')
 plt.ylabel('log of error')
 plt.grid()
 plt.ylim(-12)
-plt.title('Leaky Mode Convergence for Vectorial Solver\nNufern Ytterbium Fiber \
+plt.title('Leaky Mode Convergence for Vectorial Solver\nNufern Ytterbium Fiber\
 \n alpha = 3, Fundamental Mode\n')
 
 hs = [2**(-i) for i in range(5)]
