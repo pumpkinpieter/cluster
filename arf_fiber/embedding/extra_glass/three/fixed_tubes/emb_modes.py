@@ -62,7 +62,7 @@ if __name__ == '__main__':
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
              curve=max(p+1, 8), shift_capillaries=False, e=E[i],
              outer_materials=outer_materials,
-             T_cladding=15)
+             T_cladding=13)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
