@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'glass/fixed_tubes/outputs')
+path = os.path.relpath(main + 'shifting_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -22,11 +22,9 @@ es = np.linspace(0.002, .9999, 240)
 base = np.zeros_like(es)
 
 for j in range(len(es)):
-
     b = raw[j, :]
-    c = np.where((b > 0), 1, 0)
+    c = np.where((b != 0) * (np.abs(b) < 1.3) * (b > 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
-
 
 CL = 20 * base / np.log(10)
 
@@ -36,12 +34,13 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 # Plot the data
 ax1.plot(es, CL, '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=2.5, markersize=3.4)
+         linewidth=2.5, markersize=5)
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
 fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position\nGlass cladding extending to infinity",  fontsize=30)
+fixed Cladding Position",  fontsize=40)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
@@ -80,20 +79,14 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/glass_fixedcap.npy'), CL)
-
+np.save(os.path.relpath(main + 'shifting_cap_clean_CL'), CL)
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+# figures'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
-
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((es[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+# both = np.column_stack((es, CL))
+# np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')

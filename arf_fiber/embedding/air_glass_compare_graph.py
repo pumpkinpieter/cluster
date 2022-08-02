@@ -18,6 +18,7 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/data/')
 es = np.linspace(0.002, .9999, 240)
 air = np.load(main + 'air_fixedcap.npy')
 glass = np.load(main + 'glass_fixedcap.npy')
+extra_glass = np.load(main + 'extra_glass_fixedcap.npy')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
@@ -28,10 +29,16 @@ ax1.plot(es, air, 'o-', color='blue',
          markerfacecolor='None',
          label='Air outside glass cladding')
 
+ax1.plot(es, extra_glass, 'o-', color='green',
+         linewidth=1.5, markersize=5,
+         markerfacecolor='None',
+         label='Extra thick glass, air outside.')
+
 ax1.plot(es, glass, 'o-', color='orange',
          linewidth=1.5, markersize=5,
          markerfacecolor='None',
          label='Glass extending to infinity')
+
 
 # Set Figure and Axes parameters ################################
 

@@ -69,8 +69,8 @@ ax1.plot(es, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position\n Hard Polymer with air",  fontsize=30)
+fig.suptitle("Embedding Sensitivity: Fixed Capillaries, \
+shifting Cladding Position\n Hard Polymer with air",  fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)

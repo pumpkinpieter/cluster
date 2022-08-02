@@ -65,7 +65,7 @@ ax1.plot(es, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
+fig.suptitle("Embedding Sensitivity: Fixed Capillaries, \
 fixed Cladding Position\n Air outside glass cladding",  fontsize=30)
 
 # Set axis labels
