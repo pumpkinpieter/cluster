@@ -13,8 +13,9 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'extra_glass/fixed_tubes/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
+extra_glass/')
+path = os.path.relpath(main + 'five/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -25,46 +26,30 @@ for j in range(len(es)):
 
     b = raw[j, :]
 
-    if j == 19:
-        c = np.where((b > 0) * (b < .5), 1, 0)
+    if j == 16:
+        c = np.where((b > 0.006) * (b < .5), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 43:
-        c = np.where((b > 0) * (b < .3), 1, 0)
+    elif j == 62 or j == 63 or j == 64:
+        c = np.where((b > 0) * (b < .1), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 68:
-        c = np.where((b > 0) * (b < .03), 1, 0)
+    elif j == 125:
+        c = np.where((b > 0) * (b < 3), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 81:
-        c = np.where((b > 0.01) * (b < 1), 1, 0)
+    elif j == 144:
+        c = np.where((b > 0) * (b < 1), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 108:
-        c = np.where((b > 0) * (b < .6), 1, 0)
+    elif j == 150:
+        c = np.where((b > 0) * (b < .08), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 142:
-        c = np.where((b > 0.01) * (b < .1), 1, 0)
+    elif j == 155:
+        c = np.where((b > 0.002), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 162:
-        c = np.where((b > 0.01) * (b < .1), 1, 0)
+    elif j == 177:
+        c = np.where((b > 0) * (b < 1), 1, 0)
         base[j] = np.mean(b, where=list(c))
-    elif j == 163:
-        c = np.where((b > 0.01) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 217:
-        c = np.where((b > 0) * (b < .05), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 222:
-        c = np.where((b > 0.01) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 223:
-        c = np.where((b > 0.01) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    elif j == 239:
-        c = np.where((b > 0.01) * (b < .2), 1, 0)
-        base[j] = np.mean(b, where=list(c))
-    # The following works for all the rest
 
     else:
-        c = np.where((b > 0) * (b < 1), 1, 0)
+        c = np.where((b > 1e-4), 1, 0)
         base[j] = np.mean(b, where=list(c))
 
 
@@ -120,7 +105,7 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/extra_glass_fixedcap.npy'), CL)
+np.save(os.path.relpath(main + 'data/five_fixedcap.npy'), CL)
 
 
 # %%
