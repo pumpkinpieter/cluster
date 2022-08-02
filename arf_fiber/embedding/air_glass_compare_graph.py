@@ -30,9 +30,9 @@ ax1.plot(es, air, 'o-', color='blue',
          label='Air outside glass cladding')
 
 # ax1.plot(es, extra_glass, 'o-', color='green',
-#          linewidth=1.5, markersize=5,
-#          markerfacecolor='None',
-#          label='Extra thick glass, air outside.')
+#           linewidth=1.5, markersize=5,
+#           markerfacecolor='None',
+#           label='Extra thick glass, air outside.')
 
 ax1.plot(es, glass, 'o-', color='orange',
          linewidth=1.5, markersize=5,
