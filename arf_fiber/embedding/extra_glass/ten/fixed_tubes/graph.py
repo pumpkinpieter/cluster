@@ -13,8 +13,9 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'extra_glass/fixed_tubes/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
+extra_glass/')
+path = os.path.relpath(main + 'ten/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -120,7 +121,7 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/extra_glass_fixedcap.npy'), CL)
+np.save(os.path.relpath(main + 'data/ten_fixedcap.npy'), CL)
 
 
 # %%

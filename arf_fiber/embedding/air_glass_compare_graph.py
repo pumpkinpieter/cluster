@@ -29,10 +29,10 @@ ax1.plot(es, air, 'o-', color='blue',
          markerfacecolor='None',
          label='Air outside glass cladding')
 
-ax1.plot(es, extra_glass, 'o-', color='green',
-         linewidth=1.5, markersize=5,
-         markerfacecolor='None',
-         label='Extra thick glass, air outside.')
+# ax1.plot(es, extra_glass, 'o-', color='green',
+#          linewidth=1.5, markersize=5,
+#          markerfacecolor='None',
+#          label='Extra thick glass, air outside.')
 
 ax1.plot(es, glass, 'o-', color='orange',
          linewidth=1.5, markersize=5,
@@ -44,7 +44,7 @@ ax1.plot(es, glass, 'o-', color='orange',
 
 # Set titles
 fig.suptitle("Comparison of Outer Materials: Glass v. Air\n\
-embedding sensitivity,fixed capillaries",  fontsize=30)
+embedding sensitivity, fixed capillaries",  fontsize=30)
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
 ax1.set_ylabel("CL", fontsize=25)

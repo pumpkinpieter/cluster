@@ -13,8 +13,9 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'extra_glass/twenty/fixed_tubes/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
+extra_glass/')
+path = os.path.relpath(main + 'twenty/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
@@ -96,24 +97,24 @@ plt.subplots_adjust(top=0.905,
 # Show figure (needed for running from command line)
 plt.show()
 
-# # %%
+# %%
 
-# # Save cleaned data to numpy arrays for comparison plot
+# Save cleaned data to numpy arrays for comparison plot
 
-# np.save(os.path.relpath(main + 'data/extra_glass_fixedcap.npy'), CL)
+np.save(os.path.relpath(main + 'data/twenty_fixedcap.npy'), CL)
 
 
-# # %%
+# %%
 
-# # Save to .dat file for pgfplots
+# Save to .dat file for pgfplots
 
-# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-# figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+figures'))
 
-# mask = ~np.isnan(CL)
-# mask[14] = False
+mask = ~np.isnan(CL)
+mask[14] = False
 
-# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-# both = np.column_stack((es[mask], CL[mask]))
-# # both = np.column_stack((x,y))
-# np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+both = np.column_stack((es[mask], CL[mask]))
+# both = np.column_stack((x,y))
+np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
