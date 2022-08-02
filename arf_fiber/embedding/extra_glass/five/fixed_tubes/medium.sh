@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 40
+#SBATCH -n 40
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium

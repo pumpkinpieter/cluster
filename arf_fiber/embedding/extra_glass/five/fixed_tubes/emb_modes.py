@@ -19,16 +19,16 @@ scaling = 15
 n_glass = 1.4388164768221814
 n_air = 1.00027717
 
-T_extra = 10 / scaling
+T_extra = 5 / scaling
 T_buffer = 10 / scaling
 T_outer = 10 / scaling
 n0 = n_air  # Sets buffer and outer region refractive index.
 
 outer_materials = [
-    {'material': 'extra_glass',
-     'n': n_glass,
-     'T': T_extra,
-     'maxh': .05},
+    # {'material': 'extra_glass',
+    #  'n': n_glass,
+    #  'T': T_extra,
+    #  'maxh': .05},
 
     {'material': 'buffer',
      'n': n0,
@@ -61,7 +61,8 @@ if __name__ == '__main__':
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
              curve=max(p+1, 8), shift_capillaries=False, e=E[i],
-             outer_materials=outer_materials)
+             outer_materials=outer_materials,
+             T_cladding=15)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
