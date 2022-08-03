@@ -8,7 +8,7 @@
 #SBATCH --mem 0
 #SBATCH --output=logs/log.out
 #SBATCH --error=errors/log.out
-#SBATCH --array=0-10%1
+#SBATCH --array=1-9%1
 
 # Load needed modules.
 module load ngsolve/serial
@@ -22,8 +22,7 @@ t=$SLURM_ARRAY_TASK_ID
 for i in {0..239}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
-            --output="logs/e_${i}_task%s.out" \
-            --error="errors/e_${i}_task%s.err" \
-            python3 emb_modes.py 0 3 ${i} $t &
+            python3 clad_emb.py 0 3 ${i} $t &
+
 done
 wait
