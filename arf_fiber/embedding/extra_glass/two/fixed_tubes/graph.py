@@ -13,8 +13,10 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'extra_glass/fixed_tubes/outputs')
+
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
+extra_glass/')
+path = os.path.relpath(main + 'two/fixed_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 es = np.linspace(0.002, .9999, 240)
