@@ -13,37 +13,33 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
-extra_glass/')
-path = os.path.relpath(main + 'one/fixed_tubes/outputs')
-
-raw = np.load(path + '/all_e.npy').imag
-es = np.linspace(0.002, .9999, 240)
-
-base = np.zeros_like(es)
-
-for j in range(len(es)):
-
-    b = raw[j, :]
-    c = np.where((b > 1e-4) * (b < 10), 1, 0)
-    base[j] = np.mean(b, where=list(c))
-
-
-CL = 20 * base / np.log(10)
-
-CL0 = np.load(main + '../data/air_fixedcap.npy')
+main = os.path.expanduser('~/local/convergence/arf_fiber/clad_embed/')
+path = os.path.relpath(main + 'outputs')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
-# Plot the data
-ax1.plot(es, CL0, '--', color='orange',
-         label='cladding=10',
-         linewidth=1.5)
+es = np.linspace(0.002, .9999, 240)
+T = np.linspace(10, 10.1, 11)
+z = plt.get_cmap('plasma')(np.linspace(0, 1, 11))
 
-ax1.plot(es, CL, '-', color='blue',
-         label='cladding=11',
-         linewidth=2.5, markersize=3.4)
+q = 9
+for i in range(0, 2):
+
+    raw = np.load(path + '/T_'+str(i)+'all_e.npy').imag
+    base = np.zeros_like(es)
+
+    for j in range(len(es)):
+
+        b = raw[j, :]
+        c = np.where((b > 1e-4) * (b < 2), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+
+    CL = 20 * base / np.log(10)
+
+    ax1.plot(es, CL, '-',
+             label='cladding='+str(T[i]),
+             linewidth=2.5)
 
 # Set Figure and Axes parameters ################################
 
@@ -81,7 +77,7 @@ plt.subplots_adjust(top=0.905,
                     hspace=0.2,
                     wspace=0.2)
 
-plt.legend(fontsize=20)
+plt.legend(fontsize=14, bbox_to_anchor=(1.05, .25))
 # Show figure (needed for running from command line)
 plt.show()
 

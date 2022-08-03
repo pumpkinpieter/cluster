@@ -3,15 +3,17 @@
 
 import numpy as np
 
-B = []
+for i in range(11):
 
-for p in range(500):
-    try:
-        b = np.load('e'+str(p)+'.npy')
-        B.append(b)
-    except FileNotFoundError:
-        pass
+    B = []
 
-B = np.array(B)
+    for p in range(251):
+        try:
+            b = np.load('e' + str(p) + '_T' + str(i) + '.npy')
+            B.append(b)
+        except FileNotFoundError:
+            pass
 
-np.save('all_e.npy', B)
+    B = np.array(B)
+
+    np.save('T_' + str(i) + 'all_e.npy', B)
