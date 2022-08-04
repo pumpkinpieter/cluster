@@ -20,11 +20,12 @@ path = os.path.relpath(main + 'outputs')
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
 es = np.linspace(0.002, .9999, 240)
-T = np.linspace(10, 10.1, 11)
-z = plt.get_cmap('plasma')(np.linspace(0, 1, 11))
+T = np.linspace(10, 10.01, 11)
 
-q = 9
-for i in range(0, 2):
+d = 3  # up to 11
+z = plt.get_cmap('plasma')(np.linspace(0.2, .9, d))
+
+for i in range(0, d):
 
     raw = np.load(path + '/T_'+str(i)+'all_e.npy').imag
     base = np.zeros_like(es)
@@ -32,20 +33,20 @@ for i in range(0, 2):
     for j in range(len(es)):
 
         b = raw[j, :]
-        c = np.where((b > 1e-4) * (b < 2), 1, 0)
+        c = np.where((b > 1e-4) * (b < 1.5), 1, 0)
         base[j] = np.mean(b, where=list(c))
 
     CL = 20 * base / np.log(10)
 
     ax1.plot(es, CL, '-',
-             label='cladding='+str(T[i]),
-             linewidth=2.5)
+             label='%0.3f' % T[i],
+             linewidth=2.5, c=z[i])
 
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Fixed Capillaries \
-\n Extra Glass cladding with air.",  fontsize=30)
+fig.suptitle("Embedding Sensitivity Profile\
+ Changes \nDue to Cladding Thickness\n.",  fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
@@ -77,7 +78,13 @@ plt.subplots_adjust(top=0.905,
                     hspace=0.2,
                     wspace=0.2)
 
-plt.legend(fontsize=14, bbox_to_anchor=(1.05, .25))
+plt.legend(title_fontsize=20,
+           fontsize=16,
+           ncol=2,
+           title='Cladding Thickness',
+           # bbox_to_anchor=(1.0, 1.0)
+           )
+
 # Show figure (needed for running from command line)
 plt.show()
 

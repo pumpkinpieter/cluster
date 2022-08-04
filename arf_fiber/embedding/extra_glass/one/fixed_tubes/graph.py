@@ -16,8 +16,13 @@ plt.close('all')
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
 extra_glass/')
 path = os.path.relpath(main + 'one/fixed_tubes/outputs')
+p3path = os.path.relpath(main + 'one/fixed_tubes/p3_outputs')
+p4path = os.path.relpath(main + 'one/fixed_tubes/p4_outputs')
 
 raw = np.load(path + '/all_e.npy').imag
+rawp3 = np.load(p3path + '/all_e.npy').imag
+rawp4 = np.load(p4path + '/all_e.npy').imag
+
 es = np.linspace(0.002, .9999, 240)
 
 base = np.zeros_like(es)
@@ -25,25 +30,44 @@ base = np.zeros_like(es)
 for j in range(len(es)):
 
     b = raw[j, :]
-    c = np.where((b > 1e-4) * (b < 10), 1, 0)
+    c = np.where((b > 1e-4) * (b < 2), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
-
 CL = 20 * base / np.log(10)
+base = np.zeros_like(es)
 
+for j in range(len(es)):
+
+    b = rawp4[j, :]
+    c = np.where((b > 1e-4) * (b < 2), 1, 0)
+    base[j] = np.mean(b, where=list(c))
+
+CLp4 = 20 * base / np.log(10)
+
+base = np.zeros_like(es)
+
+for j in range(len(es)):
+
+    b = rawp3[j, :]
+    c = np.where((b > 1e-4) * (b < 2), 1, 0)
+    base[j] = np.mean(b, where=list(c))
+
+CLp3 = 20 * base / np.log(10)
 CL0 = np.load(main + '../data/air_fixedcap.npy')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
 # Plot the data
-ax1.plot(es, CL0, '--', color='orange',
-         label='cladding=10',
-         linewidth=1.5)
-
-ax1.plot(es, CL, '-', color='blue',
-         label='cladding=11',
-         linewidth=2.5, markersize=3.4)
+ax1.plot(es, CLp3, '-', color='orange',
+         label='p=3',
+         linewidth=2)
+ax1.plot(es, CLp4, '-', color='green',
+         label='p=4',
+         linewidth=2)
+ax1.plot(es, CL, '--', color='blue',
+         label='p=5',
+         linewidth=2, markersize=3.4)
 
 # Set Figure and Axes parameters ################################
 

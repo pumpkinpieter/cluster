@@ -67,8 +67,8 @@ axes[1, 1].set_title('Cladding width 25:\n',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Loss Profiles for Varying Cladding Widths ",
-             fontsize=40)
+fig.suptitle("Embedding Loss Profiles for Varying Cladding Widths\n\
+(PML in air)", fontsize=40)
 
 # # Set up ticks and grids
 
