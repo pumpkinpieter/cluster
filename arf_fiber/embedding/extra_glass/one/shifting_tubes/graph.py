@@ -14,26 +14,38 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'shifting_tubes/outputs')
+path = os.path.relpath(main + 'extra_glass/one/shifting_tubes/outputs')
+old = os.path.relpath(main + 'air/shifting_tubes/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
+raw2 = np.load(old + '/all_e.npy').imag
+
 es = np.linspace(0.002, .9999, 240)
 
 base = np.zeros_like(es)
+base2 = np.zeros_like(es)
 
 for j in range(len(es)):
     b = raw[j, :]
-    c = np.where((b != 0) * (np.abs(b) < 1.3) * (b > 0), 1, 0)
+    b2 = raw2[j, :]
+    c = np.where((b != 0) * (np.abs(b) < 1) * (b > 1e-4), 1, 0)
     base[j] = np.mean(b, where=list(c))
+    c2 = np.where((b2 != 0) * (np.abs(b2) < 2) * (b2 > 1e-4), 1, 0)
+    base2[j] = np.mean(b2, where=list(c2))
 
 CL = 20 * base / np.log(10)
+CLold = 20 * base2 / np.log(10)
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
 # Plot the data
-ax1.plot(es, CL, '^-', color='blue',
-         label='shifting_capillaries',
+ax1.plot(es, CLold, '^-', color='blue',
+         label='t=10',
+         linewidth=2.5, markersize=5)
+
+ax1.plot(es, CL, '^-', color='orange',
+         label='t=11',
          linewidth=2.5, markersize=5)
 
 # Set Figure and Axes parameters ################################
@@ -71,6 +83,7 @@ plt.subplots_adjust(top=0.905,
                     right=0.95,
                     hspace=0.2,
                     wspace=0.2)
+plt.legend(fontsize=20)
 
 # Show figure (needed for running from command line)
 plt.show()

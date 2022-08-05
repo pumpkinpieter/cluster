@@ -22,7 +22,6 @@ t=$SLURM_ARRAY_TASK_ID
 for i in {0..239}
     do
         srun --exclusive --nodes 1 --ntasks 1 \
-            python3 clad_emb.py 0 4 ${i} $t &
-
+            python3 clad_emb.py 0 3 ${i} $t &
 done
 wait

@@ -16,19 +16,13 @@ if not os.path.isdir('modes'):
 
 # Set outer materials
 scaling = 15
-n_glass = 1.4388164768221814
 n_air = 1.00027717
 
-T_extra = 5 / scaling
 T_buffer = 10 / scaling
 T_outer = 10 / scaling
 n0 = n_air  # Sets buffer and outer region refractive index.
 
 outer_materials = [
-    # {'material': 'extra_glass',
-    #  'n': n_glass,
-    #  'T': T_extra,
-    #  'maxh': .05},
 
     {'material': 'buffer',
      'n': n0,
@@ -53,7 +47,6 @@ m, b = -0.28106463,  5.0825956
 
 # Seach centers
 centers = b + m * E
-centers[50]
 
 # PML strength
 alpha = 5
