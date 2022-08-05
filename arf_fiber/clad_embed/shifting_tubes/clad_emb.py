@@ -14,26 +14,6 @@ if not os.path.isdir('modes'):
     print('Making directory: modes')
     os.makedirs('modes')
 
-# Set outer materials
-scaling = 15
-n_air = 1.00027717
-
-T_buffer = 10 / scaling
-T_outer = 10 / scaling
-n0 = n_air  # Sets buffer and outer region refractive index.
-
-outer_materials = [
-
-    {'material': 'buffer',
-     'n': n0,
-     'T': T_buffer,
-     'maxh': .4},
-
-    {'material': 'Outer',
-     'n': n0,
-     'T': T_outer,
-     'maxh': 1}
-]
 
 # Set result arrays
 nspan = 4
@@ -41,6 +21,7 @@ betas = np.zeros(nspan, dtype=complex)
 
 # Embedding parameter array
 E = np.linspace(0.002, .9999, 240)
+T = np.linspace(10, 11, 11)
 
 # Linear fit for finding search centers
 m, b = -0.28106463,  5.0825956
@@ -48,24 +29,21 @@ m, b = -0.28106463,  5.0825956
 # Seach centers
 centers = b + m * E
 
-# PML strength
-alpha = 5
-
 if __name__ == '__main__':
 
-    ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+    ref, p = int(sys.argv[1]), int(sys.argv[2])
+    i, t = int(sys.argv[3]), int(sys.argv[4])
 
-    if len(sys.argv) > 4:
+    if len(sys.argv) > 5:
         L, R = float(sys.argv[4]), float(sys.argv[5])
         save_index = np.where((L < E) * (E < R))[0]
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
              curve=max(p+1, 8), shift_capillaries=True, e=E[i],
-             outer_materials=outer_materials,
-             T_cladding=11)
+             T_cladding=T[t])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
-          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
+          ', degree: ' + str(p) + ', T: ' + str(T[t]) + '#'*8 + '\n',
           flush=True)
 
     center = centers[i]
@@ -88,8 +66,8 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
 
-    np.save('outputs/e' + str(i), betas)
+    np.save('outputs/e' + str(i) + '_T' + str(t), betas)
 
-    if len(sys.argv) > 4 and i in save_index:
-        a.save_mesh('modes/mesh_e' + str(i))
-        a.save_modes(Es, 'modes/mode_e' + str(i))
+    if len(sys.argv) > 5 and i in save_index:
+        a.save_mesh('modes/mesh_e' + str(i) + '_T' + str(t))
+        a.save_modes(Es, 'modes/mode_e' + str(i) + '_T' + str(t))

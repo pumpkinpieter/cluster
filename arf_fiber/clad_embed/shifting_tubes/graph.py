@@ -13,46 +13,40 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
-path = os.path.relpath(main + 'extra_glass/one/shifting_tubes/outputs')
-old = os.path.relpath(main + 'air/shifting_tubes/outputs')
-
-raw = np.load(path + '/all_e.npy').imag
-raw2 = np.load(old + '/all_e.npy').imag
-
-es = np.linspace(0.002, .9999, 240)
-
-base = np.zeros_like(es)
-base2 = np.zeros_like(es)
-
-for j in range(len(es)):
-    b = raw[j, :]
-    b2 = raw2[j, :]
-    c = np.where((b != 0) * (np.abs(b) < 1) * (b > 1e-4), 1, 0)
-    base[j] = np.mean(b, where=list(c))
-    c2 = np.where((b2 != 0) * (np.abs(b2) < 2) * (b2 > 1e-4), 1, 0)
-    base2[j] = np.mean(b2, where=list(c2))
-
-CL = 20 * base / np.log(10)
-CLold = 20 * base2 / np.log(10)
+main = os.path.expanduser('~/local/convergence/arf_fiber/clad_embed/')
+path = os.path.relpath(main + 'outputs')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
-# Plot the data
-ax1.plot(es, CLold, '^-', color='blue',
-         label='t=10',
-         linewidth=2.5, markersize=5)
+es = np.linspace(0.002, .9999, 240)
+T = np.linspace(10, 10.01, 11)
 
-ax1.plot(es, CL, '^-', color='orange',
-         label='t=11',
-         linewidth=2.5, markersize=5)
+d = 3  # up to 11
+z = plt.get_cmap('plasma')(np.linspace(0.2, .9, d))
+
+for i in range(0, d):
+
+    raw = np.load(path + '/T_'+str(i)+'all_e.npy').imag
+    base = np.zeros_like(es)
+
+    for j in range(len(es)):
+
+        b = raw[j, :]
+        c = np.where((b > 1e-4) * (b < 1.5), 1, 0)
+        base[j] = np.mean(b, where=list(c))
+
+    CL = 20 * base / np.log(10)
+
+    ax1.plot(es, CL, '-',
+             label='%0.3f' % T[i],
+             linewidth=2.5, c=z[i])
 
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Embedding Sensitivity: Shifting Capillaries, \
-fixed Cladding Position",  fontsize=40)
+fig.suptitle("Embedding Sensitivity Profile\
+ Changes \nDue to Cladding Thickness\n.",  fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
@@ -83,23 +77,35 @@ plt.subplots_adjust(top=0.905,
                     right=0.95,
                     hspace=0.2,
                     wspace=0.2)
-plt.legend(fontsize=20)
+
+plt.legend(title_fontsize=20,
+           fontsize=16,
+           ncol=2,
+           title='Cladding Thickness',
+           # bbox_to_anchor=(1.0, 1.0)
+           )
 
 # Show figure (needed for running from command line)
 plt.show()
 
-# %%
+# # %%
 
-# Save cleaned data to numpy arrays for comparison plot
+# # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'shifting_cap_clean_CL'), CL)
+# np.save(os.path.relpath(main + 'data/extra_glass_fixedcap.npy'), CL)
 
-# %%
 
-# Save to .dat file for pgfplots
+# # %%
+
+# # Save to .dat file for pgfplots
 
 # paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
 # figures'))
 
-# both = np.column_stack((es, CL))
-# np.savetxt(paper_path + '/shifting_capillaries.dat', both, fmt='%.8f')
+# mask = ~np.isnan(CL)
+# mask[14] = False
+
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+# both = np.column_stack((es[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+# np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
