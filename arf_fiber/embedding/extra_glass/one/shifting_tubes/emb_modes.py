@@ -33,7 +33,7 @@ outer_materials = [
     {'material': 'buffer',
      'n': n0,
      'T': T_buffer,
-     'maxh': .1},
+     'maxh': .4},
 
     {'material': 'Outer',
      'n': n0,
@@ -47,6 +47,13 @@ betas = np.zeros(nspan, dtype=complex)
 
 # Embedding parameter array
 E = np.linspace(0.002, .9999, 240)
+
+# Linear fit for finding search centers
+m, b = -0.28106463,  5.0825956
+
+# Seach centers
+centers = b + m * E
+centers[50]
 
 # PML strength
 alpha = 5
@@ -68,8 +75,8 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
           flush=True)
 
-    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + 5.066
-    radius = .007
+    center = centers[i]
+    radius = .01
     npts = 4
     alpha = 5
 

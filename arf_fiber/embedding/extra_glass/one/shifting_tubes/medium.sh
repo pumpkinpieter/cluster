@@ -1,13 +1,13 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 25
+#SBATCH -n 25
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
 #SBATCH --mem 0
 #SBATCH --output=logs/log.out
-#SBATCH --error=errors/log.out
+#SBATCH --error=errors/log.err
 
 # Load needed modules.
 module load ngsolve/serial
@@ -22,6 +22,6 @@ for i in {0..239}
         srun --exclusive --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task%s.out" \
             --error="errors/e_${i}_task%s.err" \
-            python3 emb_modes.py 0 5 ${i} &
+            python3 emb_modes.py 0 3 ${i} &
 done
 wait
