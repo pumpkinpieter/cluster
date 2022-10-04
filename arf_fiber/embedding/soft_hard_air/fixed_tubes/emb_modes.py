@@ -19,23 +19,37 @@ scaling = 15
 n_glass = 1.4388164768221814
 n_air = 1.00027717
 
+n_soft_polymer = 1.37
 n_hard_polymer = 1.56
-T_hard_polymer = 10 / scaling
 
-T_outer = 20 / scaling
-n0 = n_hard_polymer  # Sets buffer and outer region refractive index.
+T_soft_polymer = 10 / scaling
+T_hard_polymer = 10 / scaling
+T_air = 10 / scaling
+
+T_outer = 10 / scaling
+n0 = n_air  # Sets buffer and outer region refractive index.
 
 outer_materials = [
+
+    {'material': 'soft_polymer',
+     'n': n_soft_polymer,
+     'T': T_soft_polymer,
+     'maxh': .04},
 
     {'material': 'hard_polymer',
      'n': n_hard_polymer,
      'T': T_hard_polymer,
      'maxh': .04},
 
+    {'material': 'buffer',
+     'n': n_air,
+     'T': T_air,
+     'maxh': .2},
+
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': .1}
+     'maxh': .2}
 ]
 
 # Set result arrays
