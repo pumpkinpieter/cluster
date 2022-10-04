@@ -19,10 +19,10 @@ scaling = 15
 n_glass = 1.4388164768221814
 n_air = 1.00027717
 
-n_soft_polyer = 1.37
+n_soft_polymer = 1.37
 n_hard_polymer = 1.56
 
-T_soft_polyer = 10 / scaling
+T_soft_polymer = 10 / scaling
 T_hard_polymer = 10 / scaling
 
 T_outer = 10 / scaling
