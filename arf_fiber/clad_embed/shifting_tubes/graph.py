@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/clad_embed/')
-path = os.path.relpath(main + 'outputs')
+path = os.path.relpath(main + 'shifting_tubes/outputs')
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
@@ -22,25 +22,27 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 es = np.linspace(0.002, .9999, 240)
 T = np.linspace(10, 10.01, 11)
 
-d = 3  # up to 11
-z = plt.get_cmap('plasma')(np.linspace(0.2, .9, d))
+d = 4  # up to 11
+z = plt.get_cmap('plasma')(np.linspace(0.2, .9, d+1))
 
 for i in range(0, d):
+    if i == 1:
+        pass
+    else:
+        raw = np.load(path + '/T_'+str(i)+'all_e.npy').imag
+        base = np.zeros_like(es)
 
-    raw = np.load(path + '/T_'+str(i)+'all_e.npy').imag
-    base = np.zeros_like(es)
+        for j in range(len(es)):
 
-    for j in range(len(es)):
+            b = raw[j, :]
+            c = np.where((b > 1e-3) * (b < 3), 1, 0)
+            base[j] = np.mean(b, where=list(c))
 
-        b = raw[j, :]
-        c = np.where((b > 1e-4) * (b < 1.5), 1, 0)
-        base[j] = np.mean(b, where=list(c))
+        CL = 20 * base / np.log(10)
 
-    CL = 20 * base / np.log(10)
-
-    ax1.plot(es, CL, '-',
-             label='%0.3f' % T[i],
-             linewidth=2.5, c=z[i])
+        ax1.plot(es, CL, '-',
+                 label='%0.3f' % T[i],
+                 linewidth=2.5, c=z[i])
 
 # Set Figure and Axes parameters ################################
 
