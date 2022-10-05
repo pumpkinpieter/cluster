@@ -79,7 +79,7 @@ if __name__ == '__main__':
           flush=True)
 
     center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + 5.066
-    radius = .1
+    radius = .01
     npts = 4
     alpha = 5
 
