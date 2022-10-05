@@ -14,39 +14,19 @@ if not os.path.isdir('modes'):
     print('Making directory: modes')
     os.makedirs('modes')
 
-# Set outer materials
-scaling = 15
-n_glass = 1.4388164768221814
-n_air = 1.00027717
-
-n_soft_polymer = 1.37
-T_soft_polymer = 10 / scaling
-
-T_outer = 10 / scaling
-n0 = n_soft_polymer  # Sets buffer and outer region refractive index.
-
-outer_materials = [
-
-    {'material': 'soft_polymer',
-     'n': n_soft_polymer,
-     'T': T_soft_polymer,
-     'maxh': .04},
-
-    {'material': 'Outer',
-     'n': n0,
-     'T': T_outer,
-     'maxh': .2}
-]
-
 # Set result arrays
 nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
 # Embedding parameter array
-E = np.linspace(0.002, .9999, 240)
+wls = np.linspace(0.5, 2, 200) * 1e-6
 
 # PML strength
 alpha = 5
+
+center = 5.066
+radius = .2
+npts = 4
 
 if __name__ == '__main__':
 
@@ -54,20 +34,14 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 4:
         L, R = float(sys.argv[4]), float(sys.argv[5])
-        save_index = np.where((L < E) * (E < R))[0]
+        save_index = np.where((L < wls) * (wls < R))[0]
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 8), shift_capillaries=False, e=E[i],
-             outer_materials=outer_materials)
+             curve=max(p+1, 8), shift_capillaries=False, wl=wls[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
-          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
-          flush=True)
-
-    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + 5.066
-    radius = .1
-    npts = 4
-    alpha = 5
+          ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
+          '#'*8 + '\n', flush=True)
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
                                         rad=radius,

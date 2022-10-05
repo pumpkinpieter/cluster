@@ -22,7 +22,7 @@ n_air = 1.00027717
 n_soft_polymer = 1.37
 n_hard_polymer = 1.56
 
-T_soft_polymer = 10 / scaling
+T_soft_polymer = 30 / scaling
 T_hard_polymer = 10 / scaling
 
 T_outer = 10 / scaling
