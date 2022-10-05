@@ -24,8 +24,8 @@ wls = np.linspace(0.5, 2, 200) * 1e-6
 # PML strength
 alpha = 5
 
-center = 5.066
-radius = .2
+center = 4.7
+radius = .1
 npts = 4
 
 if __name__ == '__main__':
@@ -49,6 +49,8 @@ if __name__ == '__main__':
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
+                                        quadrule='ellipse_trapez_shift',
+                                        rhoinv=.95,
                                         niterations=12,
                                         nrestarts=0,
                                         stop_tol=1e-9,
