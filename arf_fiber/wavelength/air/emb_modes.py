@@ -59,8 +59,6 @@ if __name__ == '__main__':
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
-                                        quadrule='ellipse_trapez_shift',
-                                        rhoinv=.95,
                                         niterations=12,
                                         nrestarts=0,
                                         stop_tol=1e-9,
