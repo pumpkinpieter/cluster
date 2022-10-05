@@ -14,6 +14,10 @@ if not os.path.isdir('modes'):
     print('Making directory: modes')
     os.makedirs('modes')
 
+# Set result arrays
+nspan = 4
+betas = np.zeros(nspan, dtype=complex)
+
 # Set outer materials
 scaling = 15
 n_glass = 1.4388164768221814
@@ -30,12 +34,18 @@ outer_materials = [
      'maxh': .1}
 ]
 
-# Set result arrays
-nspan = 4
-betas = np.zeros(nspan, dtype=complex)
+# Center interpolation
+wls = np.linspace(.5, 2, 200) * 1e-6
+xs = np.array([wls[65], wls[75], wls[100], wls[125],
+              wls[150], wls[175], wls[199]])
+ys = np.array([4.7, 4.786, 4.9, 4.967, 5.018, 5.071, 5.12])
+a, b, c, d = np.polyfit(xs, ys, 3)
 
-# Embedding parameter array
-E = np.linspace(0.002, .9999, 240)
+# Wavelength array
+wls = np.linspace(1, 2, 200) * 1e-6
+
+# Search centers (need to shift later for material change)
+centers = a * wls**3 + b * wls**2 + c * wls + d
 
 # PML strength
 alpha = 5
@@ -46,20 +56,20 @@ if __name__ == '__main__':
 
     if len(sys.argv) > 4:
         L, R = float(sys.argv[4]), float(sys.argv[5])
-        save_index = np.where((L < E) * (E < R))[0]
+        save_index = np.where((L < wls) * (wls < R))[0]
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 8), shift_capillaries=False, e=E[i],
+             curve=max(p+1, 8), shift_capillaries=False, wl=wls[i],
              outer_materials=outer_materials)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
-          ', degree: ' + str(p) + ', e: ' + str(E[i]) + '#'*8 + '\n',
-          flush=True)
+          ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
+          '#'*8 + '\n', flush=True)
 
-    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + 5.066
-    radius = .1
+    # Shift search center due to material change
+    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + centers[i]
+    radius = .05
     npts = 4
-    alpha = 5
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
                                         rad=radius,
@@ -70,7 +80,7 @@ if __name__ == '__main__':
                                         niterations=12,
                                         nrestarts=0,
                                         stop_tol=1e-9,
-                                        inverse='pardiso')
+                                        inverse='umfpack')
 
     betas[: len(beta)] = beta[:]
 
