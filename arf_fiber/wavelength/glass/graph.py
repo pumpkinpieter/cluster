@@ -14,17 +14,18 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'air/outputs')
+path = os.path.relpath(main + 'glass/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
-wls = np.linspace(1, 2, 200) * 1e-6
 
+wls = np.linspace(1, 2, 200) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
     b = raw[j, :]
-    c = np.where((b > 0), 1, 0)
+
+    c = np.where((b != 0), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 
@@ -40,7 +41,7 @@ ax1.plot(wls, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=16)
+fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=16)
 
 # Set axis labels
 ax1.set_xlabel("\nWavelength", fontsize=11)
