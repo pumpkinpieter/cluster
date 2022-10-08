@@ -13,7 +13,7 @@ if not os.path.isdir(outputs):
     os.makedirs(outputs)
 
 # Center, radius and span
-center = 5.24       # center of circle to search for Z-resonance values
+center = 5.16       # center of circle to search for Z-resonance values
 radius = .1      # search radius
 nspan = 4
 npts = 4
@@ -29,7 +29,8 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(name='kolyadin', refine=ref, curve=max(p+1, 8), poly_core=True)
+    a = ARF2(name='kolyadin', refine=ref, curve=max(p+1, 8), poly_core=True,
+             wl=3.25e-6)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
