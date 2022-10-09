@@ -18,6 +18,21 @@ if not os.path.isdir('modes'):
 nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
+# Set outer materials
+scaling = 59.5
+n_glass = 1.4388164768221814
+n_air = 1.00027717
+T_outer = 1.2 * 25.5 / scaling
+n0 = (n_glass + n_air) / 2
+
+outer_materials = [
+
+    {'material': 'Outer',
+     'n': n0,
+     'T': T_outer,
+     'maxh': .1}
+]
+
 # Embedding parameter array
 wls = np.linspace(3.11, 3.6, 300) * 1e-6
 
@@ -29,7 +44,6 @@ data = [5.0538, 5.022, 4.996, 4.925, 4.795, 4.45, 5.079, 5.14, 5.16, 5.177,
 
 degree = 7
 coeffs = np.polyfit(wls[inds], data, degree)
-wls = np.linspace(3.11, 3.6, 600) * 1e-6
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])
 
 # PML strength
@@ -44,14 +58,15 @@ if __name__ == '__main__':
         save_index = np.where((L < wls) * (wls < R))[0]
 
     a = ARF2(name='kolyadin', poly_core=True, refine=ref,
-             curve=max(p+1, 8), wl=wls[i])
+             curve=max(p+1, 8), wl=wls[i],
+             outer_materials=outer_materials)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
           '#'*8 + '\n', flush=True)
 
-    center = centers[i]
-    radius = 0.05
+    center = a.L**2 * a.k**2 * (n0**2 - n_air**2) + centers[i]
+    radius = 0.5
     npts = 4
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,

@@ -15,8 +15,8 @@ if not os.path.isdir('modes'):
     os.makedirs('modes')
 
 # Center, radius and span
-center = 5.16       # center of circle to search for Z-resonance values
-radius = .1      # search radius
+center = 5.06       # center of circle to search for Z-resonance values
+radius = .05      # search radius
 nspan = 4
 npts = 4
 
