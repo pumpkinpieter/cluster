@@ -13,43 +13,43 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'air/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+path = os.path.relpath(main + 'wavelength/air/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
-wls = np.linspace(1, 2, 200) * 1e-6
+wls = np.linspace(3.11, 3.6, 600) * 1e-6
 
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
     b = raw[j, :]
-    c = np.where((b > 0) * (b < 1), 1, 0)
+    c = np.where((b > 0) * (b < .5), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls, CL, '^-', color='blue',
+ax1.plot(wls[60:], CL[60:], '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=1.5, markersize=1.4)
+         linewidth=1.5, markersize=2.4)
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=16)
+fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=11)
-ax1.set_ylabel("CL", fontsize=11)
+ax1.set_xlabel("\nWavelength", fontsize=18)
+ax1.set_ylabel("CL", fontsize=18)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=8)
-plt.rc('ytick', labelsize=8)
+plt.rc('xtick', labelsize=14)
+plt.rc('ytick', labelsize=14)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))

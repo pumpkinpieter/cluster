@@ -13,12 +13,12 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'glass/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+path = os.path.relpath(main + 'wavelength/glass/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 
-wls = np.linspace(1, 2, 200) * 1e-6
+wls = np.linspace(3.11, 3.6, 300) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
@@ -32,25 +32,26 @@ for j in range(len(wls)):
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(20, 12))
 
 # Plot the data
 ax1.plot(wls, CL, '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=1.5, markersize=1.4)
+         linewidth=2, markersize=2)
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=16)
+fig.suptitle("Wavelength Study Kolyadin: glass cladding to infinity",
+             fontsize=25)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=11)
-ax1.set_ylabel("CL", fontsize=11)
+ax1.set_xlabel("\nWavelength", fontsize=17)
+ax1.set_ylabel("CL", fontsize=17)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=8)
-plt.rc('ytick', labelsize=8)
+plt.rc('xtick', labelsize=12)
+plt.rc('ytick', labelsize=12)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
