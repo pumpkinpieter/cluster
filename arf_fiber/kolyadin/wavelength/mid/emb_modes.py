@@ -23,9 +23,15 @@ scaling = 59.5
 n_glass = 1.4388164768221814
 n_air = 1.00027717
 T_outer = 1.2 * 25.5 / scaling
-n0 = (n_glass + n_air) / 2
+n_mid = (n_glass + n_air) / 2
+n0 = n_mid
 
 outer_materials = [
+
+    {'material': 'buffer',
+     'n': n_mid,
+     'T': T_outer,
+     'maxh': .05},
 
     {'material': 'Outer',
      'n': n0,
