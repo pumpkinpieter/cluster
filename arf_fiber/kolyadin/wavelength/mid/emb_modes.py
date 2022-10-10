@@ -30,24 +30,23 @@ outer_materials = [
 
     {'material': 'buffer',
      'n': n_mid,
-     'T': T_outer,
+     'T': .75 * T_outer,
      'maxh': .05},
 
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': .1}
+     'maxh': .2}
 ]
 
 # Embedding parameter array
 wls = np.linspace(3.11, 3.6, 300) * 1e-6
 
 # Search centers
-inds = [85,    70,    60,    40,    20,    0,   100,  150,  175,   190,
-        230,   250,   275,   299]
-data = [5.0538, 5.022, 4.996, 4.925, 4.795, 4.45, 5.079, 5.14, 5.16, 5.177,
-        5.21, 5.226, 5.247, 5.267]
-
+inds = [    85,   70,    60,    40,    20,    0,  100,  150,   175,   190,
+        230,   250,  275,   299]
+data = [5.148, 5.131, 5.118, 5.088, 5.05, 4.997, 5.16, 5.21, 5.236, 5.250,
+        5.29, 5.317, 5.35, 5.400]
 degree = 7
 coeffs = np.polyfit(wls[inds], data, degree)
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])

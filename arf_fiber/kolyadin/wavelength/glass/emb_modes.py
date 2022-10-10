@@ -5,6 +5,7 @@ import numpy as np
 import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
+from fiberamp.fiber import sellmeier
 
 if not os.path.isdir('outputs'):
     print('Making directory: outputs')
@@ -18,30 +19,14 @@ if not os.path.isdir('modes'):
 nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
-# Set outer materials
-scaling = 59.5
-n_glass = 1.4388164768221814
-n_air = 1.00027717
-T_outer = 1.2 * 25.5 / scaling
-n0 = n_glass  # Sets buffer and outer region refractive index.
-
-outer_materials = [
-
-    {'material': 'Outer',
-     'n': n0,
-     'T': T_outer,
-     'maxh': .1}
-]
-
 # Embedding parameter array
 wls = np.linspace(3.11, 3.6, 300) * 1e-6
 
 # Search centers
-inds = [85,    70,    60,    40,    20,    0,   100,  150,  175,   190,
-        230,   250,   275,   299]
-data = [5.0538, 5.022, 4.996, 4.925, 4.795, 4.45, 5.079, 5.14, 5.16, 5.177,
-        5.21, 5.226, 5.247, 5.267]
-
+inds = [85,   70,    60,    40,    20,    0,  100,  150,   175,   190,
+        230,   250,  275,   299]
+data = [5.148, 5.131, 5.118, 5.088, 5.05, 4.997, 5.16, 5.21, 5.236, 5.250,
+        5.29, 5.317, 5.35, 5.400]
 degree = 7
 coeffs = np.polyfit(wls[inds], data, degree)
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])
@@ -56,6 +41,21 @@ if __name__ == '__main__':
     if len(sys.argv) > 4:
         L, R = float(sys.argv[4]), float(sys.argv[5])
         save_index = np.where((L < wls) * (wls < R))[0]
+
+    # Set outer materials
+    scaling = 59.5
+    n_glass = sellmeier.index(wls[i], material='FusedSilica')
+    n_air = 1.00027717
+    T_outer = 1.2 * 25.5 / scaling
+    n0 = n_glass  # Sets buffer and outer region refractive index.
+
+    outer_materials = [
+
+        {'material': 'Outer',
+         'n': n0,
+         'T': T_outer,
+         'maxh': .1}
+    ]
 
     a = ARF2(name='kolyadin', poly_core=True, refine=ref,
              curve=max(p+1, 8), wl=wls[i],

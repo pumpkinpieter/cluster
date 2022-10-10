@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
-#SBATCH -N 50
-#SBATCH -n 50
+#SBATCH -N 14
+#SBATCH -n 14
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -19,7 +19,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..299}
+for i in {0..149}
     do
         module load ngsolve/serial gcc-9.2.0 intel
         srun --exclusive --nodes 1 --ntasks 1 \
