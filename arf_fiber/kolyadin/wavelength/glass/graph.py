@@ -11,7 +11,7 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
-plt.close('all')
+# plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
 path = os.path.relpath(main + 'wavelength/glass/outputs')
@@ -25,7 +25,7 @@ for j in range(len(wls)):
 
     b = raw[j, :]
 
-    c = np.where((b != 0), 1, 0)
+    c = np.where((b > 0) * (b < .9), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 
