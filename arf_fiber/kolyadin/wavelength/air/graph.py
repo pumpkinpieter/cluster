@@ -17,7 +17,7 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
 path = os.path.relpath(main + 'wavelength/air/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
-wls = np.linspace(3.11, 3.6, 600) * 1e-6
+wls = np.linspace(3.11, 3.6, 800) * 1e-6
 
 base = np.zeros_like(wls)
 

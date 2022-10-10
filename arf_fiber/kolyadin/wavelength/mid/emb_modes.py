@@ -30,13 +30,13 @@ outer_materials = [
 
     {'material': 'buffer',
      'n': n_mid,
-     'T': T_outer,
+     'T': .75 * T_outer,
      'maxh': .05},
 
     {'material': 'Outer',
      'n': n0,
      'T': T_outer,
-     'maxh': .1}
+     'maxh': .2}
 ]
 
 # Embedding parameter array

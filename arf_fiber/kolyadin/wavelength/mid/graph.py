@@ -13,26 +13,26 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'glass/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+path = os.path.relpath(main + 'wavelength/mid/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 
-wls = np.linspace(1, 2, 200) * 1e-6
+wls = np.linspace(3.11, 3.6, 300) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
     b = raw[j, :]
 
-    c = np.where((b != 0), 1, 0)
+    c = np.where((b > 0) * (b < .2), 1, 0)
     base[j] = np.mean(b, where=list(c))
 
 
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(25, 14))
 
 # Plot the data
 ax1.plot(wls, CL, '^-', color='blue',
@@ -41,16 +41,16 @@ ax1.plot(wls, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=16)
+fig.suptitle("Wavelength Study: mid range index to infinity",  fontsize=26)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=11)
-ax1.set_ylabel("CL", fontsize=11)
+ax1.set_xlabel("\nWavelength", fontsize=21)
+ax1.set_ylabel("CL", fontsize=21)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=8)
-plt.rc('ytick', labelsize=8)
+plt.rc('xtick', labelsize=18)
+plt.rc('ytick', labelsize=18)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
