@@ -1,0 +1,3 @@
+Wavelength Studies for Hollow Core bragg type fibers.  Folder naming
+conventions correspond to figure 1 in Bird, “Attenuation of Model 
+Hollow-Core, Anti-Resonant Fibres.” 2017.

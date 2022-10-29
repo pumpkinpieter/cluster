@@ -11,7 +11,7 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
-plt.close('all')
+# plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/')
 path = os.path.relpath(main + 'air/fixed_tubes/outputs')
@@ -44,7 +44,7 @@ for j in range(len(es)):
         base[j] = np.mean(b, where=list(c))
     elif j == 213:
         c = np.where((b > 0) * (b < .1), 1, 0)
-        base[j] = np.mean(b, where=list(c))
+        base[j] = .2*np.mean(b, where=list(c))
 
     # The following works for all the rest
 

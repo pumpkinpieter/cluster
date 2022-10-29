@@ -24,8 +24,11 @@ base = np.zeros_like(wls)
 for j in range(len(wls)):
 
     b = raw[j, :]
-    c = np.where((b > 0) * (b < 1), 1, 0)
-    base[j] = np.mean(b, where=list(c))
+    L = b[np.where(b > 0)]
+    try:
+        base[j] = np.min(L)
+    except ValueError:
+        base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)

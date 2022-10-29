@@ -10,7 +10,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 
-plt.close('all')
+# plt.close('all')
 
 SMALL_SIZE = 18
 MEDIUM_SIZE = 25
@@ -26,7 +26,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 plt.figure(figsize=(30, 16))
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/\
+main = os.path.expanduser('~/local/convergence/arf_fiber/embedding/air/\
 fixed_tubes/subintervals/index_212_224')
 path = os.path.relpath(main + '/outputs')
 

@@ -24,8 +24,11 @@ base = np.zeros_like(wls)
 for j in range(len(wls)):
 
     b = raw[j, :]
-    c = np.where((b > 0) * (b < .5), 1, 0)
-    base[j] = np.mean(b, where=list(c))
+    L = b[np.where(b > 0)]
+    try:
+        base[j] = np.min(L)
+    except ValueError:
+        base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
@@ -34,7 +37,7 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls[60:], CL[60:], '^-', color='blue',
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
          label='shifting_capillaries',
          linewidth=1.5, markersize=2.4)
 # Set Figure and Axes parameters ################################
