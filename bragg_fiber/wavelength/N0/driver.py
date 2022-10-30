@@ -44,7 +44,7 @@ if __name__ == '__main__':
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i],
-              mats=mats)
+              mats=mats, ref=ref)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
