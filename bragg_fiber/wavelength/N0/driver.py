@@ -19,7 +19,7 @@ nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
 # Get exact search centers
-centers = np.load('exact_scaled_betas')
+centers = np.load('exact_scaled_betas.npy')
 
 # Embedding parameter array
 wls = np.linspace(1.4, 2, 301) * 1e-6
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     n_glass = 1.4388164768221814
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*1e-6, 15*1e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air, lambda x: n_air]
-    maxhs = [.1, .01, .04, .06]
+    maxhs = [.1, .02, .04, .06]
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i])
