@@ -29,6 +29,6 @@ for i in {0..300}
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/wl_${i}_task_%s.out" \
             --error="errors/wl_${i}_task_%s.err" \
-            python3 driver.py 0 4 ${i} &
+            python3 driver.py 0 5 ${i} &
 done
 wait

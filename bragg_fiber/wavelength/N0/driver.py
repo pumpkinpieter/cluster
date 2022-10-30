@@ -37,17 +37,20 @@ if __name__ == '__main__':
 
     n_air = 1.00027717
     n_glass = 1.4388164768221814
-    ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*1e-6, 15*1e-6]
-    ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air, lambda x: n_air]
-    maxhs = [.1, .02, .04, .06]
+    ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*1e-6]
+    ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_glass]
+    mats = ['air', 'glass', 'Outer']
+    maxhs = [.1, .02, .04]
     scale = 15e-6
 
-    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i])
+    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i],
+              mats=mats)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
           '#'*8 + '\n', flush=True)
 
+    centers = a.sqrZfrom(centers/a.L).conjugate()
     center = centers[i]
     radius = 0.05
     npts = 4
@@ -67,7 +70,7 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
 
-    np.save('outputs/e' + str(i), betas)
+    np.save('outputs/wl' + str(i), betas)
 
     if len(sys.argv) > 4 and i in save_index:
         a.save_mesh('modes/mesh_e' + str(i))
