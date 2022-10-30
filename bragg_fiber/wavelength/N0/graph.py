@@ -13,22 +13,27 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-path = os.path.relpath(main + 'wavelength/air/outputs')
+main = os.path.expanduser('~/local/convergence/bragg_fiber/wavelength/')
+path = os.path.relpath(main + 'N0/outputs')
 
-raw = np.load(path + '/all_e.npy').imag
-wls = np.linspace(3.11, 3.6, 800) * 1e-6
+raw = np.load(path + '/all_wl.npy').imag
+exact = -(np.load(main + 'N0/exact_scaled_betas.npy')/15e-6).imag
+wls = np.linspace(1.4, 2, 301) * 1e-6
 
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-
-    b = raw[j, :]
-    L = b[np.where(b > 0)]
-    try:
-        base[j] = np.min(L)
-    except ValueError:
-        base[j] = np.nan
+    if j == 123:
+        b = raw[j, :]
+        L = b[np.where((b > 0.08) * (b < 8e2))]
+        base[j] = np.max(L)
+    else:
+        b = raw[j, :]
+        L = b[np.where((b > 0.08) * (b < 8e2))]
+        try:
+            base[j] = np.min(L)
+        except ValueError:
+            base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
@@ -37,14 +42,22 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
-         label='shifting_capillaries',
-         linewidth=1.5, markersize=2.4)
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='red',
+         label='computed loss',
+         linewidth=2, markersize=0)
+ax1.plot(wls, exact, '-', color='blue',
+         label='exact loss',
+         linewidth=2, markersize=0)
+# ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
+#          '^-', color='green',
+#          label='computed / exact',
+#          linewidth=1.5, markersize=2.4)
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
-
+fig.suptitle("Wavelength Study\nHollow Glass tube, glass extends to infinity",
+             fontsize=22)
+ax1.legend(fontsize=18)
 # Set axis labels
 ax1.set_xlabel("\nWavelength", fontsize=18)
 ax1.set_ylabel("CL", fontsize=18)
