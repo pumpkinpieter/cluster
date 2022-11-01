@@ -12,22 +12,11 @@ import matplotlib.pyplot as plt
 
 plt.close('all')
 
-SMALL_SIZE = 14
-MEDIUM_SIZE = 18
-BIGGER_SIZE = 22
+main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/')
+path = os.path.relpath(main + 'N1/outputs')
 
-plt.rc('font', size=MEDIUM_SIZE)         # controls default text sizes
-plt.rc('axes', titlesize=BIGGER_SIZE)    # fontsize of the axes title
-plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
-plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
-
-
-main = os.path.expanduser('~/local/convergence/arf_fiber/modes/vector_modes/\
-fine_cladding/outputs')
-path = os.path.relpath(main)
+exact = -(np.load(main + 'N1/exact_scaled_betas.npy')/15e-6).imag
+exact_CL = 20 * exact[0] / np.log(10)
 
 plt.figure(figsize=(20, 16))
 
@@ -44,44 +33,53 @@ for r in range(2):
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
-    ax.plot(dofs, CL, 'o-', label='refinements: '+str(r),
+    ax.plot(dofs[1:], CL[1:], 'o-', label='refinement: '+str(r),
             linewidth=2.5, markersize=9,  markerfacecolor='white')
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
-                        textcoords='offset points',
+            ax.annotate('p='+str(i), xy=dc, xytext=(-40, 60),
+                        color=plt.gca().lines[-1].get_color(),
+                        textcoords='offset points', fontsize=18,
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 40),
-                        textcoords='offset points',
+            ax.annotate('p=' + str(i), xy=dc, xytext=(0, -60),
+                        textcoords='offset points', fontsize=18,
+                        color=plt.gca().lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='orange')
                         )
 
 xmin, xmax = ax.get_xlim()
 
-ax.plot([xmin, xmax], [.153, .153], linestyle='dashdot', color='gray')
+ax.plot([xmin, xmax], [exact_CL, exact_CL], linestyle='--', color='gray',
+        label='exact loss')
 
 
-plt.legend()
+plt.legend(fontsize=18)
 
-plt.xlabel('ndofs')
-plt.ylabel('CL')
+plt.xlabel('ndofs', fontsize=25)
+plt.ylabel('CL', fontsize=25)
 
-plt.title('Arf Fundamental Mode Convergence\n No polymer, \
-air in outer region.\n')
+plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\n\
+Fundamental Mode Convergence\n', fontsize=35)
 
-plt.yscale('log')
+# plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([.1, .153, 1, 10], labels=['.1', 'lim CL =.153', '1', '10'])
-plt.xticks([10**5, 10**6])
+s = 'exact: {ex:.3f}'.format(ex=exact_CL)
+
+ax.set_yticks([1.2, exact_CL, 1.6, 2, 2.4, 2.8, 3.],
+              labels=['1.2', s, '1.6', '2.0', '2.4', '2.8', '3.'],
+              fontsize=18)
+
+plt.xticks([10**5, 10**6], fontsize=16)
 
 plt.grid(which='major', axis='y')
 plt.grid(which='major', axis='x')
 plt.grid(which='minor', axis='x', linestyle='--', linewidth=.5)
+plt.grid(which='minor', axis='y', linestyle='--', linewidth=.5)
 
 plt.show()
