@@ -38,15 +38,14 @@ if __name__ == '__main__':
     n_air = 1.00027717
     n_glass = 1.4388164768221814
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6,
-          15*2.7183333333333333e-6, 15*1e-6, 15*1e-6]
+          15*2.7183333333333333e-6, 15*1e-6, 15*2e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
           lambda x: n_glass, lambda x: n_glass]
     mats = ['core', 'glass', 'air', 'buffer', 'Outer']
-    maxhs = [.1, .01, .06, .01, .06]
+    maxhs = [.2, .03, .06, .02, .06]
     scale = 15e-6
 
-    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats,
-              wl=wls[i])
+    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
