@@ -42,10 +42,11 @@ if __name__ == '__main__':
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
           lambda x: n_glass, lambda x: n_glass]
     mats = ['core', 'glass', 'air', 'buffer', 'Outer']
-    maxhs = [.2, .02, .06, .015, .06]
+    maxhs = [.2, .04, .06, .02, .1]
     scale = 15e-6
 
-    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats)
+    a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats,
+              wl=wls[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
