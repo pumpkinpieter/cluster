@@ -9,7 +9,6 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
@@ -18,52 +17,60 @@ path = os.path.relpath(main + 'N1/outputs')
 
 raw = np.load(path + '/all_wl.npy').imag
 exact = -(np.load(main + 'N1/exact_scaled_betas.npy')/15e-6).imag
+exact_CL = 20 * exact / np.log(10)
 wls = np.linspace(1.4, 2, 301) * 1e-6
 
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-    # if j == 129:
-    #     base[j] = np.nan
-    # elif j == 70:
-    #     base[j] = np.nan
-    # elif j == 195:
-    #     base[j] = np.nan
-    # elif j == 123:
-    #     b = raw[j, :]
-    #     L = b[np.where((b > 0.2) * (b < 2))]
-    #     base[j] = np.min(L)
-    # else:
-    b = raw[j, :]
-    L = b[np.where((b > 0.08) * (b < 8e2))]
-    try:
-        base[j] = np.min(L)
-    except ValueError:
+    if j == 129:
         base[j] = np.nan
+    elif j == 70:
+        base[j] = np.nan
+    elif j == 195:
+        base[j] = np.nan
+    elif j == 123:
+        b = raw[j, :]
+        L = b[np.where((b > 0.2) * (b < 2))]
+        base[j] = np.min(L)
+    else:
+        b = raw[j, :]
+        L = b[np.where((b > 0.08) * (b < 8e2))]
+        try:
+            base[j] = np.min(L)
+        except ValueError:
+            base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 # Plot the data
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='red',
-         label='computed loss',
-         linewidth=2, markersize=0)
-ax1.plot(wls, exact, '-', color='blue',
+ax1.plot(wls, exact_CL, '-', color='blue',
          label='exact loss',
-         linewidth=2, markersize=0)
-# ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
-#          '^-', color='green',
-#          label='computed / exact',
-#          linewidth=1.5, markersize=2.4)
+         linewidth=3, markersize=0)
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '-o', color='red',
+         label='computed loss',
+         linewidth=0, markersize=7)
+
+# ax1.plot(wls[~np.isnan(CL)], abs(exact_CL[~np.isnan(CL)]-CL[~np.isnan(CL)]),
+#           '^-', color='green',
+#           label='residual',
+#           linewidth=1.5, markersize=2.4)
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
 fig.suptitle("Wavelength Study\nSingle glass tube surrounded by air",
              fontsize=22)
-ax1.legend(fontsize=18)
+
+fig.suptitle('Hollow Core Bragg Fiber\n$N_1$ Configuration \
+Wavelength Study\n', fontsize=25)
+
+ax1.legend(fontsize=22)
+
 # Set axis labels
 ax1.set_xlabel("\nWavelength", fontsize=18)
 ax1.set_ylabel("CL", fontsize=18)
@@ -73,10 +80,10 @@ ax1.set_ylabel("CL", fontsize=18)
 plt.rc('xtick', labelsize=14)
 plt.rc('ytick', labelsize=14)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
-ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax1.yaxis.set_major_locator(MultipleLocator(1))
-ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
+# ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
+# ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax1.yaxis.set_major_locator(MultipleLocator(1))
+# ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 

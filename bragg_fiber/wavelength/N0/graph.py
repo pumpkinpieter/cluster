@@ -18,6 +18,7 @@ path = os.path.relpath(main + 'N0/outputs')
 
 raw = np.load(path + '/all_wl.npy').imag
 exact = -(np.load(main + 'N0/exact_scaled_betas.npy')/15e-6).imag
+exact_CL = 20 * exact / np.log(10)
 wls = np.linspace(1.4, 2, 301) * 1e-6
 
 base = np.zeros_like(wls)
@@ -25,15 +26,12 @@ base = np.zeros_like(wls)
 for j in range(len(wls)):
     if j == 123:
         b = raw[j, :]
-        L = b[np.where((b > 0.08) * (b < 8e2))]
+        L = b[np.where(b > 0)]
         base[j] = np.max(L)
     else:
         b = raw[j, :]
-        L = b[np.where((b > 0.08) * (b < 8e2))]
-        try:
-            base[j] = np.min(L)
-        except ValueError:
-            base[j] = np.nan
+        L = b[np.where(b > 0)]
+        base[j] = np.min(L)
 
 
 CL = 20 * base / np.log(10)
@@ -42,10 +40,10 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='red',
+ax1.plot(wls, CL, '^-', color='red',
          label='computed loss',
          linewidth=2, markersize=0)
-ax1.plot(wls, exact, '-', color='blue',
+ax1.plot(wls, exact_CL, '-', color='blue',
          label='exact loss',
          linewidth=2, markersize=0)
 # ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
