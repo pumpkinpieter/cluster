@@ -24,7 +24,15 @@ wls = np.linspace(1.4, 2, 301) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-    if j == 123:
+    if j == 142:
+        b = raw[j, :]
+        L = b[np.where(b > 0)]
+        base[j] = np.nan
+    elif j == 123:
+        b = raw[j, :]
+        L = b[np.where(b > 0)]
+        base[j] = np.nan
+    elif j == 102:
         b = raw[j, :]
         L = b[np.where(b > 0)]
         base[j] = np.max(L)
@@ -40,12 +48,12 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls, CL, '^-', color='red',
-         label='computed loss',
-         linewidth=2, markersize=0)
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], linestyle='-',
+         color='red', label='computed loss', markerfacecolor='white',
+         linewidth=0, markersize=3, marker='o')
 ax1.plot(wls, exact_CL, '-', color='blue',
          label='exact loss',
-         linewidth=2, markersize=0)
+         linewidth=1, markersize=0)
 # ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
 #          '^-', color='green',
 #          label='computed / exact',
