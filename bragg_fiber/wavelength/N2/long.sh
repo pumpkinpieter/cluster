@@ -4,7 +4,7 @@
 #SBATCH -n 28
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
-#SBATCH --partition medium
+#SBATCH --partition long
 #SBATCH --mem 0 
 #SBATCH --output=logs/log.out
 #SBATCH --error=errors/errors.err

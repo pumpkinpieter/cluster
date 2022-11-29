@@ -42,11 +42,11 @@ if __name__ == '__main__':
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
           lambda x: n_glass, lambda x: n_glass]
     mats = ['core', 'glass', 'air', 'buffer', 'Outer']
-    maxhs = [.2, .04, .06, .02, .1]
+    maxhs = [.1, .017, .06, .012, .05]
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats,
-              wl=wls[i])
+              wl=wls[i], ref=ref)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
@@ -57,16 +57,16 @@ if __name__ == '__main__':
     radius = 0.05
     npts = 4
 
-    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
-                                        rad=radius,
-                                        alpha=alpha,
-                                        nspan=nspan,
-                                        npts=npts,
-                                        p=p,
-                                        niterations=10,
-                                        nrestarts=0,
-                                        stop_tol=1e-9,
-                                        inverse='pardiso')
+    beta, _, Es, phis, _ = a.leakyvecmodes(ctr=center,
+                                           rad=radius,
+                                           alpha=alpha,
+                                           nspan=nspan,
+                                           npts=npts,
+                                           p=p,
+                                           niterations=10,
+                                           nrestarts=0,
+                                           stop_tol=1e-9,
+                                           inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 
@@ -75,5 +75,6 @@ if __name__ == '__main__':
     np.save('outputs/e' + str(i), betas)
 
     if len(sys.argv) > 4 and i in save_index:
-        a.save_mesh('modes/mesh_e' + str(i))
-        a.save_modes(Es, 'modes/mode_e' + str(i))
+        a.save_mesh('modes/mesh_wl' + str(i))
+        a.save_modes(Es, 'modes/E_modes_wl' + str(i))
+        a.save_modes(phis, 'modes/phi_modes_wl' + str(i))
