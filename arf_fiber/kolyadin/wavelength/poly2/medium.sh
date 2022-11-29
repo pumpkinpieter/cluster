@@ -28,6 +28,6 @@ for i in {0..799}
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
-            python3 emb_modes.py 0 4 ${i} &
+            python3 emb_modes.py 0 5 ${i} &
 done
 wait
