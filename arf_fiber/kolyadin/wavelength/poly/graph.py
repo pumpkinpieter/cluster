@@ -13,25 +13,22 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/bragg_fiber/wavelength/N0/')
-path = os.path.relpath(main + 'outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+path = os.path.relpath(main + 'wavelength/air/outputs')
 
-raw = np.load(path + '/all_wl.npy').imag
-exact = -(np.load(main + 'exact_scaled_betas.npy')/15e-6).imag
-exact_CL = 20 * exact / np.log(10)
-wls = np.linspace(1.4, 2, 301) * 1e-6
+raw = np.load(path + '/all_e.npy').imag
+wls = np.linspace(3.11, 3.6, 800) * 1e-6
 
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-    if j == 123:
-        b = raw[j, :]
-        L = b[np.where(b > 0)]
-        base[j] = np.max(L)
-    else:
-        b = raw[j, :]
-        L = b[np.where(b > 0)]
+
+    b = raw[j, :]
+    L = b[np.where(b > 0)]
+    try:
         base[j] = np.min(L)
+    except ValueError:
+        base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
@@ -40,22 +37,14 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls, CL, '^-', color='red',
-         label='computed loss',
-         linewidth=2, markersize=0)
-ax1.plot(wls, exact_CL, '-', color='blue',
-         label='exact loss',
-         linewidth=2, markersize=0)
-# ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
-#          '^-', color='green',
-#          label='computed / exact',
-#          linewidth=1.5, markersize=2.4)
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
+         label='shifting_capillaries',
+         linewidth=1.5, markersize=2.4)
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study\nHollow Glass tube, glass extends to infinity",
-             fontsize=22)
-ax1.legend(fontsize=18)
+fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
+
 # Set axis labels
 ax1.set_xlabel("\nWavelength", fontsize=18)
 ax1.set_ylabel("CL", fontsize=18)
@@ -93,8 +82,8 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-# np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
-np.save(os.path.relpath(main + 'clean_betas_im'), base)
+np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+
 
 # %%
 

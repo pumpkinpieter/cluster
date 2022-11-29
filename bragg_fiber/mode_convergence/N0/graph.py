@@ -25,8 +25,8 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/modes/vector_modes/\
-fine_cladding/outputs')
+main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/\
+N0/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -49,22 +49,22 @@ for r in range(2):
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
+            ax.annotate('p='+str(i), xy=dc, xytext=(-40, 60),
                         textcoords='offset points',
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 40),
+            ax.annotate('p=' + str(i), xy=dc, xytext=(-40, -70),
                         textcoords='offset points',
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='orange')
                         )
 
 xmin, xmax = ax.get_xlim()
+exact = 54.56474020257488
 
-ax.plot([xmin, xmax], [.153, .153], linestyle='dashdot', color='gray')
-
+ax.plot([xmin, xmax], [exact, exact], linestyle='dashdot', color='gray')
 
 plt.legend()
 
@@ -77,7 +77,7 @@ air in outer region.\n')
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([.1, .153, 1, 10], labels=['.1', 'lim CL =.153', '1', '10'])
+plt.yticks([1, 10, exact, 100], labels=['1', '10', 'exact=54.5647', '100'])
 plt.xticks([10**5, 10**6])
 
 plt.grid(which='major', axis='y')
