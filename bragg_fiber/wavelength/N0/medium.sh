@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name bragg
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 30
+#SBATCH -n 30
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -29,6 +29,6 @@ for i in {0..300}
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/wl_${i}_task_%s.out" \
             --error="errors/wl_${i}_task_%s.err" \
-            python3 driver.py 0 4 ${i} &
+            python3 driver.py 0 7 ${i} &
 done
 wait
