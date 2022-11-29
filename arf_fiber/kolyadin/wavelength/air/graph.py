@@ -14,6 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+# path = os.path.relpath(main + 'wavelength/air/prior_outputs2')
 path = os.path.relpath(main + 'wavelength/air/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
@@ -82,7 +83,8 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
 
 
 # %%
