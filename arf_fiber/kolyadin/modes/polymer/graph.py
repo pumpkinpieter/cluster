@@ -26,7 +26,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/modes/\
-fundamental/outputs')
+polymer/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -34,7 +34,7 @@ plt.figure(figsize=(20, 16))
 fig = plt.gcf()
 ax = plt.gca()
 
-colors = ['blue', 'salmon']
+colors = ['blue', 'firebrick']
 for r in range(2):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
@@ -50,7 +50,7 @@ for r in range(2):
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
+            ax.annotate('p='+str(i), xy=dc, xytext=(-60, -50),
                         textcoords='offset points',
                         color=plt.gca().lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
@@ -58,7 +58,7 @@ for r in range(2):
                         color=plt.gca().lines[-1].get_color())
                         )
         elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 30),
+            ax.annotate('p=' + str(i), xy=dc, xytext=(20, 50),
                         textcoords='offset points',
                         color=plt.gca().lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
@@ -68,7 +68,7 @@ for r in range(2):
 
 xmin, xmax = ax.get_xlim()
 
-lim = 7.08052e-06
+lim = 0.00326808
 ax.plot([xmin, xmax], [lim, lim], linestyle='dashdot', color='gray')
 
 
@@ -77,16 +77,16 @@ plt.legend()
 plt.xlabel('ndofs')
 plt.ylabel('CL')
 
-plt.title('Kolyadin Fiber Fundamental Mode Convergence\n No polymer, \
-air in outer region.\n')
+plt.title('Kolyadin Fiber Fundamental Mode Convergence\n Lossy polymer, \
+with air in outer region\n n_poly = 1.5 + .1j\n')
 
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([1e-6, lim, 1e-4, 1e-2, 1], labels=['$10^{-6}$',
-                                               'lim CL = %.3e' % lim,
-                                               '$10^{-4}$',
+plt.yticks([lim, 1e-3, 1e-1, 1e-2, 1], labels=['lim CL = %.3e' % lim,
+                                               '$10^{-3}$',
                                                '$10^{-2}$',
+                                               '$10^{-1}$',
                                                '$10^{0}$'])
 plt.xticks([10**5, 10**6])
 
