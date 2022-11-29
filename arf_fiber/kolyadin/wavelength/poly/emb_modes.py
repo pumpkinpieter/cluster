@@ -31,6 +31,17 @@ coeffs = np.polyfit(wls[inds], data, degree)
 wls = np.linspace(3.11, 3.6, 800) * 1e-6
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])
 
+n_poly = 1.5 - .1j
+n_buffer = 1.00027717
+n0 = n_buffer
+
+scaling = 59.5
+T_cladding = 1.2 * 25.5 / scaling
+
+T_poly = .5 * T_cladding
+T_buffer = .5 * T_cladding
+T_outer = .75 * T_cladding
+
 # PML strength
 alpha = 5
 
@@ -42,23 +53,23 @@ if __name__ == '__main__':
         L, R = float(sys.argv[4]), float(sys.argv[5])
         save_index = np.where((L < wls) * (wls < R))[0]
 
-    outer_materials = [
+        outer_materials = [
 
-        # {'material': 'poly',
-        #  'n': n_poly,
-        #  'T': T_poly,
-        #  'maxh': .1},
+            {'material': 'poly',
+             'n': n_poly,
+             'T': T_poly,
+             'maxh': .03},
 
-        # {'material': 'buffer',
-        #  'n': n_buffer,
-        #  'T': T_buffer,
-        #  'maxh': .1},
+            {'material': 'buffer',
+             'n': n_buffer,
+             'T': T_buffer,
+             'maxh': .2},
 
-        # {'material': 'Outer',
-        #  'n': n0,
-        #  'T': T_outer,
-        #  'maxh': .1}
-    ]
+            {'material': 'Outer',
+             'n': n0,
+             'T': T_outer,
+             'maxh': .2}
+        ]
 
     a = ARF2(name='kolyadin', poly_core=True, refine=ref,
              curve=max(p+1, 8), wl=wls[i],
