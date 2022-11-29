@@ -81,7 +81,8 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/glass_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/glass_wls'), wls)
 
 
 # %%
