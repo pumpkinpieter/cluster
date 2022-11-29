@@ -18,7 +18,7 @@ radius = .1      # search radius
 nspan = 4
 npts = 4
 
-n_poly = 1.5 - .1j
+n_poly = 1.5 + .1j
 n_buffer = 1.00027717
 n0 = n_buffer
 

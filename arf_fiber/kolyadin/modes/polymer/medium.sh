@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name funarf 
-#SBATCH -N 10
-#SBATCH -n 10
+#SBATCH -N 22
+#SBATCH -n 22
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -35,13 +35,5 @@ for j in {0..9}
            --output="logs/ref1_p${j}_task%s.out"\
            --error="errors/ref1_p${j}_task%s.err"\
            python3 driver.py 1 ${j} &
-done
-
-for k in {0..4}
-    do
-        srun --unbuffered --nodes 1 --ntasks 1 \
-           --output="logs/ref2_p${k}_task%s.out"\
-           --error="errors/re2_p${k}_task%s.err"\
-           python3 driver.py 2 ${k} &
 done
 wait

@@ -19,19 +19,18 @@ nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
 # Embedding parameter array
-wls = np.linspace(3.11, 3.6, 300) * 1e-6
+wls = np.linspace(3.11, 3.6, 800) * 1e-6
 
-# Search centers
-inds = [85,   70,    60,    40,    20,    0,  100,  150,   175,   190,
-        230,   250,  275,   299]
-data = [5.148, 5.131, 5.118, 5.088, 5.05, 4.997, 5.16, 5.21, 5.236, 5.250,
-        5.29, 5.317, 5.35, 5.400]
+inds = [1,    50,   100,   150,   200,  250,   299,   400,   500,   600,
+        700,  799]
+data = [5.1525, 5.17, 5.187, 5.202, 5.217, 5.23, 5.245, 5.275, 5.314, 5.362,
+        5.422, 5.528]
+
 degree = 7
 coeffs = np.polyfit(wls[inds], data, degree)
-wls = np.linspace(3.11, 3.6, 800) * 1e-6
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])
 
-n_poly = 1.5 - .1j
+n_poly = 1.5 + .1j
 n_buffer = 1.00027717
 n0 = n_buffer
 
@@ -53,23 +52,23 @@ if __name__ == '__main__':
         L, R = float(sys.argv[4]), float(sys.argv[5])
         save_index = np.where((L < wls) * (wls < R))[0]
 
-        outer_materials = [
+    outer_materials = [
 
-            {'material': 'poly',
-             'n': n_poly,
-             'T': T_poly,
-             'maxh': .03},
+        {'material': 'poly',
+         'n': n_poly,
+         'T': T_poly,
+         'maxh': .03},
 
-            {'material': 'buffer',
-             'n': n_buffer,
-             'T': T_buffer,
-             'maxh': .2},
+        {'material': 'buffer',
+         'n': n_buffer,
+         'T': T_buffer,
+         'maxh': .2},
 
-            {'material': 'Outer',
-             'n': n0,
-             'T': T_outer,
-             'maxh': .2}
-        ]
+        {'material': 'Outer',
+         'n': n0,
+         'T': T_outer,
+         'maxh': .2}
+    ]
 
     a = ARF2(name='kolyadin', poly_core=True, refine=ref,
              curve=max(p+1, 8), wl=wls[i],

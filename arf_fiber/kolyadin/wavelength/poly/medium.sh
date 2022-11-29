@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 80
+#SBATCH -n 80
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -28,6 +28,6 @@ for i in {0..799}
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
-            python3 emb_modes.py 0 5 ${i} &
+            python3 emb_modes.py 0 6 ${i} &
 done
 wait
