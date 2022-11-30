@@ -21,28 +21,41 @@ data/')
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(36, 15))
 
 styles = [
-    {'lw': 1.5, 'msz': 2.4, 'ls': '-', 'm': '^', 'c': 'b'},
-    {'lw': 3, 'msz': 0, 'ls': '-', 'm': '^', 'c': 'g'},
-    {'lw': 3, 'msz': 0, 'ls': (0, (6, 6)), 'm': '^', 'c': 'orange'}
+    {'lw': 1.5, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'blue', 'label': 'no polymer, air outside'},
+
+    {'lw': 2, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'g', 'label': 'no polymer, glass outside'},
+
+    # {'lw': 2, 'msz': 0, 'ls': (0, (6, 6)), 'm': '^',
+    #  'c': 'orange', 'label': 'polymer with $n_{im}=.1$, air outside'},
+
+    {'lw': 2, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'firebrick', 'label': 'polymer with $n_{im}=0.01$, air outside'}
+
 ]
 
 materials = [
     'air',
     'glass',
-    'poly']
+    # 'poly',
+    'poly2'
+]
 
 # Plot the data
 for s, d in zip(materials, styles):
     wls = np.load(relpath(main + s + '_wls.npy'))
     CL = np.load(relpath(main + s + '_CL.npy'))
     ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], ls=d['ls'],
-             label=s, linewidth=d['lw'], markersize=d['msz'],
+             label=d['label'], linewidth=d['lw'], markersize=d['msz'],
              marker=d['m'], color=d['c'])
 
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: Comparison of Outer Materials",  fontsize=30)
+fig.suptitle("Kolyadin Fiber: Fundamental Mode Losses \n\
+for Lossy Polymer Coatings",
+             fontsize=30)
 
 # Set axis labels
 ax1.set_xlabel("\nWavelength", fontsize=24)
@@ -75,6 +88,6 @@ plt.subplots_adjust(top=0.905,
                     hspace=0.2,
                     wspace=0.2)
 
-ax1.legend(fontsize=24)
+ax1.legend(fontsize=20)
 # Show figure (needed for running from command line)
 plt.show()

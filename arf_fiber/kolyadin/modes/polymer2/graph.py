@@ -26,7 +26,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/modes/\
-polymer/outputs')
+polymer2/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -35,14 +35,15 @@ fig = plt.gcf()
 ax = plt.gca()
 
 colors = ['blue', 'firebrick']
+
 for r in range(2):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
-    BB = np.min(B, axis=1)
+    B = np.where((betas > 0)*(betas < 1), betas, -1e99)
+    BB = np.max(B, axis=1)
 
     CL = 20 * BB / np.log(10)
     ax.plot(dofs, CL, 'o-', label='refinements: '+str(r), color=colors[r],
@@ -68,7 +69,7 @@ for r in range(2):
 
 xmin, xmax = ax.get_xlim()
 
-lim = 0.00326808
+lim = 0.0105037
 ax.plot([xmin, xmax], [lim, lim], linestyle='dashdot', color='gray')
 
 
@@ -77,17 +78,16 @@ plt.legend()
 plt.xlabel('ndofs')
 plt.ylabel('CL')
 
-plt.title('Kolyadin Fiber Fundamental Mode Convergence\n Lossy polymer, \
-with air in outer region\n n_poly = 1.5 + .1j\n')
+plt.title('Kolyadin Fiber Fundamental Mode Convergence\n Lightly Lossy polymer\
+, with air in outer region\n n_poly = 1.5 + .01j\n')
 
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([lim, 1e-3, 1e-1, 1e-2, 1], labels=['lim CL = %.3e' % lim,
-                                               '$10^{-3}$',
-                                               '$10^{-2}$',
-                                               '$10^{-1}$',
-                                               '$10^{0}$'])
+plt.yticks([lim, 1e-3, 1e-1, 1], labels=['lim CL = %.3e' % lim,
+                                         '$10^{-3}$',
+                                         '$10^{-1}$',
+                                         '$10^{0}$'])
 plt.xticks([10**5, 10**6])
 
 plt.grid(which='major', axis='y')

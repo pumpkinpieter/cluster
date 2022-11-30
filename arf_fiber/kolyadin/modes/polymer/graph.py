@@ -41,8 +41,8 @@ for r in range(2):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
-    BB = np.min(B, axis=1)
+    B = np.where(betas != 0, betas, -1e99)
+    BB = np.max(B, axis=1)
 
     CL = 20 * BB / np.log(10)
     ax.plot(dofs, CL, 'o-', label='refinements: '+str(r), color=colors[r],
