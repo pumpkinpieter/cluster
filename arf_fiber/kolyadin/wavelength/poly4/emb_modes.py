@@ -30,7 +30,7 @@ degree = 7
 coeffs = np.polyfit(wls[inds], data, degree)
 centers = sum([coeffs[-i-1] * wls**i for i in range(0, degree + 1)])
 
-n_poly = 1.5 + .001j
+n_poly = 1.5 + .0001j
 n_buffer = 1.00027717
 n0 = n_buffer
 

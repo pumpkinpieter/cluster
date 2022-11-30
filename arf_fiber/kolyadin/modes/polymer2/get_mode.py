@@ -16,11 +16,11 @@ if not os.path.isdir('modes'):
 
 # Center, radius and span
 center = 5.16       # center of circle to search for Z-resonance values
-radius = .1      # search radius
+radius = .23      # search radius
 nspan = 4
 npts = 4
 
-n_poly = 1.5 + .1j
+n_poly = 1.5 + .01j
 n_buffer = 1.00027717
 n0 = n_buffer
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     ]
 
     a = ARF2(name='kolyadin', refine=ref, curve=max(p+1, 8), poly_core=True,
-             wl=3.25e-6, outer_materials=outer_materials)
+             wl=3.113066332916145e-06, outer_materials=outer_materials)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     beta, _, Es, phis, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
                                               alpha=alpha,
                                               nspan=nspan, npts=npts,
-                                              niterations=10, nrestarts=0,
+                                              niterations=4, nrestarts=0,
                                               stop_tol=1e-9,
                                               inverse='pardiso')
 
