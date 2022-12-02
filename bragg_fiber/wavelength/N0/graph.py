@@ -48,30 +48,32 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 
 # Plot the data
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], linestyle='-',
-         color='red', label='computed loss', markerfacecolor='white',
-         linewidth=0, markersize=3, marker='o')
+wls_cl = wls[~np.isnan(CL)]
+CL_cl = CL[~np.isnan(CL)]
+evens = [n for n in range(0, len(wls_cl), 4)]
+
 ax1.plot(wls, exact_CL, '-', color='blue',
-         label='exact loss',
-         linewidth=1, markersize=0)
-# ax1.plot(wls[~np.isnan(CL)], exact[~np.isnan(CL)]/CL[~np.isnan(CL)],
-#          '^-', color='green',
-#          label='computed / exact',
-#          linewidth=1.5, markersize=2.4)
+         label='semi-analytic',
+         linewidth=2, markersize=0)
+
+ax1.plot(wls_cl[evens], CL_cl[evens],  linestyle='-',
+         color='green', label='numerical', markerfacecolor='white',
+         linewidth=0, markersize=8, marker='o')
+
+
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study\nHollow Glass tube, glass extends to infinity",
-             fontsize=22)
-ax1.legend(fontsize=18)
+# fig.suptitle("Bragg $N_0$ Spetral Loss Profile\n", fontsize=32)
+ax1.legend(fontsize=25)
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=18)
-ax1.set_ylabel("CL", fontsize=18)
+ax1.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=14)
-plt.rc('ytick', labelsize=14)
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -87,12 +89,12 @@ ax1.set_yscale('log')
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.905,
-                    bottom=0.11,
-                    left=0.065,
-                    right=0.95,
-                    hspace=0.2,
-                    wspace=0.2)
+# plt.subplots_adjust(top=0.905,
+#                     bottom=0.11,
+#                     left=0.065,
+#                     right=0.95,
+#                     hspace=0.2,
+#                     wspace=0.2)
 
 # Show figure (needed for running from command line)
 plt.show()

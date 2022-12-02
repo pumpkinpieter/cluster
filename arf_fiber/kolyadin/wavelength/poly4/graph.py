@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-path = os.path.relpath(main + 'wavelength/air/outputs')
+path = os.path.relpath(main + 'wavelength/poly4/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 wls = np.linspace(3.11, 3.6, 800) * 1e-6
@@ -28,6 +28,8 @@ for j in range(len(wls)):
     try:
         base[j] = np.min(L)
     except ValueError:
+        base[j] = np.nan
+    if j == 140:
         base[j] = np.nan
 
 
@@ -82,7 +84,8 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/poly4_CL'), CL)
+np.save(os.path.relpath(main + 'wavelength/data/poly4_wls'), wls)
 
 
 # %%

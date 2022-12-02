@@ -9,6 +9,7 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import os
 import matplotlib.pyplot as plt
+from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
@@ -23,16 +24,10 @@ wls = np.linspace(1.4, 2, 301) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-    if j == 129:
+    if j == 195:
         base[j] = np.nan
     elif j == 70:
         base[j] = np.nan
-    elif j == 195:
-        base[j] = np.nan
-    elif j == 123:
-        b = raw[j, :]
-        L = b[np.where((b > 0.2) * (b < 2))]
-        base[j] = np.min(L)
     else:
         b = raw[j, :]
         L = b[np.where((b > 0.08) * (b < 8e2))]
@@ -44,16 +39,42 @@ for j in range(len(wls)):
 
 CL = 20 * base / np.log(10)
 
+# Formula for loss spikes from article
+
+ms = np.arange(11, 15, 1)
+n_air = 1.00027717
+n_glass = 1.4388164768221814
+
+n1 = n_air  # Inner (core) index
+n2 = n_glass  # Cladding index
+
+d = 15*2/3*1e-6
+
+# when n2 depends on ls, need solver
+ls = (2 * n1 * d / ms * ((n2/n1)**2 - 1)**.5)
+
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 # Plot the data
-ax1.plot(wls, exact_CL, '-', color='blue',
-         label='exact loss',
-         linewidth=3, markersize=0)
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '-o', color='red',
-         label='computed loss',
-         linewidth=0, markersize=7)
+wls_cl = wls[~np.isnan(CL)]
+CL_cl = CL[~np.isnan(CL)]
+evens = [n for n in range(0, len(wls_cl), 1)]
+
+ax1.plot(wls_cl[evens], CL_cl[evens],  linestyle='-',
+         color='green', label='numerical', markerfacecolor='white',
+         linewidth=0, markersize=8, marker='o')
+
+ax1.plot(wls[~np.isnan(CL)], exact_CL[~np.isnan(CL)], '-', color='blue',
+         label='semi-analytic',
+         linewidth=2, markersize=0)
+
+m, M = ax1.get_ylim()
+ax1.margins(0, 0.02)
+
+for L in ls:
+    ax1.plot([L, L], [m, 2*M],  linewidth=2.5, color='orange',
+             linestyle=(0, (2, 2)))
 
 # ax1.plot(wls[~np.isnan(CL)], abs(exact_CL[~np.isnan(CL)]-CL[~np.isnan(CL)]),
 #           '^-', color='green',
@@ -63,27 +84,27 @@ ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '-o', color='red',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study\nSingle glass tube surrounded by air",
-             fontsize=22)
+# fig.suptitle("Wavelength Study\nSingle glass tube surrounded by air",
+#              fontsize=22)
 
-fig.suptitle('Hollow Core Bragg Fiber\n$N_1$ Configuration \
-Wavelength Study\n', fontsize=25)
+# fig.suptitle('Hollow Core Bragg Fiber\n$N_1$ Configuration \
+# Wavelength Study\n', fontsize=25)
 
-ax1.legend(fontsize=22)
 
+ax1.legend(fontsize=25)
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=18)
-ax1.set_ylabel("CL", fontsize=18)
+ax1.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=14)
-plt.rc('ytick', labelsize=14)
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
 
-# ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
-# ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
-# ax1.yaxis.set_major_locator(MultipleLocator(1))
-# ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
+ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.yaxis.set_major_locator(MultipleLocator(1))
+ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 

@@ -35,25 +35,25 @@ for j in range(len(wls)):
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 # Plot the data
 ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
          label='shifting_capillaries',
-         linewidth=1.5, markersize=2.4)
+         linewidth=1.5, markersize=0)
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
+# fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=18)
-ax1.set_ylabel("CL", fontsize=18)
+ax1.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=14)
-plt.rc('ytick', labelsize=14)
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -65,17 +65,20 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 # # Set log scale on y axes
 ax1.set_yscale('log')
 
+
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.905,
-                    bottom=0.11,
-                    left=0.065,
-                    right=0.95,
+plt.subplots_adjust(top=0.979,
+                    bottom=0.111,
+                    left=0.075,
+                    right=0.985,
                     hspace=0.2,
                     wspace=0.2)
 
+ax1.set_ylim(1e-6, 1e2)
+ax1.set_xlim(3.1e-6, 3.61e-6)
 # Show figure (needed for running from command line)
 plt.show()
 

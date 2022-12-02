@@ -11,7 +11,7 @@ import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
-# plt.close('all')
+plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
 path = os.path.relpath(main + 'wavelength/glass/outputs')
@@ -27,31 +27,33 @@ for j in range(len(wls)):
 
     c = np.where((b > 0) * (b < .9), 1, 0)
     base[j] = np.mean(b, where=list(c))
+    if j == 36:
+        base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(20, 12))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 # Plot the data
-ax1.plot(wls, CL, '^-', color='blue',
+ax1.plot(wls, CL, '-o', color='blue',
          label='shifting_capillaries',
-         linewidth=2, markersize=2)
+         linewidth=3, markersize=0)
 # Set Figure and Axes parameters ################################
 
-# Set titles
-fig.suptitle("Wavelength Study Kolyadin: glass cladding to infinity",
-             fontsize=25)
+# # Set titles
+# fig.suptitle("Wavelength Study Kolyadin: glass cladding to infinity",
+#              fontsize=25)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=17)
-ax1.set_ylabel("CL", fontsize=17)
+ax1.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=12)
-plt.rc('ytick', labelsize=12)
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -63,14 +65,15 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 # # Set log scale on y axes
 ax1.set_yscale('log')
 
+
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.905,
-                    bottom=0.11,
-                    left=0.065,
-                    right=0.95,
+plt.subplots_adjust(top=0.979,
+                    bottom=0.111,
+                    left=0.075,
+                    right=0.985,
                     hspace=0.2,
                     wspace=0.2)
 

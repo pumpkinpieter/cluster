@@ -18,28 +18,36 @@ data/')
 
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(36, 15))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 styles = [
-    {'lw': 1.5, 'msz': 0, 'ls': '-', 'm': '^',
-     'c': 'blue', 'label': 'no polymer, air outside'},
+    # {'lw': .5, 'msz': 0, 'ls': '-', 'm': '^',
+    #  'c': 'grey', 'label': '$N_1$ configuration'},
 
-    {'lw': 2, 'msz': 0, 'ls': '-', 'm': '^',
-     'c': 'g', 'label': 'no polymer, glass outside'},
+    {'lw': 3, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'g', 'label': '$N_0$'},
 
-    # {'lw': 2, 'msz': 0, 'ls': (0, (6, 6)), 'm': '^',
-    #  'c': 'orange', 'label': 'polymer with $n_{im}=.1$, air outside'},
+    # {'lw': 2.5, 'msz': 0, 'ls': (0, (8, 8)), 'm': '^',
+    #  'c': 'orange', 'label': 'polymer with $n_{im}=0.1$, air outside'},
 
-    {'lw': 2, 'msz': 0, 'ls': '-', 'm': '^',
-     'c': 'firebrick', 'label': 'polymer with $n_{im}=0.01$, air outside'}
+    {'lw': 2.4, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'firebrick', 'label': '$k = 0.01$'},
+
+    {'lw': 1.2, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'darkblue', 'label': '$k = 0.001$'},
+
+    {'lw': .5, 'msz': 0, 'ls': '-', 'm': '^',
+     'c': 'grey', 'label': '$k = 0.0001$'}
 
 ]
 
 materials = [
-    'air',
+    # 'air',
     'glass',
     # 'poly',
-    'poly2'
+    'poly2',
+    'poly3',
+    'poly4'
 ]
 
 # Plot the data
@@ -53,18 +61,19 @@ for s, d in zip(materials, styles):
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Kolyadin Fiber: Fundamental Mode Losses \n\
-for Lossy Polymer Coatings",
-             fontsize=30)
+# fig.suptitle("Kolyadin Fiber: Fundamental Mode Losses \n\
+# for Lossy Polymer Coatings",
+#              fontsize=30)
+
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=24)
-ax1.set_ylabel("CL\n", fontsize=24)
+ax1.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=18)
-plt.rc('ytick', labelsize=18)
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -73,10 +82,9 @@ ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
-
 # # Set log scale on y axes
 ax1.set_yscale('log')
-ax1.set_ylim(1e-7, 1e3)
+
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
 
@@ -88,6 +96,7 @@ plt.subplots_adjust(top=0.905,
                     hspace=0.2,
                     wspace=0.2)
 
-ax1.legend(fontsize=20)
+# ax1.set_ylim(1e-7, 1e3)
+ax1.legend(fontsize=25)
 # Show figure (needed for running from command line)
 plt.show()
