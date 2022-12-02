@@ -37,6 +37,14 @@ if __name__ == '__main__':
     n_hard_polymer = 1.56 + k * 1j
     T_hard_polymer = 10 / scaling
 
+    if not os.path.isdir('outputs/k_'+str(k)):
+        print('Making directory: outputs/k_'+str(k))
+        os.makedirs('outputs/k_'+str(k))
+
+    if not os.path.isdir('modes/k_'+str(k)):
+        print('Making directory: modes/k_'+str(k))
+        os.makedirs('modes/k_'+str(k))
+
     T_outer = 10 / scaling
     T_buffer = 10 / scaling
     n0 = n_air  # Sets buffer and outer region refractive index.
@@ -76,23 +84,24 @@ if __name__ == '__main__':
     npts = 4
     alpha = 5
 
-    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
-                                        rad=radius,
-                                        alpha=alpha,
-                                        nspan=nspan,
-                                        npts=npts,
-                                        p=p,
-                                        niterations=12,
-                                        nrestarts=0,
-                                        stop_tol=1e-9,
-                                        inverse='pardiso')
+    beta, _, Es, phis, _ = a.leakyvecmodes(ctr=center,
+                                           rad=radius,
+                                           alpha=alpha,
+                                           nspan=nspan,
+                                           npts=npts,
+                                           p=p,
+                                           niterations=12,
+                                           nrestarts=0,
+                                           stop_tol=1e-9,
+                                           inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
 
-    np.save('outputs/e' + str(i), betas)
+    np.save('outputs/k_'+str(k)+'/e' + str(i), betas)
 
-    if len(sys.argv) > 4 and i in save_index:
-        a.save_mesh('modes/mesh_e' + str(i))
-        a.save_modes(Es, 'modes/mode_e' + str(i))
+    if len(sys.argv) > 5 and i in save_index:
+        a.save_mesh('modes/k_'+str(k) + '/mesh_e' + str(i))
+        a.save_modes(Es, 'modes/k_'+str(k)+'/Es_e' + str(i))
+        a.save_modes(phis, 'modes/k_'+str(k)+'/phis_e' + str(i))
