@@ -29,7 +29,7 @@ main = os.path.expanduser('~/local/convergence/arf_fiber/modes/vector_modes/\
 fine_cladding/outputs')
 path = os.path.relpath(main)
 
-plt.figure(figsize=(20, 16))
+plt.figure(figsize=(20, 15))
 
 fig = plt.gcf()
 ax = plt.gca()
@@ -46,17 +46,25 @@ for r in range(2):
     CL = 20 * BB / np.log(10)
     ax.plot(dofs, CL, 'o-', label='refinements: '+str(r),
             linewidth=2.5, markersize=9,  markerfacecolor='white')
+    if r == 0:
+        CL1 = CL
+        dof1 = dofs
+    else:
+        CL2 = CL
+        dof2 = dofs
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
             ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
                         textcoords='offset points',
+                        color=ax.lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
             ax.annotate('p=' + str(i), xy=dc, xytext=(0, 40),
                         textcoords='offset points',
+                        color=ax.lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='orange')
                         )
@@ -85,3 +93,21 @@ plt.grid(which='major', axis='x')
 plt.grid(which='minor', axis='x', linestyle='--', linewidth=.5)
 
 plt.show()
+
+# %%
+
+# plt.savefig('/home/pv/eps_test/graph.eps', format='eps')
+# fig.savefig('/home/pv/eps_test/graph.svg', format='svg', dpi=1200)
+
+# %%
+
+# Save to .dat file for pgfplots
+
+paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+figures'))
+
+both = np.column_stack((dof1, CL1))
+np.savetxt(paper_path + '/fine_cladding1.dat', both, fmt='%.8f')
+
+both = np.column_stack((dof2, CL2))
+np.savetxt(paper_path + '/fine_cladding2.dat', both, fmt='%.8f')

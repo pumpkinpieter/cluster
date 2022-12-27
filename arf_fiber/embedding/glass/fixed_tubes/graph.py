@@ -80,7 +80,7 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/glass_fixedcap.npy'), CL)
+np.save(os.path.relpath(main + 'polymer/data/k_inf.npy'), CL)
 
 
 # %%
