@@ -50,7 +50,7 @@ if __name__ == '__main__':
           '#'*8 + '\n', flush=True)
 
     center = centers[i]
-    radius = .05
+    radius = .02
     npts = 4
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
@@ -59,7 +59,7 @@ if __name__ == '__main__':
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
-                                        niterations=12,
+                                        niterations=9,
                                         nrestarts=0,
                                         stop_tol=1e-9,
                                         inverse='pardiso')
