@@ -22,7 +22,7 @@ date
 for i in {0..69}
     do
         module load ngsolve/serial gcc-9.2.0 intel
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
             --cpus-per-task 20 \

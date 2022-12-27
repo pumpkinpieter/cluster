@@ -20,11 +20,11 @@ echo "Starting convergence study: "
 date
 for i in {18..19}
     do
-        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 0 ${i} &
+        srun --unbuffered --nodes 1 --ntasks 1 python3 vector.py 0 ${i} &
 done
 
 for j in {12..13}
     do
-        srun --exclusive --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
+        srun --unbuffered --nodes 1 --ntasks 1 python3 vector.py 1 ${j} &
 done
 wait

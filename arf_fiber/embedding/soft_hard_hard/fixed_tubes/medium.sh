@@ -20,7 +20,7 @@ date
 for i in {0..239}
     do
         module load ngsolve/serial intel gcc-9.2.0
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
             python3 emb_modes.py 0 3 ${i} &

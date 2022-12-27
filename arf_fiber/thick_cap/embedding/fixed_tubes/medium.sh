@@ -20,7 +20,7 @@ for i in {0..399}
         module load gcc-9.2.0
         module load intel
         module load ngsolve/serial
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/task_%s_e_${i}.out" \
             --error="errors/task_%s_e_${i}.err" \
             python3 emb_modes.py 1 8 ${i} &

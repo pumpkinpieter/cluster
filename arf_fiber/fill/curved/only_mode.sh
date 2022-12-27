@@ -17,4 +17,4 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-srun --exclusive --nodes 1 --ntasks 1 python3 get_mode.py 0 14 
+srun --unbuffered --nodes 1 --ntasks 1 python3 get_mode.py 0 14 

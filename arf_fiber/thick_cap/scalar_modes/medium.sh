@@ -20,11 +20,11 @@ echo "Starting convergence study: "
 date
 for i in {0..24}
     do
-        srun --exclusive --nodes 1 --ntasks 1 python3 scalar_convergence.py 0 ${i} &
+        srun --unbuffered --nodes 1 --ntasks 1 python3 scalar_convergence.py 0 ${i} &
 done
 
 for j in {0..16}
     do
-        srun --exclusive --nodes 1 --ntasks 1 python3 scalar_convergence.py 1 ${j} &
+        srun --unbuffered --nodes 1 --ntasks 1 python3 scalar_convergence.py 1 ${j} &
 done
 wait

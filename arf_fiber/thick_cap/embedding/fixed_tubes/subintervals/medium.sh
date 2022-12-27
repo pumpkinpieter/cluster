@@ -32,7 +32,7 @@ end="$((N+1))"
 for i in $(seq 0 $end)
     do
 	module load gcc-9.2.0
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="range_${L}_${R}/logs/e_${i}_task%s.out" \
             --error="range_${L}_${R}/errors/e_${i}_task%s.err" \
             python3 sub_modes.py $ref $p $i $L $R $N $l $h &

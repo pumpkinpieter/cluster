@@ -19,7 +19,7 @@ echo "Starting convergence study: "
 date
 for i in {0..239}
     do
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}.out" \
             --error="errors/e_${i}.err" \
             python3 emb_modes.py 0 3 ${i} &

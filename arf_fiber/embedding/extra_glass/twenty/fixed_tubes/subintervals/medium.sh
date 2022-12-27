@@ -31,7 +31,7 @@ end="$((N-1))"
 
 for i in $(seq 0 $end)
     do
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="index_${L}_${R}/logs/e_${i}.out" \
             --error="index_${L}_${R}/errors/e_${i}.err" \
             python3 sub_modes.py $ref $p $i $L $R $N $l $h &

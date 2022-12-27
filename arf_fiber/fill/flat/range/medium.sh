@@ -22,7 +22,7 @@ for i in {0..200}
         module load ngsolve/serial
         module load intel
         module load gcc-9.2.0
-        srun --exclusive --nodes 1 --ntasks 1 \
+        srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/delta_${i}_task%s.out" \
             --error="errors/delta_${i}_task%s.err" \
             python3 vector.py 0 12 ${i} &
