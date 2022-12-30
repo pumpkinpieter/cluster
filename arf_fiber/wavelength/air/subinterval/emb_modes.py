@@ -26,7 +26,7 @@ ys = np.array([4.7, 4.786, 4.9, 4.967, 5.018, 5.071, 5.12])
 a, b, c, d = np.polyfit(xs, ys, 3)
 
 # Embedding parameter array
-wls = np.linspace(1, 2, 2000) * 1e-6
+wls = np.linspace(1.01, 1.09, 2000) * 1e-6
 
 # Search centers
 centers = a * wls**3 + b * wls**2 + c * wls + d
