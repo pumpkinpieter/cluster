@@ -16,8 +16,8 @@ module load ngsolve/serial
 module load gcc-9.2.0
 module load intel
 
-# rm logs/*.out
-# rm errors/*.err
+rm logs/*.out
+rm errors/*.err
 
 # Run the code.
 echo "Starting convergence study: "
