@@ -4,7 +4,7 @@
 import numpy as np
 import os
 import sys
-from fiberamp.fiber.microstruct.pbg import ARFcsg as ARF2
+from fiberamp.fiber.microstruct.pbg import ARF2
 
 if not os.path.isdir('outputs'):
     print('Making directory: ' + 'outputs')
@@ -30,7 +30,8 @@ if __name__ == '__main__':
 
     ref, p = int(sys.argv[1]), int(sys.argv[2])
 
-    a = ARF2(refine=ref, curve=max(p+1, 3), poly_core=True)
+    a = ARF2(name='fine_cladding', refine=ref,
+             curve=max(p+1, 3), poly_core=True)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
