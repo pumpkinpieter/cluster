@@ -6,9 +6,6 @@ import os
 import sys
 from fiberamp.fiber.microstruct.pbg import ARF2
 
-if not os.path.isdir('outputs'):
-    print('Making directory: ' + 'outputs')
-    os.makedirs('outputs')
 if not os.path.isdir('modes'):
     print('Making directory: ' + 'modes')
     os.makedirs('modes')
@@ -28,29 +25,27 @@ dofs = np.zeros(1, dtype=float)
 
 if __name__ == '__main__':
 
-    ref, p = int(sys.argv[1]), int(sys.argv[2])
+    ref, p, maxh = int(sys.argv[1]), int(sys.argv[2]), float(sys.argv[3])
 
-    a = ARF2(name='fine_cladding', refine=ref,
-             curve=max(p+1, 3), poly_core=True)
+    if not os.path.isdir('modes'):
+        print('Making directory: modes')
+        os.makedirs('modes')
+
+    a = ARF2(name='fine_cladding', refine=ref, curve=max(p+1, 8),
+             poly_core=True, glass_maxh=maxh)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + '  ' + '#'*8 + '\n', flush=True)
 
-    beta, _, Es, phis, Robj = a.leakyvecmodes(p=p, ctr=center, rad=radius,
-                                              alpha=alpha,
-                                              nspan=nspan, npts=npts,
-                                              niterations=15, nrestarts=0,
-                                              stop_tol=1e-10,
-                                              inverse='pardiso')
+    _, _, Es, phis, _ = a.leakyvecmodes(p=p, ctr=center, rad=radius,
+                                        alpha=alpha,
+                                        nspan=nspan, npts=npts,
+                                        niterations=15, nrestarts=0,
+                                        stop_tol=1e-10,
+                                        inverse='pardiso')
 
-    betas[: len(beta)] = beta[:]
-    dofs[:] = Robj.XY.ndof
+    print('\nMethod done, saving modes.\n', flush=True)
 
-    print('\nMethod done, saving values and modes.\n', flush=True)
-
-    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
-    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
-
-    a.save_mesh('modes/mesh_ref' + str(ref) + 'p' + str(p) + '.pkl')
-    a.save_modes(Es, 'modes/Es_ref' + str(ref) + 'p' + str(p))
-    a.save_modes(phis, 'modes/phis_ref' + str(ref) + 'p' + str(p))
+    a.save_mesh('modes/mesh_maxh_' + str(maxh) + 'p' + str(p) + '.pkl')
+    a.save_modes(Es, 'modes/Es_maxh' + str(maxh) + 'p' + str(p))
+    a.save_modes(phis, 'modes/phis_maxh' + str(maxh) + 'p' + str(p))
