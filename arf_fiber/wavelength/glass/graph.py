@@ -10,11 +10,13 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
+import matplotlib
+matplotlib.use("Qt5Agg")
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'glass/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/glass/')
+path = os.path.relpath(main + 'outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 
@@ -80,7 +82,8 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+np.save(os.path.relpath(main + 'data/poletti_N0_CLs'), CL)
+np.save(os.path.relpath(main + 'data/poletti_N0_wls'), wls)
 
 
 # %%

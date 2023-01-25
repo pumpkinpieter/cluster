@@ -24,27 +24,27 @@ extra_glass = np.load(main + 'extra_glass_fixedcap.npy')
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
 # Plot the data
-ax1.plot(es, air, 'o-', color='blue',
+ax1.plot(es, air, '-', color='blue',
          linewidth=1.5, markersize=5,
          markerfacecolor='None',
-         label='Air outside glass cladding')
+         label='$N_1$: Air outside cladding')
 
 # ax1.plot(es, extra_glass, 'o-', color='green',
 #           linewidth=1.5, markersize=5,
 #           markerfacecolor='None',
 #           label='Extra thick glass, air outside.')
 
-ax1.plot(es, glass, 'o-', color='orange',
+ax1.plot(es, glass, '-', color='firebrick',
          linewidth=1.5, markersize=5,
          markerfacecolor='None',
-         label='Glass extending to infinity')
+         label='$N_0$: Glass to boundary')
 
 
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Comparison of Outer Materials: Glass v. Air\n\
-embedding sensitivity, fixed capillaries",  fontsize=30)
+# fig.suptitle("Comparison of Outer Materials: Glass v. Air\n\
+# embedding sensitivity, fixed capillaries",  fontsize=30)
 # Set axis labels
 ax1.set_xlabel("\nFraction of Capillary Tube Embedded", fontsize=20)
 ax1.set_ylabel("CL", fontsize=25)
@@ -64,7 +64,8 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 # # Set log scale on y axes
 ax1.set_yscale('log')
 
-plt.legend(fontsize=25)
+plt.legend(title='Outer Material Configuration',
+           fontsize=20, title_fontsize=20)
 
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)

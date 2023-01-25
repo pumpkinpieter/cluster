@@ -13,19 +13,21 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-# path = os.path.relpath(main + 'wavelength/air/prior_outputs2')
-path = os.path.relpath(main + 'wavelength/air/outputs')
+# Set up the figure and subplots
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(38, 10))
 
-raw = np.load(path + '/all_e.npy').imag
 wls = np.linspace(3.11, 3.6, 800) * 1e-6
 
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
+path = os.path.relpath(main + 'wavelength/air/ref0_outputs')
+
+raw = np.load(path + '/all_e.npy').imag
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
     b = raw[j, :]
-    L = b[np.where(b > 0)]
+    L = b[np.where((b > 1e-7) * (b < 1e0/8))]
     try:
         base[j] = np.min(L)
     except ValueError:
@@ -34,12 +36,31 @@ for j in range(len(wls)):
 
 CL = 20 * base / np.log(10)
 
-# Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
+         label='ref0',
+         linewidth=1.5, markersize=0)
+
+path = os.path.relpath(main + 'wavelength/air/outputs')
+
+raw = np.load(path + '/all_e.npy').imag
+
+base = np.zeros_like(wls)
+
+for j in range(len(wls)):
+
+    b = raw[j, :]
+    L = b[np.where((b > 1e-7) * (b < 1e0/8))]
+    try:
+        base[j] = np.min(L)
+    except ValueError:
+        base[j] = np.nan
+
+
+CL = 20 * base / np.log(10)
 
 # Plot the data
-ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='blue',
-         label='shifting_capillaries',
+ax1.plot(wls[~np.isnan(CL)], CL[~np.isnan(CL)], '^-', color='orange',
+         label='ref1',
          linewidth=1.5, markersize=0)
 # Set Figure and Axes parameters ################################
 
@@ -70,15 +91,16 @@ ax1.set_yscale('log')
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.979,
-                    bottom=0.111,
-                    left=0.075,
-                    right=0.985,
+plt.subplots_adjust(top=0.985,
+                    bottom=0.141,
+                    left=0.048,
+                    right=0.996,
                     hspace=0.2,
                     wspace=0.2)
 
-ax1.set_ylim(1e-6, 1e2)
+# ax1.set_ylim(1e-6, 1e2)
 ax1.set_xlim(3.1e-6, 3.61e-6)
+plt.legend(fontsize=18)
 # Show figure (needed for running from command line)
 plt.show()
 

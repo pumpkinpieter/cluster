@@ -24,9 +24,9 @@ materials = [
     # 'inf',
     # 0.01,
     # 0.005,
-    0.001,
-    0.0005,
-    0.0001,
+    1e-3,
+    5e-4,
+    1e-4,
     1e-5,
     0,
 ]
@@ -78,7 +78,8 @@ for i, k in enumerate(materials):
     es = np.linspace(0.002, .9999, len(CL))
 
     ax1.plot(es[~np.isnan(CL)], CL[~np.isnan(CL)], ls='-',
-             label='$k = '+str(k)+'$', linewidth=2.5, color=colors[-i-1])
+             label='k = ' + f'{k:.0e}' if k != 0 else 'k = 0',
+             linewidth=2.5, color=colors[-i-1])
 
 # Set Figure and Axes parameters ################################
 
@@ -119,6 +120,6 @@ plt.subplots_adjust(top=0.969,
                     wspace=0.2)
 
 # ax1.set_ylim(1e-7, 1e3)
-ax1.legend(fontsize=25)
+ax1.legend(title='Exctinction Coefficients', title_fontsize=20, fontsize=20)
 # Show figure (needed for running from command line)
 plt.show()

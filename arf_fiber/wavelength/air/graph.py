@@ -10,12 +10,14 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
-from fiberamp.fiber.microstruct.pbg import ARF2
+# from fiberamp.fiber.microstruct.pbg import ARF2
+import matplotlib
+matplotlib.use("Qt5Agg")
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'air/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/air/')
+path = os.path.relpath(main + 'outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 wls = np.linspace(1, 2, 2000) * 1e-6
@@ -23,20 +25,20 @@ wls = np.linspace(1, 2, 2000) * 1e-6
 base = np.zeros_like(wls)
 err = np.zeros_like(wls)
 
-A = ARF2(name='fine_cladding', poly_core=True, refine=0,
-         curve=8, shift_capillaries=False, e=1)
+# A = ARF2(name='fine_cladding', poly_core=True, refine=0,
+#          curve=8, shift_capillaries=False, e=1)
 
 # d = (A.T_cladding+A.T_tube)* A.scale
-d = (A.T_cladding) * A.scale
+d = 9.999999999999999e-06
 # d = (A.T_cladding+A.T_tube)* A.scale
 
-n1, n2 = A.n_air, A.n_glass
-lines = [2 * n1 * d / m * ((n2/n1)**2 - 1)**.5 for m in range(11, 22)]
+n1, n2 = 1.00027717, 1.4388164768221814
+lines = [2 * n1 * d / m * ((n2/n1)**2 - 1)**.5 for m in range(11, 21)]
 
 for j in range(len(wls)):
 
     b = raw[j]
-    L = b[np.where((b > 5e-4)*(b < .6e0))]
+    L = b[np.where((b > 2e-4)*(b < .6e0))]
 
     try:
         if len(L) == 3:  # Median works well if len == 3
@@ -110,21 +112,20 @@ plt.show()
 # %%
 
 # Save cleaned data to numpy arrays for comparison plot
+mask = ~np.isnan(CL)
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+np.save(os.path.relpath(main + 'data/poletti_CLs'), CL[mask])
+np.save(os.path.relpath(main + 'data/poletti_wls'), wls[mask])
 
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data'))
 
 mask = ~np.isnan(CL)
-mask[14] = False
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
 both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+np.savetxt(paper_path + '/polleti_wl_study.dat', both, fmt='%.8f')

@@ -14,8 +14,8 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/')
-path = os.path.relpath(main + 'air/subinterval/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/air/')
+path = os.path.relpath(main + 'subinterval/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 wls = np.linspace(1.3, 1.4, 2000) * 1e-6
@@ -112,20 +112,21 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+mask = ~np.isnan(CL)
 
+np.save(os.path.relpath(main + 'data/poletti_sub_CLs'), CL[mask])
+np.save(os.path.relpath(main + 'data/poletti_sub_wls'), wls[mask])
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data'))
 
 mask = ~np.isnan(CL)
-mask[14] = False
 
 # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
 both = np.column_stack((wls[mask], CL[mask]))
 # both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+np.savetxt(paper_path + '/polleti_wl_subinterval.dat', both, fmt='%.8f')
