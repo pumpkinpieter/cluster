@@ -4,11 +4,12 @@
 #SBATCH -n 15
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
-#SBATCH --partition medium
+#SBATCH --partition long 
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --output=logs/glass.out
 #SBATCH --error=errors/glass.err
+#SBATCH --mail-type ALL
 
 # Load needed modules.
 module load ngsolve/serial
@@ -20,9 +21,9 @@ echo "Starting convergence study: "
 for i in {0..14}
     do
         srun --unbuffered --nodes 1 --ntasks 1 \
-           --output="logs/maxh_0.1_p${i}_task%s.out" \
-           --error="errors/maxh_0.1_p${i}_task%s.err" \
-           python3 vector.py 0 ${i} 0.1 &
+           --output="logs/maxh_0_p${i}_task%s.out" \
+           --error="errors/maxh_0_p${i}_task%s.err" \
+           python3 vector.py 0 ${i} 0 &
 done
 
 wait

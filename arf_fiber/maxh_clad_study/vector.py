@@ -39,7 +39,7 @@ if __name__ == '__main__':
                                           alpha=alpha,
                                           nspan=nspan, npts=npts,
                                           niterations=30, nrestarts=0,
-                                          stop_tol=1e-11, inverse='umfpack')
+                                          stop_tol=1e-11, inverse='pardiso')
 
     betas[: len(beta)] = beta[:]
     dofs[:] = Robj.XY.ndof
