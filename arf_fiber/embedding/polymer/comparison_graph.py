@@ -21,17 +21,17 @@ path = relpath(main + 'k_')
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 materials = [
-    # 'inf',
+    'inf',
     # 0.01,
     # 0.005,
-    1e-3,
-    5e-4,
-    1e-4,
-    1e-5,
+    # 1e-3,
+    # 5e-4,
+    # 1e-4,
+    # 1e-5,
     0,
 ]
 
-cmap = get_sub_cmap('cmr.ocean', 0.4, .85, N=len(materials))
+cmap = get_sub_cmap('cmr.ocean', 0.2, .7, N=len(materials))
 colors = cmap.colors
 
 # styles = [
@@ -76,10 +76,23 @@ colors = cmap.colors
 for i, k in enumerate(materials):
     CL = np.load(relpath(path + str(float(k)) + '.npy'))
     es = np.linspace(0.002, .9999, len(CL))
-
-    ax1.plot(es[~np.isnan(CL)], CL[~np.isnan(CL)], ls='-',
-             label='k = ' + f'{k:.0e}' if k != 0 else 'k = 0',
-             linewidth=2.5, color=colors[-i-1])
+    if k == 0:
+        label = 'glass'
+        color = colors[-i-1]
+        ls = '-'
+        lw = 2.5
+    elif k == 'inf':
+        label = 'air'
+        color = colors[-i-1]
+        ls = '-'
+        lw = 2.5
+    else:
+        label = 'k = ' + f'{k:.0e}'
+        color = colors[-i-1]
+        ls = '-'
+        lw = 1
+    ax1.plot(es[~np.isnan(CL)], CL[~np.isnan(CL)], ls=ls, label=label,
+             lw=lw, color=color)
 
 # Set Figure and Axes parameters ################################
 
@@ -87,7 +100,6 @@ for i, k in enumerate(materials):
 # fig.suptitle("Kolyadin Fiber: Fundamental Mode Losses \n\
 # for Lossy Polymer Coatings",
 #              fontsize=30)
-
 
 # Set axis labels
 ax1.set_xlabel("\nEmbedding Fraction", fontsize=28)
@@ -120,6 +132,7 @@ plt.subplots_adjust(top=0.969,
                     wspace=0.2)
 
 # ax1.set_ylim(1e-7, 1e3)
-ax1.legend(title='Exctinction Coefficients', title_fontsize=20, fontsize=20)
+ax1.legend(title='Outer Material Model', title_fontsize=20,
+           fontsize=20, ncols=2)
 # Show figure (needed for running from command line)
 plt.show()

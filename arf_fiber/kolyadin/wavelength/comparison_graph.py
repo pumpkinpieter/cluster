@@ -22,13 +22,13 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 styles = [
     # {'lw': .5, 'msz': 0, 'ls': '-', 'm': '^',
-    #  'c': 'grey', 'label': '$N_1$ configuration'},
+    #   'c': 'grey', 'label': '$N_1$ configuration'},
 
     {'lw': 3, 'msz': 0, 'ls': '-', 'm': '^',
      'c': 'g', 'label': '$N_0$'},
 
-    # {'lw': 2.5, 'msz': 0, 'ls': (0, (8, 8)), 'm': '^',
-    #  'c': 'orange', 'label': 'polymer with $n_{im}=0.1$, air outside'},
+    {'lw': 2.5, 'msz': 0, 'ls': (0, (8, 8)), 'm': '^',
+     'c': 'orange', 'label': 'polymer with $n_{im}=0.1$, air outside'},
 
     {'lw': 2.4, 'msz': 0, 'ls': '-', 'm': '^',
      'c': 'firebrick', 'label': '$k = 0.01$'},
@@ -44,11 +44,13 @@ styles = [
 materials = [
     # 'air',
     'glass',
-    # 'poly',
+    'poly',
     'poly2',
     'poly3',
     'poly4'
 ]
+
+ks = [np.infty, 0.1, 0.01, 0.001, .0001]
 
 # Plot the data
 for s, d in zip(materials, styles):
@@ -100,3 +102,19 @@ plt.subplots_adjust(top=0.905,
 ax1.legend(fontsize=25)
 # Show figure (needed for running from command line)
 plt.show()
+
+# %%
+# Save to .dat file for pgfplots
+
+paper_path = relpath(expanduser('~/papers/outer_materials/\
+figures/data/arf/8tube'))
+
+
+# Plot the data
+for s, k in zip(materials, ks):
+    wls = np.load(relpath(main + s + '_wls.npy'))
+    CL = np.load(relpath(main + s + '_CL.npy'))
+    msk = ~np.isnan(CL)
+
+    both = np.column_stack((wls[msk]*1e6, CL[msk]))
+    np.savetxt(paper_path + '/k_'+str(k) + '.dat', both, fmt='%.8f')

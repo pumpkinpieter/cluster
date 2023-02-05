@@ -13,7 +13,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-k = 0.005
+k = 0.01
 
 main = expanduser('~/local/convergence/arf_fiber/embedding/polymer/')
 path = relpath(main + 'outputs/k_' + str(float(k)))
@@ -27,7 +27,7 @@ for j in range(len(es)):
 
     b = raw[j, :]
     b = b[np.where((b > 1e-3))]
-    if j == 51:
+    if j == 91:
         base[j] = np.nan
     else:
         base[j] = np.min(b)
@@ -38,8 +38,9 @@ CL = 20 * base / np.log(10)
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(30, 15))
 
+mask = ~np.isnan(CL)
 # Plot the data
-ax1.plot(es, CL, '^-', color='blue',
+ax1.plot(es[mask], CL[mask], '^-', color='blue',
          label='k='+str(float(k)),
          linewidth=2.5, markersize=3.4)
 # Set Figure and Axes parameters ################################
@@ -93,13 +94,12 @@ np.save(relpath(main + 'data/k_' + str(float(k))), CL)
 
 # Save to .dat file for pgfplots
 
-# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-# figures'))
+paper_path = relpath(expanduser('~/papers/outer_materials/figures/data/embed'))
 
-# mask = ~np.isnan(CL)
+mask = ~np.isnan(CL)
 # mask[14] = False
 
 # # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-# both = np.column_stack((es[mask], CL[mask]))
+both = np.column_stack((es[mask], CL[mask]))
 # # both = np.column_stack((x,y))
-# np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+np.savetxt(paper_path + '/k_'+str(float(k))+'.dat', both, fmt='%.8f')

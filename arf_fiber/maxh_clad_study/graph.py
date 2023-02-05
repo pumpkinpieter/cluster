@@ -25,49 +25,41 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/modes/vector_modes/\
-fine_cladding/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/maxh_clad_study/\
+outputs')
 path = os.path.relpath(main)
 
-plt.figure(figsize=(20, 15))
+plt.figure(figsize=(22, 12))
 
 fig = plt.gcf()
 ax = plt.gca()
 
-for r in range(2):
-    betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
-    dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
+maxhs = ['0.0', '0.1']
+
+for maxh in maxhs:
+    betas = np.load(path + '/maxh_'+maxh+'/ref0_all_betas.npy').imag
+    dofs = np.load(path + '/maxh_'+maxh+'/ref0_all_dofs.npy')
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas > 0, betas, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
-    ax.plot(dofs, CL, 'o-', label='refinements: '+str(r),
-            linewidth=2.5, markersize=9,  markerfacecolor='white')
-    if r == 0:
-        CL1 = CL
-        dof1 = dofs
-    else:
-        CL2 = CL
-        dof2 = dofs
+    ax.plot(dofs, CL, 'o-', label='maxh: ' + maxh,
+            linewidth=2.5, markersize=5)
+# for maxh in ['0.1']:
+#     betas = np.load(path + '/maxh_'+maxh+'/ref1_all_betas.npy').imag
+#     dofs = np.load(path + '/maxh_'+maxh+'/ref1_all_dofs.npy')
 
-    for i, dc in enumerate(zip(dofs, CL)):
-        if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-40, -50),
-                        textcoords='offset points',
-                        color=ax.lines[-1].get_color(),
-                        arrowprops=dict(arrowstyle="-",
-                        connectionstyle="arc3", color='blue')
-                        )
-        elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 40),
-                        textcoords='offset points',
-                        color=ax.lines[-1].get_color(),
-                        arrowprops=dict(arrowstyle="-",
-                        connectionstyle="arc3", color='orange')
-                        )
+#     # Filter out bad values
+
+#     B = np.where(betas > 0, betas, 1e99)
+#     BB = np.min(B, axis=1)
+
+#     CL = 20 * BB / np.log(10)
+#     ax.plot(dofs, CL, 'o-', label='maxh: ' + maxh,
+#             linewidth=2.5, markersize=5)
 
 xmin, xmax = ax.get_xlim()
 
@@ -103,11 +95,46 @@ plt.show()
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data/mesh_maxh'))
 
-both = np.column_stack((dof1, CL1))
-np.savetxt(paper_path + '/fine_cladding1.dat', both, fmt='%.8f')
+ref = 0
 
-both = np.column_stack((dof2, CL2))
-np.savetxt(paper_path + '/fine_cladding2.dat', both, fmt='%.8f')
+maxhs = ['0.1']
+for i, maxh in enumerate(maxhs):
+    betas = np.load(path + '/maxh_'+maxh+'/ref'+str(ref)+'_all_betas.npy').imag
+    dofs = np.load(path + '/maxh_'+maxh+'/ref'+str(ref)+'_all_dofs.npy')
+
+    # Filter out bad values
+
+    B = np.where(betas > 0, betas, 1e99)
+    BB = np.min(B, axis=1)
+
+    CL = 20 * BB / np.log(10)
+    both = np.column_stack((dofs, CL))
+    np.savetxt(paper_path + '/maxh_'+str(maxh)+'_ref' +
+               str(ref)+'.dat', both, fmt='%.8f')
+
+# %%
+
+# Save to .dat file for pgfplots
+
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data/mesh_maxh'))
+
+ref = 1
+
+maxhs = ['0.1']
+for i, maxh in enumerate(maxhs):
+    betas = np.load(path + '/maxh_'+maxh+'/ref'+str(ref)+'_all_betas.npy').imag
+    dofs = np.load(path + '/maxh_'+maxh+'/ref'+str(ref)+'_all_dofs.npy')
+
+    # Filter out bad values
+
+    B = np.where(betas > 0, betas, 1e99)
+    BB = np.min(B, axis=1)
+
+    CL = 20 * BB / np.log(10)
+    both = np.column_stack((dofs, CL))
+    np.savetxt(paper_path + '/maxh_'+str(maxh)+'_ref' +
+               str(ref)+'.dat', both, fmt='%.8f')

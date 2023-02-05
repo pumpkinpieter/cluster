@@ -18,10 +18,10 @@ fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
                                gridspec_kw={'height_ratios': [1.3, 1]},
                                figsize=(35, 18))
 
-wls = np.linspace(3.11, 3.6, 800) * 1e-6
+wls = np.linspace(3.44, 3.46, 400) * 1e-6
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-path = os.path.relpath(main + 'wavelength/air/p4ref0_outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/')
+path = os.path.relpath(main + 'air/subinterval/344_346/ref0_p4')
 
 raw = np.load(path + '/all_e.npy').imag
 base = np.zeros_like(wls)
@@ -29,7 +29,10 @@ base = np.zeros_like(wls)
 for j in range(len(wls)):
 
     b = raw[j, :]
-    L = b[np.where((b > 1e-7) * (b < 1e0/8))]
+    if j == 15:
+        L = b[np.where((b > 1.2e-6) * (b < 1e0/8))]
+    else:
+        L = b[np.where((b > .5e-6) * (b < 1e0/8))]
     try:
         base[j] = np.min(L)
     except ValueError:
@@ -38,49 +41,20 @@ for j in range(len(wls)):
 
 CL0 = 20 * base / np.log(10)
 
-msk = np.where(np.abs(wls-3.45e-6) < .02e-6)
-rwls = wls[msk]
-rCL0 = CL0[msk]
 
-nnan = ~np.isnan(rCL0)
+nnan = ~np.isnan(CL0)
 
-ax1.plot(rwls[nnan], rCL0[nnan], color='blue',
-         label='p4_ref0',
-         linewidth=1.5, markersize=0)
+ax1.plot(wls[nnan], CL0[nnan], color='blue',
+         label='p4_ref0', marker='o',
+         linewidth=1.5, markersize=4)
 
-path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
-
-raw = np.load(path + '/all_e.npy').imag
-
-base = np.zeros_like(wls)
-
-for j in range(len(wls)):
-
-    b = raw[j, :]
-    L = b[np.where((b > 1e-7) * (b < 1e0/8))]
-    try:
-        base[j] = np.min(L)
-    except ValueError:
-        base[j] = np.nan
-
-CL1 = 20 * base / np.log(10)
-rCL1 = CL1[msk]
-nnan2 = ~np.isnan(rCL1)
-
-# Plot the data
-ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
-         label='p5_ref0', linestyle='--',
-         linewidth=1.5, markersize=0)
-
-# path = os.path.relpath(main + 'wavelength/air/subinterval/\
-# 343_347/p4ref0_suboutputs')
+# path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
 
 # raw = np.load(path + '/all_e.npy').imag
-# subwls = np.linspace(3.43, 3.47, 400) * 1e-6
 
-# base = np.zeros_like(subwls)
+# base = np.zeros_like(wls)
 
-# for j in range(len(subwls)):
+# for j in range(len(wls)):
 
 #     b = raw[j, :]
 #     L = b[np.where((b > 1e-7) * (b < 1e0/8))]
@@ -89,23 +63,49 @@ ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
 #     except ValueError:
 #         base[j] = np.nan
 
-
-# CL2 = 20 * base / np.log(10)
-# nnan2 = ~np.isnan(CL2)
+# CL1 = 20 * base / np.log(10)
+# rCL1 = CL1[msk]
+# nnan2 = ~np.isnan(rCL1)
 
 # # Plot the data
-# ax1.plot(subwls[nnan2], CL2[nnan2], color='blue',
-#          label='p4_ref0', marker='o',
-#          linewidth=1.5, markersize=4)
+# ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
+#          label='p5_ref0', linestyle='--',
+#          linewidth=1.5, markersize=0)
 
-good = ~np.isnan(rCL0) * ~np.isnan(rCL1)
+# # path = os.path.relpath(main + 'wavelength/air/subinterval/\
+# # 343_347/p4ref0_suboutputs')
 
-res = np.abs(rCL1[good] - rCL0[good])
-rel = (rCL1[good] + rCL0[good]) / 2
+# # raw = np.load(path + '/all_e.npy').imag
+# # subwls = np.linspace(3.43, 3.47, 400) * 1e-6
 
-# Plot the data
-ax2.plot(rwls[good], res, color='green',
-         linewidth=.9, label='residual', markersize=1)
+# # base = np.zeros_like(subwls)
+
+# # for j in range(len(subwls)):
+
+# #     b = raw[j, :]
+# #     L = b[np.where((b > 1e-7) * (b < 1e0/8))]
+# #     try:
+# #         base[j] = np.min(L)
+# #     except ValueError:
+# #         base[j] = np.nan
+
+
+# # CL2 = 20 * base / np.log(10)
+# # nnan2 = ~np.isnan(CL2)
+
+# # # Plot the data
+# # ax1.plot(subwls[nnan2], CL2[nnan2], color='blue',
+# #          label='p4_ref0', marker='o',
+# #          linewidth=1.5, markersize=4)
+
+# good = ~np.isnan(rCL0) * ~np.isnan(rCL1)
+
+# res = np.abs(rCL1[good] - rCL0[good])
+# rel = (rCL1[good] + rCL0[good]) / 2
+
+# # Plot the data
+# ax2.plot(rwls[good], res, color='green',
+#          linewidth=.9, label='residual', markersize=1)
 
 # Set Figure and Axes parameters ################################
 
@@ -122,25 +122,25 @@ ax2.set_ylabel("CL\n", fontsize=28)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1e-8))
+ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.yaxis.set_major_locator(MultipleLocator(1))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
-# # Set log scale on y axes
+# # # Set log scale on y axes
 ax1.set_yscale('log')
 
 
-ax2.xaxis.set_major_locator(MultipleLocator(1e-8))
-ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax2.yaxis.set_major_locator(MultipleLocator(1))
-ax2.yaxis.set_minor_locator(AutoMinorLocator(0))
-ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
+# ax2.xaxis.set_major_locator(MultipleLocator(1e-6))
+# ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax2.yaxis.set_major_locator(MultipleLocator(1))
+# ax2.yaxis.set_minor_locator(AutoMinorLocator(0))
+# ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+# ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
 
-# # Set log scale on y axes
+# # # Set log scale on y axes
 ax2.set_yscale('log')
 
 # Turn on subplot tool when graphing to allow finer control of spacing

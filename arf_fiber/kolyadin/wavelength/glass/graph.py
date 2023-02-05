@@ -92,13 +92,10 @@ np.save(os.path.relpath(main + 'wavelength/data/glass_wls'), wls)
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data/arf/8tube'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
+msk = ~np.isnan(CL)
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+both = np.column_stack((wls[msk]*1e6, CL[msk]))
+np.savetxt(paper_path + '/N2config.dat', both, fmt='%.8f')

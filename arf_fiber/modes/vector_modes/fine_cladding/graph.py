@@ -70,8 +70,10 @@ for r in range(2):
                         )
 
 xmin, xmax = ax.get_xlim()
+betas = np.load(path + '/ref'+str(0)+'all_betas.npy').imag
 
-ax.plot([xmin, xmax], [.153, .153], linestyle='dashdot', color='gray')
+L = 20 / np.log(10) * np.min(betas[-1][np.where(betas[-1] > 0)])
+ax.plot([xmin, xmax], [L, L], linestyle='dashdot', color='gray')
 
 
 plt.legend()
@@ -85,7 +87,7 @@ air in outer region.\n')
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([.1, .153, 1, 10], labels=['.1', 'lim CL =.153', '1', '10'])
+plt.yticks([L, .1, 1, 10], labels=['lim CL =%.5f' % L, '.1', '1', '10'])
 plt.xticks([10**5, 10**6])
 
 plt.grid(which='major', axis='y')

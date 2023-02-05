@@ -50,7 +50,7 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
 # Plot the data
 wls_cl = wls[~np.isnan(CL)]
 CL_cl = CL[~np.isnan(CL)]
-evens = [n for n in range(0, len(wls_cl), 4)]
+evens = [n for n in range(0, len(wls_cl), 8)]
 
 ax1.plot(wls, exact_CL, '-', color='blue',
          label='semi-analytic',
@@ -110,13 +110,11 @@ np.save(os.path.relpath(main + 'clean_betas_im'), base)
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data/bragg/N0'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
+both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
+np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+both = np.column_stack((wls*1e6, exact_CL))
+np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
