@@ -158,6 +158,7 @@ plt.subplots_adjust(top=0.966,
 # ax1.set_xlim(3.1e-6, 3.61e-6)
 ax1.legend(fontsize=18)
 ax2.legend(fontsize=18)
+
 # Show figure (needed for running from command line)
 plt.show()
 
@@ -166,6 +167,7 @@ plt.show()
 # Save cleaned data to numpy arrays for comparison plot
 
 np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL0)
+
 np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
 
 

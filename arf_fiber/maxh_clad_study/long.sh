@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name glass 
-#SBATCH -N 15
-#SBATCH -n 15
+#SBATCH -N 12
+#SBATCH -n 12
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition long 
@@ -18,12 +18,12 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {0..14}
+for i in {0..11}
     do
         srun --unbuffered --nodes 1 --ntasks 1 \
            --output="logs/maxh_0_p${i}_task%s.out" \
            --error="errors/maxh_0_p${i}_task%s.err" \
-           python3 vector.py 0 ${i} 0 &
+           python3 vector.py 1 ${i} 0.1 &
 done
 
 wait
