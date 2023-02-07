@@ -29,6 +29,7 @@ wl_sub = np.load(os.path.relpath(main+'data/poletti_sub_wls.npy'))*1e6
 Wl, Wr = 400, -351
 L = np.where(wl_main <= wl_sub[Wl])
 R = np.where((wl_main >= wl_sub[Wr]))
+N0_sub_msk = np.where((N0_wls > wl_sub[Wl-100]) * (N0_wls < wl_sub[Wr+100]))
 
 
 all_wl = np.concatenate((wl_main[L], wl_sub, wl_main[R]))
@@ -221,12 +222,24 @@ plt.show()
 # np.save(os.path.relpath(main + 'data/polleti_all_wls'), all_wl)
 
 
-# # %%
+# %%
 
-# # Save to .dat file for pgfplots
+# Save to .dat file for pgfplots
 
-# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-# figures/data'))
+paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+figures/data/arf/6tube'))
 
-# both = np.column_stack((all_wl, all_CL))
-# np.savetxt(paper_path + '/polleti_wl_study.dat', both, fmt='%.8f')
+both = np.column_stack((wl_main[L], CL_main[L]))
+np.savetxt(paper_path + '/C1L.dat', both, fmt='%.8f')
+
+both = np.column_stack((wl_sub[Wl:Wr], CL_sub[Wl:Wr]))
+np.savetxt(paper_path + '/C1_subinterval.dat', both, fmt='%.8f')
+
+both = np.column_stack((wl_main[R], CL_main[R]))
+np.savetxt(paper_path + '/C1R.dat', both, fmt='%.8f')
+
+both = np.column_stack((N0_wls, N0_CLs))
+np.savetxt(paper_path + '/C0.dat', both, fmt='%.8f')
+
+both = np.column_stack((N0_wls[N0_sub_msk], N0_CLs[N0_sub_msk]))
+np.savetxt(paper_path + '/C0_subinterval.dat', both, fmt='%.8f')

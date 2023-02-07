@@ -62,8 +62,9 @@ for maxh in maxhs:
 #             linewidth=2.5, markersize=5)
 
 xmin, xmax = ax.get_xlim()
+L = CL[-1]
 
-ax.plot([xmin, xmax], [.153, .153], linestyle='dashdot', color='gray')
+ax.plot([xmin, xmax], [L, L], linestyle='dashdot', color='gray')
 
 
 plt.legend()
@@ -77,7 +78,7 @@ air in outer region.\n')
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([.1, .153, 1, 10], labels=['.1', 'lim CL =.153', '1', '10'])
+plt.yticks([.1, L, 1, 10], labels=['.1', 'lim CL =%.4f' % L, '1', '10'])
 plt.xticks([10**5, 10**6])
 
 plt.grid(which='major', axis='y')
