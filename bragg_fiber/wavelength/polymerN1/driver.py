@@ -19,10 +19,11 @@ nspan = 4
 betas = np.zeros(nspan, dtype=complex)
 
 # Get exact search centers
-centers = np.load('k_001_scaled_betas.npy')
+centers = np.load('exact_betas/\
+k_001_subint_150_1585_201_scaled_betas.npy')
 
 # Embedding parameter array
-wls = np.linspace(1.4, 2, 301) * 1e-6
+wls = np.linspace(1.5, 1.585, 201) * 1e-6
 
 # PML strength
 alpha = 5
@@ -39,15 +40,15 @@ if __name__ == '__main__':
     n_glass = 1.4388164768221814
     n_poly = 1.5 - .001j
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*2.7183333333333333e-6,
-          15*1e-6, 15*1e-6]
+          15*2e-6, 15*2e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_poly,
           lambda x: n_air, lambda x: n_air]
     mats = ['air', 'glass', 'polymer', 'buffer', 'Outer']
-    maxhs = [.1, .02, .05, .04, .06]
+    maxhs = [.1, .015, .01, .04, .06]
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i],
-              mats=mats)
+              mats=mats, ref=ref)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
