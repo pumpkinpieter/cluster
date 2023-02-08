@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name funarf 
-#SBATCH -N 22
-#SBATCH -n 22
+#SBATCH -N 15
+#SBATCH -n 15
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition long
@@ -15,9 +15,6 @@
 module load ngsolve/serial
 module load gcc-9.2.0
 module load intel
-
-rm logs/*ref*
-rm errors/*ref*
 
 # Run the code.
 echo "Starting convergence study: "
