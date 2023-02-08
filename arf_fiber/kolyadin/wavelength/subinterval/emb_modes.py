@@ -46,9 +46,9 @@ if __name__ == '__main__':
     outdir = 'k_'+str(k)
 
     if not os.path.isdir(outdir):
-        print('Making directory: %s'%outdir)
+        print('Making directory: %s' % outdir)
         os.makedirs(outdir)
-    
+
     outer_materials = [
 
         {'material': 'poly',
