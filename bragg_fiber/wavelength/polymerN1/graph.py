@@ -115,7 +115,7 @@ figures/data/bragg/N1'))
 
 mask = ~np.isnan(CL)
 
-both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
+both = np.column_stack((wls_cl*1e6, CL_cl))
 np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
 
 both = np.column_stack((wls[~np.isnan(CL)]*1e6, exact_CL[~np.isnan(CL)]))

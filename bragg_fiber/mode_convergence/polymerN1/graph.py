@@ -30,23 +30,23 @@ for r in range(2):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas > 0, betas, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
-    ax.plot(dofs[1:], CL[1:], 'o-', label='refinement: '+str(r),
+    ax.plot(dofs, CL, 'o-', label='refinement: '+str(r),
             linewidth=2.5, markersize=9,  markerfacecolor='white')
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-40, 60),
+            ax.annotate('p='+str(i), xy=dc, xytext=(-80, -80),
                         color=plt.gca().lines[-1].get_color(),
                         textcoords='offset points', fontsize=18,
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, -60),
+            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 90),
                         textcoords='offset points', fontsize=18,
                         color=plt.gca().lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
@@ -67,16 +67,18 @@ plt.ylabel('CL', fontsize=25)
 plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\n\
 Fundamental Mode Convergence\n', fontsize=35)
 
-# plt.yscale('log')
+plt.yscale('log')
 plt.xscale('log')
 
 s = 'exact: {ex:.3f}'.format(ex=exact_CL)
 
-ax.set_yticks([1.2, exact_CL, 1.6, 2, 2.4, 2.8, 3.],
-              labels=['1.2', s, '1.6', '2.0', '2.4', '2.8', '3.'],
-              fontsize=18)
-
-plt.xticks([10**5, 10**6], fontsize=16)
+# ax.set_yticks([1.2, exact_CL, 1.6, 2, 2.4, 2.8, 3.],
+#               labels=['1.2', s, '1.6', '2.0', '2.4', '2.8', '3.'],
+#               fontsize=18)
+extraticks = [exact_CL]
+ax.set_yticks(list(ax.get_yticks()) + extraticks,
+              labels=ax.get_ymajorticklabels()+[s])
+# plt.xticks([10**5, 10**6], fontsize=16)
 
 plt.grid(which='major', axis='y')
 plt.grid(which='major', axis='x')
