@@ -13,9 +13,10 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/')
-path = os.path.relpath(main + 'N1/outputs')
+path = os.path.relpath(main + 'polymerN1/outputs')
 
-exact = -(np.load(main + 'N1/exact_scaled_betas.npy')/15e-6).imag
+exact = -(np.load(main + 'polymerN1/exact_betas/\
+k_001_subint_150_1585_201_scaled_betas.npy')/15e-6).imag
 exact_CL = 20 * exact[0] / np.log(10)
 
 plt.figure(figsize=(20, 16))
