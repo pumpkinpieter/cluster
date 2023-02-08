@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name bragg
-#SBATCH -N 60
-#SBATCH -n 60
+#SBATCH -N 27
+#SBATCH -n 27
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -15,10 +15,6 @@
 module load ngsolve/serial
 module load gcc-9.2.0
 module load intel
-
-# Clear log and error folders of old runs
-rm logs/*wl*
-rm errors/*wl*
 
 # Run the code.
 echo "Starting convergence study: "
