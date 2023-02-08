@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name bragconv
-#SBATCH -N 18
-#SBATCH -n 18
+#SBATCH -N 22
+#SBATCH -n 22
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -18,7 +18,7 @@ module load intel
 
 # Run the code.
 echo "Starting convergence study: "
-for i in {0..7}
+for i in {0..11}
     do
         module load ngsolve/serial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \

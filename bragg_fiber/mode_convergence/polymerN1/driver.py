@@ -31,13 +31,13 @@ if __name__ == '__main__':
 
     n_air = 1.00027717
     n_glass = 1.4388164768221814
-    n_poly = 1.5 - .001j
+    n_poly = 1.5 + .001j
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*2.7183333333333333e-6,
           15*2e-6, 15*2e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_poly,
           lambda x: n_air, lambda x: n_air]
     mats = ['air', 'glass', 'polymer', 'buffer', 'Outer']
-    maxhs = [.1, .015, .01, .04, .06]
+    maxhs = [.2, .02, .04, .08, .1]
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i],
