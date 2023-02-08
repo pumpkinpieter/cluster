@@ -6,10 +6,6 @@ import os
 import sys
 from fiberamp.fiber.microstruct.bragg import Bragg
 
-if not os.path.isdir('outputs'):
-    print('Making directory: outputs')
-    os.makedirs('outputs')
-
 # Set result arrays
 nspan = 4
 betas = np.zeros(nspan, dtype=complex)
@@ -20,7 +16,7 @@ centers = np.load('exact_betas/\
 k_001_subint_150_1585_201_scaled_betas.npy')
 
 # Embedding parameter array
-wls = np.linspace(1.5, 1.585, 201) * 1e-6
+wls = np.linspace(3.11, 3.6, 301) * 1e-6
 
 # PML strength
 alpha = 5
@@ -28,10 +24,16 @@ alpha = 5
 if __name__ == '__main__':
 
     ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
+    k = float(sys.argv[4])
+
+    directory = 'k_'+str(k)
+    if not os.path.isdir(directory):
+        print('Making output directory: %s.' % directory)
+        os.makedirs(directory)
 
     n_air = 1.00027717
     n_glass = 1.4388164768221814
-    n_poly = 1.5 + .001j
+    n_poly = 1.5 + k*1j
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*2.7183333333333333e-6,
           15*2e-6, 15*2e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_poly,
@@ -67,5 +69,5 @@ if __name__ == '__main__':
     dofs[:] = Ro.XY.ndof
 
     print('method done, saving.\n', flush=True)
-    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
-    np.save('outputs/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
+    np.save(directory + '/ref' + str(ref) + 'p' + str(p) + 'betas', betas)
+    np.save(directory + '/ref' + str(ref) + 'p' + str(p) + 'dofs', dofs)
