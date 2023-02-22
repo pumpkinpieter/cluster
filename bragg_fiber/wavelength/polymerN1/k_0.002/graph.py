@@ -9,22 +9,25 @@ Created on Sat Mar 19 20:33:33 2022
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/bragg_fiber/wavelength/')
-path = os.path.relpath(main + 'polymerN1/outputs')
+main = os.path.expanduser('~/local/convergence/bragg_fiber/wavelength/\
+polymerN1')
+path = os.path.relpath(main + '/k_0.002')
 
-raw = -np.load(path + '/all_wl.npy').imag
-exact = -np.load(main + 'polymerN1/k_001_scaled_betas.npy').imag
+raw = np.load(path + '/all_wl.npy').imag
+exact = -np.load(main + '/exact_betas/k_002_scaled_betas.npy').imag
 
 exact_CL = 20 * exact/15e-6 / np.log(10)
-wls = np.linspace(1.4, 2, 301) * 1e-6
 
-base = np.zeros_like(wls)
+wls = np.linspace(3.11, 3.6, 501) * 1e-6
+msk = np.arange(0, 501, 3)
+wls3 = wls[msk]
 
-for j in range(len(wls)):
+base = np.zeros_like(wls3)
+
+for j in range(len(wls3)):
     b = raw[j, :]
     L = b[np.where((b > 0) * (b < 8e2))]
     try:
@@ -39,16 +42,18 @@ CL = 20 * base / np.log(10)
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(28, 14))
 
 # Plot the data
-wls_cl = wls[~np.isnan(CL)]
-CL_cl = CL[~np.isnan(CL)]
 
-ax1.plot(wls_cl, CL_cl,  linestyle='-',
-         color='green', label='numerical', markerfacecolor='white',
-         linewidth=1, markersize=0, marker='o')
+ax1.plot(wls3, CL,  linestyle='-',
+         color='green', label='numerical', markerfacecolor='None',
+         linewidth=0, markersize=10, marker='o')
+
+wls = np.linspace(3.11, 3.6, 501) * 1e-6
 
 ax1.plot(wls, exact_CL, '-', color='blue',
-         label='semi-analytic',
-         linewidth=2, markersize=0)
+         label='semi-analytic', marker='+',
+         linewidth=1, markersize=4)
+
+# ax1.plot(wls3, np.abs(CL - exact_CL[msk])/exact_CL[msk])
 
 m, M = ax1.get_ylim()
 ax1.margins(0, 0.02)
@@ -75,12 +80,12 @@ ax1.set_ylabel("CL\n", fontsize=28)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
-ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax1.yaxis.set_major_locator(MultipleLocator(1))
-ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
-ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
+# ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
+# ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax1.yaxis.set_major_locator(MultipleLocator(1))
+# ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
+# ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+# ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
 # # Set log scale on y axes
 ax1.set_yscale('log')
@@ -103,7 +108,7 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+# np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
 
 
 # %%
@@ -111,12 +116,12 @@ np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
 # Save to .dat file for pgfplots
 
 paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/bragg/N1'))
+figures/data/bragg/poly'))
 
-mask = ~np.isnan(CL)
+# mask = ~np.isnan(CL)
 
-both = np.column_stack((wls_cl*1e6, CL_cl))
-np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
+# both = np.column_stack((wls_cl*1e6, CL_cl))
+# np.savetxt(paper_path + '/k_002_numeric.dat', both, fmt='%.8f')
 
-both = np.column_stack((wls[~np.isnan(CL)]*1e6, exact_CL[~np.isnan(CL)]))
-np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
+# both = np.column_stack((wls*1e6, exact_CL]))
+# np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')

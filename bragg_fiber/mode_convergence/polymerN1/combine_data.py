@@ -19,10 +19,16 @@ for p in range(35):
         B.append(b)
         D.append(d[0])
     except FileNotFoundError:
-        print('No file %s/ref%ip%i.npy found,\
- breaking out of loop.' % (directory, ref, p))
+        if p == 0:
+            raise ValueError('No matching files found.')
+        break
 
 D = np.array(D)
+print('Last file prefix found: '+directory+'/ref'+ref +
+      'p'+str(p)+'.\n')
+print('Writing combined data files:')
+print(directory+'/ref'+ref+'all_betas.npy, ')
+print(directory+'/ref'+ref+'all_dofs.npy')
 
 np.save(directory+'/ref'+ref+'all_betas.npy', B)
 np.save(directory+'/ref'+ref+'all_dofs.npy', D)

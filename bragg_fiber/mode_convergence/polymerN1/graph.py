@@ -13,10 +13,10 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/')
-path = os.path.relpath(main + 'polymerN1/outputs')
+path = os.path.relpath(main + 'polymerN1/k_0.002')
 
 exact = -(np.load(main + 'polymerN1/exact_betas/\
-k_001_subint_150_1585_201_scaled_betas.npy')/15e-6).imag
+k_002_scaled_betas.npy')/15e-6).imag
 exact_CL = 20 * exact[0] / np.log(10)
 
 plt.figure(figsize=(20, 16))
@@ -39,14 +39,14 @@ for r in range(2):
 
     for i, dc in enumerate(zip(dofs, CL)):
         if r == 0:
-            ax.annotate('p='+str(i), xy=dc, xytext=(-80, -80),
+            ax.annotate('p='+str(i), xy=dc, xytext=(-40, 80),
                         color=plt.gca().lines[-1].get_color(),
                         textcoords='offset points', fontsize=18,
                         arrowprops=dict(arrowstyle="-",
                         connectionstyle="arc3", color='blue')
                         )
         elif r == 1:
-            ax.annotate('p=' + str(i), xy=dc, xytext=(0, 90),
+            ax.annotate('p=' + str(i), xy=dc, xytext=(0, -90),
                         textcoords='offset points', fontsize=18,
                         color=plt.gca().lines[-1].get_color(),
                         arrowprops=dict(arrowstyle="-",
@@ -56,7 +56,7 @@ for r in range(2):
 xmin, xmax = ax.get_xlim()
 
 ax.plot([xmin, xmax], [exact_CL, exact_CL], linestyle='--', color='gray',
-        label='exact loss')
+        label='exact loss', linewidth=2)
 
 
 plt.legend(fontsize=18)
@@ -64,20 +64,32 @@ plt.legend(fontsize=18)
 plt.xlabel('ndofs', fontsize=25)
 plt.ylabel('CL', fontsize=25)
 
+plt.rc('xtick', labelsize=22)
+plt.rc('ytick', labelsize=22)
+
 plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\n\
 Fundamental Mode Convergence\n', fontsize=35)
 
 plt.yscale('log')
 plt.xscale('log')
 
-s = 'exact: {ex:.3f}'.format(ex=exact_CL)
+s = 'true: {ex:.1f}'.format(ex=exact_CL)
 
-# ax.set_yticks([1.2, exact_CL, 1.6, 2, 2.4, 2.8, 3.],
-#               labels=['1.2', s, '1.6', '2.0', '2.4', '2.8', '3.'],
+# m, M = ax.get_ylim()
+# m = np.floor(np.log10(m))
+# M = np.ceil(np.log10(M))
+# pows = np.arange(m, M+1, 1)
+# tick_list = list(np.sort(np.concatenate((10**pows, [exact_CL]))))
+
+# ax.set_yticks(tick_list,
+#               labels=[str(s) for s in tick_list],
 #               fontsize=18)
-extraticks = [exact_CL]
-ax.set_yticks(list(ax.get_yticks()) + extraticks,
-              labels=ax.get_ymajorticklabels()+[s])
+
+ax.set_yticks([100, exact_CL, 10**3, 2*10**3], labels=['$10^2$', s, '',
+                                                       '$2\\cdot10^3$'])
+# ax.set_yticks(list(ax.get_yticks()) + [exact_CL],
+#               labels=ax.get_yticklabels()+[s])
+
 # plt.xticks([10**5, 10**6], fontsize=16)
 
 plt.grid(which='major', axis='y')

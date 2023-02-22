@@ -28,7 +28,7 @@ materials = [
     # 5e-4,
     # 1e-4,
     # 1e-5,
-    0,
+    # 0,
 ]
 
 cmap = get_sub_cmap('cmr.ocean', 0.2, .7, N=len(materials))
@@ -136,3 +136,17 @@ ax1.legend(title='Outer Material Model', title_fontsize=20,
            fontsize=20, ncols=2)
 # Show figure (needed for running from command line)
 plt.show()
+
+# %%
+
+# Save to .dat file for pgfplots
+
+paper_path = relpath(expanduser('~/papers/outer_materials/figures/data/embed'))
+
+mask = ~np.isnan(CL)
+# mask[14] = False
+
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+both = np.column_stack((es[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+np.savetxt(paper_path + '/k_'+str(float(k))+'.dat', both, fmt='%.8f')
