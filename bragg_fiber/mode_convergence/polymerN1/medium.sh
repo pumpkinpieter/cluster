@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 #SBATCH --job-name bragconv
-#SBATCH -N 22
-#SBATCH -n 22
+#SBATCH -N 16
+#SBATCH -n 16
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
-#SBATCH --partition medium
+#SBATCH --partition long
 #SBATCH --mem 0
 #SBATCH --mail-type=ALL
 #SBATCH --mail-user piet2@pdx.edu
@@ -24,24 +24,15 @@ for i in {0..11}
         srun --unbuffered --nodes 1 --ntasks 1 \
            --output="logs/ref0_p${i}_task%s.out" \
            --error="errors/ref0_p${i}_task%s.err" \
-           python3 driver.py 0 ${i} 0 &
+           python3 driver.py 0 ${i} 0 0.002 &
 done
 
-for j in {0..5}
+for j in {0..9}
     do
         module load ngsolve/serial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \
            --output="logs/ref1_p${j}_task%s.out"\
            --error="errors/ref1_p${j}_task%s.err"\
-           python3 driver.py 1 ${j} 0 &
-done
-
-for k in {0..3}
-    do
-        module load ngsolve/serial gcc-9.2.0 intel
-        srun --unbuffered --nodes 1 --ntasks 1 \
-           --output="logs/ref2_p${k}_task%s.out"\
-           --error="errors/re2_p${k}_task%s.err"\
-           python3 driver.py 2 ${k} 0 &
+           python3 driver.py 1 ${j} 0 0.002 &
 done
 wait

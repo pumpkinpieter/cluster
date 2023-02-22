@@ -12,8 +12,7 @@ betas = np.zeros(nspan, dtype=complex)
 dofs = np.zeros(1, dtype=float)
 
 # Get exact search centers
-centers = np.load('exact_betas/\
-k_001_subint_150_1585_201_scaled_betas.npy')
+centers = np.load('exact_betas/k_002_scaled_betas.npy')
 
 # Embedding parameter array
 wls = np.linspace(3.11, 3.6, 301) * 1e-6
@@ -51,7 +50,7 @@ if __name__ == '__main__':
 
     centers = a.sqrZfrom(centers/a.L).conjugate()
     center = centers[i]
-    radius = 0.05
+    radius = 0.02
     npts = 4
 
     beta, _, _, _, Ro = a.leakyvecmodes(ctr=center,
@@ -60,7 +59,7 @@ if __name__ == '__main__':
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
-                                        niterations=10,
+                                        niterations=17,
                                         nrestarts=0,
                                         stop_tol=1e-9,
                                         inverse='pardiso')
