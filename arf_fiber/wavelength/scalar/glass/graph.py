@@ -7,16 +7,14 @@ Created on Sat Mar 19 20:33:33 2022
 """
 
 import numpy as np
-import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
-import matplotlib
-matplotlib.use("Qt5Agg")
+from os.path import expanduser, relpath
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/glass/')
-path = os.path.relpath(main + 'outputs')
+main = expanduser('~/local/convergence/arf_fiber/wavelength/scalar/glass')
+path = relpath(main + '/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 
@@ -34,7 +32,7 @@ for j in range(len(wls)):
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(19, 9))
 
 # Plot the data
 ax1.plot(wls, CL, '^-', color='blue',
@@ -43,16 +41,17 @@ ax1.plot(wls, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=16)
+fig.suptitle("Poletti Scalar Wavelength Study: C0 model",
+             fontsize=26)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=11)
-ax1.set_ylabel("CL", fontsize=11)
+ax1.set_xlabel("\nWavelength", fontsize=18)
+ax1.set_ylabel("CL", fontsize=18)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=8)
-plt.rc('ytick', labelsize=8)
+plt.rc('xtick', labelsize=12)
+plt.rc('ytick', labelsize=12)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -80,23 +79,23 @@ plt.show()
 
 # %%
 
-# Save cleaned data to numpy arrays for comparison plot
+# # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/poletti_N0_CLs'), CL)
-np.save(os.path.relpath(main + 'data/poletti_N0_wls'), wls)
+# np.save(os.path.relpath(main + 'data/poletti_N0_CLs'), CL)
+# np.save(os.path.relpath(main + 'data/poletti_N0_wls'), wls)
 
 
-# %%
+# # %%
 
-# Save to .dat file for pgfplots
+# # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+# figures'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
+# mask = ~np.isnan(CL)
+# mask[14] = False
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+# both = np.column_stack((wls[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+# np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
