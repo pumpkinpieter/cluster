@@ -50,7 +50,7 @@ centers = a * wls**3 + b * wls**2 + c * wls + d
 centers = a * wls**3 + b * wls**2 + c * wls + d
 
 # PML strength
-alpha = 5
+alpha = 8
 
 if __name__ == '__main__':
 

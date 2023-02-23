@@ -44,13 +44,15 @@ ys = np.array([2.204, 2.225,  2.236, 2.246, 2.256])
 xs = np.array([wls[0], wls[50], wls[100], wls[150], wls[199]])
 
 a, b, c, d = np.polyfit(xs, ys, 3)
-centers = a * wls**3 + b * wls**2 + c * wls + d
 
-# Search centers  for C1 fiber (need to shift later for material change)
+# Likely need more points for C1 configuration
+wls = np.linspace(1, 2, 4000) * 1e-6
+
+# Search centers for C1 fiber
 centers = a * wls**3 + b * wls**2 + c * wls + d
 
 # PML strength
-alpha = 5
+alpha = 8
 
 if __name__ == '__main__':
 
@@ -67,7 +69,6 @@ if __name__ == '__main__':
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
           '#'*8 + '\n', flush=True)
 
-    # Shift search center due to material change
     center = centers[i]
     radius = .01
     npts = 4
