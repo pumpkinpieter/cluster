@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name funarf 
-#SBATCH -N 18
-#SBATCH -n 18
+#SBATCH -N 14
+#SBATCH -n 14
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition long
@@ -17,7 +17,7 @@ module load gcc-9.2.0
 module load intel
 
 # Run the code.
-p=5
+p=6
 echo "Starting convergence study: "
 for i in {0..36}
     do
