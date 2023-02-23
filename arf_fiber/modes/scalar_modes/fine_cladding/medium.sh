@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 #SBATCH --job-name csgarf
-#SBATCH -N 42
-#SBATCH -n 42
+#SBATCH -N 12
+#SBATCH -n 12
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
-#SBATCH --partition medium
+#SBATCH --partition long
 #SBATCH --mem 0
 #SBATCH --mail-user piet2@pdx.edu
 #SBATCH --output=logs/csg_arf_convergence.log
@@ -18,12 +18,12 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..24}
+for i in {0..15}
     do
         srun --unbuffered --nodes 1 --ntasks 1 python3 scalar_convergence.py 0 ${i} &
 done
 
-for j in {0..16}
+for j in {0..7}
     do
         srun --unbuffered --nodes 1 --ntasks 1 python3 scalar_convergence.py 1 ${j} &
 done
