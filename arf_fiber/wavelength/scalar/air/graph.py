@@ -18,14 +18,14 @@ path = relpath(main + '/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 
-wls = np.linspace(1, 2, 200) * 1e-6
+wls = (np.linspace(1, 2, 4000) * 1e-6)[:2670]
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
     b = raw[j, :]
 
-    b = b[np.where(b > 0)]
+    b = b[np.where(b > 1e-6)]
     base[j] = np.min(b)
 
 
