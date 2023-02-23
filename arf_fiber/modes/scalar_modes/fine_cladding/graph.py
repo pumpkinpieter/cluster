@@ -8,6 +8,11 @@ Created on Sat Mar 19 20:33:33 2022
 
 import numpy as np
 import matplotlib.pyplot as plt
+from os.path import expanduser, relpath
+
+main = expanduser('~/local/convergence/arf_fiber/modes/scalar_modes/\
+fine_cladding')
+path = relpath(main + '/outputs')
 
 SMALL_SIZE = 14
 MEDIUM_SIZE = 18
@@ -25,8 +30,8 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 plt.figure(figsize=(18, 16))
 
 for r in range(2):
-    betas = np.load('outputs' + '/ref'+str(r)+'all_betas.npy')
-    dofs = np.load('outputs' + '/ref'+str(r)+'all_dofs.npy')
+    betas = np.load(path + '/ref'+str(r)+'all_betas.npy')
+    dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
 
@@ -41,7 +46,7 @@ plt.legend()
 
 plt.xlabel('ndofs')
 plt.ylabel('CL')
-plt.title('CSG Arf Poletti Scalar convergence.')
+plt.title('CSG Arf Poletti Scalar convergence with fine cladding.\n')
 plt.yscale('log')
 plt.xscale('log')
 plt.grid()

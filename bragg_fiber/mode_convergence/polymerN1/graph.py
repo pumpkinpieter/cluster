@@ -67,8 +67,8 @@ plt.ylabel('CL', fontsize=25)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\n\
-Fundamental Mode Convergence\n', fontsize=35)
+plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\nwith Lossy Polymer\
+, k = %.3f\n' % .002, fontsize=35)
 
 plt.yscale('log')
 plt.xscale('log')
