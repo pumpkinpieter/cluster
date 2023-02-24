@@ -35,7 +35,7 @@ if __name__ == '__main__':
 
     T = 10
     if len(sys.argv) > 5:
-        T = float(sys.argv[4])
+        T = float(sys.argv[5])
 
     dirname = 'ref%i_p%i/alpha%.2f_T%.2f' % (ref, p, alpha, T)
 

@@ -13,10 +13,15 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
-main = expanduser('~/local/convergence/arf_fiber/wavelength/glass/pml_study')
-path = relpath(main + '/7.5/outputs')
+ref = 0
+p = 5
+alpha = 7.5
+T = 10
 
-raw = np.load(path + '/p4_alpha7.50_all_wl.npy').imag
+main = expanduser('~/local/convergence/arf_fiber/wavelength/glass/pml_study')
+path = relpath(main + '/ref%i_p%i/alpha%.2f_T%.2f' % (ref, p, alpha, T))
+
+raw = np.load(path + '/all.npy').imag
 
 wls = np.linspace(1, 2, 200) * 1e-6
 base = np.zeros_like(wls)
@@ -25,14 +30,20 @@ for j in range(len(wls)):
 
     b = raw[j, :]
 
-    c = np.where((b != 0), 1, 0)
-    base[j] = np.mean(b, where=list(c))
-
+    b = b[np.where(b > 0)]
+    try:
+        base[j] = np.mean(b)
+    except ValueError:
+        base[j] = np.nan
+    if j == 12:
+        base[j] = np.nan
 
 CL = 20 * base / np.log(10)
 
+mask = ~np.isnan(CL)
+wls, CL = wls[mask], CL[mask]
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
+fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(25, 11))
 
 # Plot the data
 ax1.plot(wls, CL, '^-', color='blue',
@@ -41,16 +52,16 @@ ax1.plot(wls, CL, '^-', color='blue',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=16)
+# fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=26)
 
 # Set axis labels
-ax1.set_xlabel("\nWavelength", fontsize=11)
-ax1.set_ylabel("CL", fontsize=11)
+ax1.set_xlabel("\nWavelength", fontsize=18)
+ax1.set_ylabel("CL", fontsize=18)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=8)
-plt.rc('ytick', labelsize=8)
+plt.rc('xtick', labelsize=16)
+plt.rc('ytick', labelsize=16)
 
 ax1.xaxis.set_major_locator(MultipleLocator(1e-7))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
@@ -76,25 +87,21 @@ plt.subplots_adjust(top=0.905,
 # Show figure (needed for running from command line)
 plt.show()
 
-# %%
-
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(relpath(main + 'data/poletti_N0_CLs'), CL)
-np.save(relpath(main + 'data/poletti_N0_wls'), wls)
+np.save(relpath(main + '/data/ref%i_p%i_alpha%.2f_T%.2f' % (ref, p, alpha, T)),
+        CL)
 
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = relpath(expanduser('~/papers/arf_embedding/\
-figures'))
+paper_path = relpath(expanduser('~/papers/outer_materials/figures/data/arf/\
+6tube/pml/'))
 
 mask = ~np.isnan(CL)
-mask[14] = False
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
 both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+np.savetxt(paper_path + '/ref%i_p%i_alpha%.2f_T%.2f.dat' %
+           (ref, p, alpha, T), both, fmt='%.8f')
