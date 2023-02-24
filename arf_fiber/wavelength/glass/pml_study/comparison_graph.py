@@ -26,6 +26,7 @@ wls[12] = np.nan
 wls = wls[~np.isnan(wls)]
 
 figsize = (15*len(T), 8*len(P))
+
 # Set up the figure and subplots
 fig, ax = plt.subplots(len(P), len(T), sharex=False, figsize=figsize)
 if len(T) == 1:
