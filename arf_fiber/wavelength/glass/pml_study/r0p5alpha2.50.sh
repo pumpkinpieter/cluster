@@ -21,8 +21,8 @@ echo "Starting convergence study: "
 date
 
 ref=0
-p=6
-alpha=5
+p=5
+alpha=2.5
 
 for i in {0..199}
     do
