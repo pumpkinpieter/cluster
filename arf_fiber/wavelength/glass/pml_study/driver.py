@@ -4,7 +4,9 @@
 import numpy as np
 import os
 import sys
+import netgen.libngpy as libngpy
 from fiberamp.fiber.microstruct.pbg import ARF2
+
 
 # Set result arrays
 nspan = 4
@@ -70,17 +72,30 @@ if __name__ == '__main__':
     radius = .05
     npts = 4
 
-    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
-                                        rad=radius,
-                                        alpha=alpha,
-                                        nspan=nspan,
-                                        npts=npts,
-                                        p=p,
-                                        niterations=12,
-                                        nrestarts=0,
-                                        stop_tol=1e-9,
-                                        inverse='pardiso')
+    try:
 
+        beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
+                                            rad=radius,
+                                            alpha=alpha,
+                                            nspan=nspan,
+                                            npts=npts,
+                                            p=p,
+                                            niterations=10,
+                                            nrestarts=0,
+                                            stop_tol=1e-9,
+                                            inverse='pardiso')
+    except libngpy._meshing.NgException:
+
+        beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
+                                            rad=radius,
+                                            alpha=alpha,
+                                            nspan=nspan,
+                                            npts=npts,
+                                            p=p,
+                                            niterations=10,
+                                            nrestarts=0,
+                                            stop_tol=1e-9,
+                                            inverse='umfpack')
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)
