@@ -178,32 +178,32 @@ plt.show()
 
 # %%
 
-# Save cleaned data to numpy arrays for comparison plot
+# # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL1)
-np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
+# np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL1)
+# np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
 
 
-# %%
+# # %%
 
-# Save to .dat file for pgfplots
+# # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/arf/8tube'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+# figures/data/arf/8tube'))
 
-msk = ~np.isnan(CL1)
+# msk = ~np.isnan(CL1)
 
-both = np.column_stack((wls[msk]*1e6, CL1[msk]))
-np.savetxt(paper_path + '/ref0_p5_subint.dat', both, fmt='%.8f')
+# both = np.column_stack((wls[msk]*1e6, CL1[msk]))
+# np.savetxt(paper_path + '/ref0_p5_subint.dat', both, fmt='%.8f')
 
-msk = ~np.isnan(CL2)
+# msk = ~np.isnan(CL2)
 
-both = np.column_stack((wls[msk]*1e6, CL2[msk]))
-np.savetxt(paper_path + '/ref0_p6_subint.dat', both, fmt='%.8f')
+# both = np.column_stack((wls[msk]*1e6, CL2[msk]))
+# np.savetxt(paper_path + '/ref0_p6_subint.dat', both, fmt='%.8f')
 
-good = ~np.isnan(CL1) * ~np.isnan(CL2)
-res = np.abs(CL1[good] - CL2[good])
-rel = np.abs(CL1[good] + CL2[good])/2
+# good = ~np.isnan(CL1) * ~np.isnan(CL2)
+# res = np.abs(CL1[good] - CL2[good])
+# rel = np.abs(CL1[good] + CL2[good])/2
 
-both = np.column_stack((wls[good]*1e6, 100*res/rel))
-np.savetxt(paper_path + '/ref0_p6p5_rel_error.dat', both, fmt='%.8f')
+# both = np.column_stack((wls[good]*1e6, 100*res/rel))
+# np.savetxt(paper_path + '/ref0_p6p5_rel_error.dat', both, fmt='%.8f')
