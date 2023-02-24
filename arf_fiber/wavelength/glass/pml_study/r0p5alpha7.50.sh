@@ -22,7 +22,7 @@ date
 
 ref=0
 p=5
-alpha=5
+alpha=7.50
 
 for i in {0..199}
     do
