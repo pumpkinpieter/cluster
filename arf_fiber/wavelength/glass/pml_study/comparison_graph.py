@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 T = [10]
-P = [4, 5]
+P = [4, 5, 6]
 ref = 0
 alphas = [5, 7.5, 10]
 
@@ -28,32 +28,58 @@ wls = wls[~np.isnan(wls)]
 figsize = (15*len(T), 8*len(P))
 
 # Set up the figure and subplots
-fig, ax = plt.subplots(len(P), len(T), sharex=False, figsize=figsize)
+fig1, ax1 = plt.subplots(len(P), len(T), sharex=False, figsize=figsize)
 if len(T) == 1:
-    ax = ax[:, np.newaxis]
+    ax1 = ax1[:, np.newaxis]
 
 # Plot the data
 for i, p in enumerate(P):
     for j, t in enumerate(T):
-        for alpha in alphas:
+        for k, alpha in enumerate(alphas):
             try:
                 name = '/ref%i_p%i_alpha%.2f_T%.2f' % (ref, p, alpha, t)
                 CL = np.load(main + name + '.npy')
 
-                ax[i, j].plot(wls, CL,
-                              label='alpha=%.2f' % alpha,
-                              linewidth=1.5)
+                ax1[i, j].plot(wls, CL,
+                               label='alpha=%.2f' % alpha,
+                               linewidth=1.5)
             except FileNotFoundError:
                 pass
 
-            ax[i, j].legend(fontsize=18)
-            ax[i, j].set_title('ref = %i, p = %i, T = %.2f' % (ref, p, t),
-                               fontsize=22)
+            ax1[i, j].legend(fontsize=18)
+            ax1[i, j].set_title('ref = %i, p = %i, T = %.2f' % (ref, p, t),
+                                fontsize=22)
+
+# Set up the figure and subplots
+fig2, ax2 = plt.subplots(len(alphas), len(T), sharex=False, figsize=figsize)
+
+if len(T) == 1:
+    ax2 = ax2[:, np.newaxis]
+
+# Plot the data
+for i, alpha in enumerate(alphas):
+    for j, t in enumerate(T):
+        for k, p in enumerate(P):
+            try:
+                name = '/ref%i_p%i_alpha%.2f_T%.2f' % (ref, p, alpha, t)
+                CL = np.load(main + name + '.npy')
+
+                ax2[i, j].plot(wls, CL,
+                               label='p=%.2f' % p,
+                               linewidth=1.5)
+            except FileNotFoundError:
+                pass
+
+            ax2[i, j].legend(fontsize=18)
+            ax2[i, j].set_title('ref = %i, alpha = %.2f, T = %.2f'
+                                % (ref, alpha, t),
+                                fontsize=22)
 
 # Set Figure and Axes parameters ################################
 
 # Set titles
-# fig.suptitle("Wavelength Study: glass cladding to infinity",  fontsize=26)
+fig1.suptitle("PML stability: compare alpha at fixed order",  fontsize=26)
+fig2.suptitle("PML stability: compare order at fixed alpha",  fontsize=26)
 
 # Set up ticks and grids
 

@@ -14,7 +14,7 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 ref = 0
-p = 5
+p = 6
 alpha = 10
 T = 10
 
