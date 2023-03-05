@@ -226,20 +226,25 @@ plt.show()
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/arf/6tube'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+# figures/data/arf/6tube/'))
 
-both = np.column_stack((wl_main[L], CL_main[L]))
-np.savetxt(paper_path + '/C1L.dat', both, fmt='%.8f')
+# both = np.column_stack((wl_main[L], CL_main[L]))
+# np.savetxt(paper_path + '/C1L.dat', both, fmt='%.8f')
 
-both = np.column_stack((wl_sub[Wl:Wr], CL_sub[Wl:Wr]))
-np.savetxt(paper_path + '/C1_subinterval.dat', both, fmt='%.8f')
+# both = np.column_stack((wl_sub[Wl:Wr], CL_sub[Wl:Wr]))
+# np.savetxt(paper_path + '/C1_subinterval.dat', both, fmt='%.8f')
 
-both = np.column_stack((wl_main[R], CL_main[R]))
-np.savetxt(paper_path + '/C1R.dat', both, fmt='%.8f')
+# both = np.column_stack((wl_main[R], CL_main[R]))
+# np.savetxt(paper_path + '/C1R.dat', both, fmt='%.8f')
 
-both = np.column_stack((N0_wls, N0_CLs))
-np.savetxt(paper_path + '/C0.dat', both, fmt='%.8f')
+# both = np.column_stack((N0_wls, N0_CLs))
+# np.savetxt(paper_path + '/C0.dat', both, fmt='%.8f')
 
-both = np.column_stack((N0_wls[N0_sub_msk], N0_CLs[N0_sub_msk]))
-np.savetxt(paper_path + '/C0_subinterval.dat', both, fmt='%.8f')
+# both = np.column_stack((N0_wls[N0_sub_msk], N0_CLs[N0_sub_msk]))
+# np.savetxt(paper_path + '/C0_subinterval.dat', both, fmt='%.8f')
+
+# msk = np.where((wl_sub > 1.3535)*(wl_sub < 1.3555))
+
+# both = np.column_stack((wl_sub[msk], CL_sub[msk]))
+# np.savetxt(paper_path + '/spike_subint.dat', both, fmt='%.8f')

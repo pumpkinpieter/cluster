@@ -7,23 +7,28 @@ Created on Sat Mar 19 20:33:33 2022
 """
 
 import numpy as np
-import os
+from os.path import expanduser, relpath
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 plt.close('all')
 
 # Set up the figure and subplots
-fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
-                               gridspec_kw={'height_ratios': [1.3, 1]},
-                               figsize=(35, 18))
+fig, ax1 = plt.subplots(1, 1, sharex=False, figsize=(25, 12))
 
-wls = np.linspace(3.11, 3.6, 800) * 1e-6
+wls = np.linspace(3.44, 3.46, 400) * 1e-6
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-path = os.path.relpath(main + 'wavelength/air/p4ref0_outputs')
+ref = 0
+p = 5
+alpha = 2.5
 
-raw = np.load(path + '/all_e.npy').imag
+dirname = '/ref%i_p%i_alpha%.2f' % (ref, p, alpha)
+
+main = expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/air/\
+pml_subinterval')
+path = relpath(main + dirname)
+
+raw = np.load(path + '/all.npy').imag
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
@@ -36,22 +41,23 @@ for j in range(len(wls)):
         base[j] = np.nan
 
 
-CL0 = 20 * base / np.log(10)
+CL = 20 * base / np.log(10)
 
-msk = np.where(np.abs(wls-3.45e-6) < .02e-6)
-rwls = wls[msk]
-rCL0 = CL0[msk]
+nnan = ~np.isnan(CL)
 
-nnan = ~np.isnan(rCL0)
-
-ax1.plot(rwls[nnan], rCL0[nnan], color='blue',
-         label='p4_ref0',
+ax1.plot(wls[nnan], CL[nnan],
+         label=dirname,
          linewidth=1.5, markersize=0)
 
-path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
+ref2 = 0
+p2 = 5
+alpha2 = 5
 
-raw = np.load(path + '/all_e.npy').imag
+dirname2 = '/ref%i_p%i_alpha%.2f' % (ref2, p2, alpha2)
 
+path2 = relpath(main + dirname2)
+
+raw = np.load(path2 + '/all.npy').imag
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
@@ -63,49 +69,18 @@ for j in range(len(wls)):
     except ValueError:
         base[j] = np.nan
 
-CL1 = 20 * base / np.log(10)
-rCL1 = CL1[msk]
-nnan2 = ~np.isnan(rCL1)
 
-# Plot the data
-ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
-         label='p5_ref0', linestyle='--',
+CL2 = 20 * base / np.log(10)
+
+nnan2 = ~np.isnan(CL2)
+
+ax1.plot(wls[nnan2], CL2[nnan2],
+         label=dirname2,
          linewidth=1.5, markersize=0)
 
-# path = os.path.relpath(main + 'wavelength/air/subinterval/\
-# 343_347/p4ref0_suboutputs')
+msk = nnan*nnan2
 
-# raw = np.load(path + '/all_e.npy').imag
-# subwls = np.linspace(3.43, 3.47, 400) * 1e-6
-
-# base = np.zeros_like(subwls)
-
-# for j in range(len(subwls)):
-
-#     b = raw[j, :]
-#     L = b[np.where((b > 1e-7) * (b < 1e0/8))]
-#     try:
-#         base[j] = np.min(L)
-#     except ValueError:
-#         base[j] = np.nan
-
-
-# CL2 = 20 * base / np.log(10)
-# nnan2 = ~np.isnan(CL2)
-
-# # Plot the data
-# ax1.plot(subwls[nnan2], CL2[nnan2], color='blue',
-#          label='p4_ref0', marker='o',
-#          linewidth=1.5, markersize=4)
-
-good = ~np.isnan(rCL0) * ~np.isnan(rCL1)
-
-res = np.abs(rCL1[good] - rCL0[good])
-rel = (rCL1[good] + rCL0[good]) / 2
-
-# Plot the data
-ax2.plot(rwls[good], res, color='green',
-         linewidth=.9, label='residual', markersize=1)
+err = np.abs(CL - CL2) / CL
 
 # Set Figure and Axes parameters ################################
 
@@ -113,16 +88,15 @@ ax2.plot(rwls[good], res, color='green',
 # fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
 
 # Set axis labels
-ax2.set_xlabel("\nWavelength", fontsize=28)
+ax1.set_xlabel("\nWavelength", fontsize=28)
 ax1.set_ylabel("CL\n", fontsize=28)
-ax2.set_ylabel("CL\n", fontsize=28)
 
 # Set up ticks and grids
 
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1e-8))
+ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.yaxis.set_major_locator(MultipleLocator(1))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
@@ -131,17 +105,6 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
 # # Set log scale on y axes
 ax1.set_yscale('log')
-
-
-ax2.xaxis.set_major_locator(MultipleLocator(1e-8))
-ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax2.yaxis.set_major_locator(MultipleLocator(1))
-ax2.yaxis.set_minor_locator(AutoMinorLocator(0))
-ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
-
-# # Set log scale on y axes
-ax2.set_yscale('log')
 
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
@@ -154,29 +117,46 @@ plt.subplots_adjust(top=0.966,
                     hspace=0.138,
                     wspace=0.2)
 
-# ax1.set_ylim(1e-6, 1e2)
-# ax1.set_xlim(3.1e-6, 3.61e-6)
+
 ax1.legend(fontsize=18)
-ax2.legend(fontsize=18)
+
 # Show figure (needed for running from command line)
 plt.show()
 
-# %%
-
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL0)
-np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
+np.save(relpath(main + '/data' + dirname), CL)
+
+# %%
+
+# # Save cleaned data to numpy arrays for comparison plot
+
+# np.save(relpath(main + 'wavelength/data/air_CL'), CL0)
+# np.save(relpath(main + 'wavelength/data/air_wls'), wls)
 
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/arf/8tube'))
+# paper_path = relpath(expanduser('~/papers/outer_materials/\
+# figures/data/arf/8tube/pml_stability'))
 
-msk = ~np.isnan(CL0)
+# slide_path = relpath(expanduser('~/papers/outer_materials/slides/\
+# figures/data/arf/8tube/pml_stability'))
 
-both = np.column_stack((wls[msk]*1e6, CL0[msk]))
-np.savetxt(paper_path + '/N3config_ref0.dat', both, fmt='%.8f')
+# both = np.column_stack((wls[nnan]*1e6, CL[nnan]))
+# name = '/cls_p%i_alpha%.2f.dat' % (p, alpha)
+# np.savetxt(paper_path + name, both, fmt='%.8f')
+# np.savetxt(slide_path + name, both, fmt='%.8f')
+
+# both = np.column_stack((wls[nnan2]*1e6, CL2[nnan2]))
+# name = '/cls_p%i_alpha%.2f.dat' % (p2, alpha2)
+# np.savetxt(paper_path + name, both, fmt='%.8f')
+# np.savetxt(slide_path + name, both, fmt='%.8f')
+
+
+# both = np.column_stack((wls[msk]*1e6, err[msk]))
+# name = '/err_p%i_alphas_%.2f_%.2f.dat' % (p, alpha, alpha2)
+# np.savetxt(paper_path + name, both, fmt='%.8f')
+# np.savetxt(slide_path + name, both, fmt='%.8f')

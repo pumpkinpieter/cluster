@@ -15,7 +15,7 @@ plt.close('all')
 
 ref = 0
 p = 6
-alpha = 10
+alpha = 7.5
 T = 10
 
 main = expanduser('~/local/convergence/arf_fiber/wavelength/glass/pml_study')

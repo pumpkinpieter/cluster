@@ -21,7 +21,7 @@ fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
 wls = np.linspace(3.11, 3.6, 800) * 1e-6
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/')
-path = os.path.relpath(main + 'wavelength/air/p4ref0_outputs')
+path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
 
 raw = np.load(path + '/all_e.npy').imag
 base = np.zeros_like(wls)
@@ -38,39 +38,42 @@ for j in range(len(wls)):
 
 CL0 = 20 * base / np.log(10)
 
-msk = np.where(np.abs(wls-3.45e-6) < .02e-6)
-rwls = wls[msk]
-rCL0 = CL0[msk]
+# msk = np.where(np.abs(wls-3.45e-6) < .02e-6)
+# rwls = wls[msk]
+# rCL0 = CL0[msk]
 
-nnan = ~np.isnan(rCL0)
+# nnan = ~np.isnan(rCL0)
 
-ax1.plot(rwls[nnan], rCL0[nnan], color='blue',
-         label='p4_ref0',
+nnan = ~np.isnan(CL0)
+
+wls, CL0 = wls[nnan], CL0[nnan]
+ax1.plot(wls, CL0, color='blue',
+         label='p5_ref0',
          linewidth=1.5, markersize=0)
 
-path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
+# path = os.path.relpath(main + 'wavelength/air/p5ref0_outputs')
 
-raw = np.load(path + '/all_e.npy').imag
+# raw = np.load(path + '/all_e.npy').imag
 
-base = np.zeros_like(wls)
+# base = np.zeros_like(wls)
 
-for j in range(len(wls)):
+# for j in range(len(wls)):
 
-    b = raw[j, :]
-    L = b[np.where((b > 1e-7) * (b < 1e0/8))]
-    try:
-        base[j] = np.min(L)
-    except ValueError:
-        base[j] = np.nan
+#     b = raw[j, :]
+#     L = b[np.where((b > 1e-7) * (b < 1e0/8))]
+#     try:
+#         base[j] = np.min(L)
+#     except ValueError:
+#         base[j] = np.nan
 
-CL1 = 20 * base / np.log(10)
-rCL1 = CL1[msk]
-nnan2 = ~np.isnan(rCL1)
+# CL1 = 20 * base / np.log(10)
+# rCL1 = CL1[msk]
+# nnan2 = ~np.isnan(rCL1)
 
-# Plot the data
-ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
-         label='p5_ref0', linestyle='--',
-         linewidth=1.5, markersize=0)
+# # Plot the data
+# ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
+#          label='p5_ref0', linestyle='--',
+#          linewidth=1.5, markersize=0)
 
 # path = os.path.relpath(main + 'wavelength/air/subinterval/\
 # 343_347/p4ref0_suboutputs')
@@ -98,14 +101,14 @@ ax1.plot(rwls[nnan2], rCL1[nnan2], color='orange',
 #          label='p4_ref0', marker='o',
 #          linewidth=1.5, markersize=4)
 
-good = ~np.isnan(rCL0) * ~np.isnan(rCL1)
+# good = ~np.isnan(rCL0) * ~np.isnan(rCL1)
 
-res = np.abs(rCL1[good] - rCL0[good])
-rel = (rCL1[good] + rCL0[good]) / 2
+# res = np.abs(rCL1[good] - rCL0[good])
+# rel = (rCL1[good] + rCL0[good]) / 2
 
-# Plot the data
-ax2.plot(rwls[good], res, color='green',
-         linewidth=.9, label='residual', markersize=1)
+# # Plot the data
+# ax2.plot(rwls[good], res, color='green',
+#          linewidth=.9, label='residual', markersize=1)
 
 # Set Figure and Axes parameters ################################
 
@@ -113,7 +116,7 @@ ax2.plot(rwls[good], res, color='green',
 # fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
 
 # Set axis labels
-ax2.set_xlabel("\nWavelength", fontsize=28)
+# ax2.set_xlabel("\nWavelength", fontsize=28)
 ax1.set_ylabel("CL\n", fontsize=28)
 ax2.set_ylabel("CL\n", fontsize=28)
 
@@ -122,7 +125,7 @@ ax2.set_ylabel("CL\n", fontsize=28)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1e-8))
+ax1.xaxis.set_major_locator(MultipleLocator(5e-8))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.yaxis.set_major_locator(MultipleLocator(1))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
@@ -133,15 +136,15 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 ax1.set_yscale('log')
 
 
-ax2.xaxis.set_major_locator(MultipleLocator(1e-8))
-ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax2.yaxis.set_major_locator(MultipleLocator(1))
-ax2.yaxis.set_minor_locator(AutoMinorLocator(0))
-ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
+# ax2.xaxis.set_major_locator(MultipleLocator(1e-8))
+# ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax2.yaxis.set_major_locator(MultipleLocator(1))
+# ax2.yaxis.set_minor_locator(AutoMinorLocator(0))
+# ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+# ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
 
-# # Set log scale on y axes
-ax2.set_yscale('log')
+# # # Set log scale on y axes
+# ax2.set_yscale('log')
 
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
@@ -156,27 +159,35 @@ plt.subplots_adjust(top=0.966,
 
 # ax1.set_ylim(1e-6, 1e2)
 # ax1.set_xlim(3.1e-6, 3.61e-6)
-ax1.legend(fontsize=18)
-ax2.legend(fontsize=18)
+# ax1.legend(fontsize=18)
+# ax2.legend(fontsize=18)
 # Show figure (needed for running from command line)
 plt.show()
 
 # %%
 
-# Save cleaned data to numpy arrays for comparison plot
+# # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL0)
-np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
+# np.save(os.path.relpath(main + 'wavelength/data/air_CL'), CL0)
+# np.save(os.path.relpath(main + 'wavelength/data/air_wls'), wls)
 
 
 # %%
 
-# Save to .dat file for pgfplots
+# save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/arf/8tube'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+# figures/data/arf/8tube'))
 
-msk = ~np.isnan(CL0)
+# L = np.where(wls <= 3.44e-6)
+# R = np.where(wls >= 3.46e-6)
+# C = np.where((wls >= 3.44e-6)*(wls <= 3.46e-6))
 
-both = np.column_stack((wls[msk]*1e6, CL0[msk]))
-np.savetxt(paper_path + '/N3config_ref0.dat', both, fmt='%.8f')
+# both = np.column_stack((wls[L]*1e6, CL0[L]))
+# np.savetxt(paper_path + '/ref0_p5_C1config_L.dat', both, fmt='%.8f')
+
+# both = np.column_stack((wls[R]*1e6, CL0[R]))
+# np.savetxt(paper_path + '/ref0_p5_C1config_R.dat', both, fmt='%.8f')
+
+# both = np.column_stack((wls[C]*1e6, CL0[C]))
+# np.savetxt(paper_path + '/ref0_p5_C1config_C.dat', both, fmt='%.8f')

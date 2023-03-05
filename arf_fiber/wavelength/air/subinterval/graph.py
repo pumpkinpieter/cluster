@@ -24,6 +24,8 @@ base = np.zeros_like(wls)
 n_clust = 3
 err = np.zeros_like(wls)
 
+
+msk = np.where((wls > 1.3252e-6)*(wls < 1.3257e-6))
 for j in range(len(wls)):
 
     b = raw[j]
@@ -54,17 +56,16 @@ for j in range(len(wls)):
         base[j] = np.nan
         err[j] = 1
 
+
 bad_ind = np.nonzero(err)[0]
 
 CL = 20 * base / np.log(10)
-
-# CL = 20 * base[:, 2] / np.log(10)
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(35, 13))
 
 # Plot the data
-ax1.plot(wls, CL, '^-', color='blue',
+ax1.plot(wls[msk], CL[msk], '^-', color='blue',
          # label='shifting_capillaries',
          linewidth=1.5, markersize=2.4)
 # Set Figure and Axes parameters ################################
@@ -81,8 +82,8 @@ ax1.set_ylabel("CL\n", fontsize=28)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(.5e-8))
-ax1.xaxis.set_minor_locator(AutoMinorLocator(10))
+ax1.xaxis.set_major_locator(MultipleLocator(.005e-8))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.yaxis.set_major_locator(MultipleLocator(1))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
@@ -102,8 +103,9 @@ plt.subplots_adjust(top=0.905,
                     hspace=0.2,
                     wspace=0.2)
 
-ax1.set_xlim(1.3e-6, 1.4e-6)
-ax1.set_ylim(1e-4, 1e2)
+
+# ax1.set_xlim(1.3e-6, 1.4e-6)
+# ax1.set_ylim(1e-4, 1e2)
 # ax1.legend(fontsize=25)
 # Show figure (needed for running from command line)
 plt.show()
@@ -112,21 +114,21 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-mask = ~np.isnan(CL)
+# mask = ~np.isnan(CL)
 
-np.save(os.path.relpath(main + 'data/poletti_sub_CLs'), CL[mask])
-np.save(os.path.relpath(main + 'data/poletti_sub_wls'), wls[mask])
+# np.save(os.path.relpath(main + 'data/poletti_sub_CLs'), CL[mask])
+# np.save(os.path.relpath(main + 'data/poletti_sub_wls'), wls[mask])
 
-# %%
+# # %%
 
-# Save to .dat file for pgfplots
+# # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
+# figures/data'))
 
-mask = ~np.isnan(CL)
+# mask = ~np.isnan(CL)
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/polleti_wl_subinterval.dat', both, fmt='%.8f')
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+# both = np.column_stack((wls[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+# np.savetxt(paper_path + '/polleti_wl_subinterval.dat', both, fmt='%.8f')
