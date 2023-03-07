@@ -10,19 +10,24 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
-# from sklearn.cluster import KMeans
 
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/air/')
-path = os.path.relpath(main + 'spike2/outputs')
+path = os.path.relpath(main + 'spike2/prior_outputs')
+path2 = os.path.relpath(main + 'spike2/outputs')
 
 raw = np.load(path + '/all_e.npy').imag
+raw2 = np.load(path2 + '/all_e.npy').imag
+
 wls = np.linspace(1.3252, 1.3257, 100) * 1e-6
+wls_in = np.linspace(1.32537, 1.3254, 100) * 1e-6
 
 base = np.zeros_like(wls)
-n_clust = 3
+base2 = np.zeros_like(wls)
+
 err = np.zeros_like(wls)
+err2 = np.zeros_like(wls)
 
 for j in range(len(wls)):
 
@@ -54,10 +59,44 @@ for j in range(len(wls)):
         base[j] = np.nan
         err[j] = 1
 
+for j in range(len(wls)):
+
+    b = raw2[j]
+    L = b[np.where((b > 2e-4)*(b < .6e0))]
+
+    try:
+        if j == 630:
+            base2[j] = np.nan
+            err2[j] = 1
+
+        elif j == 93:
+            base2[j] = np.max(L)
+
+        elif len(L) == 3:  # Median works well if len == 3
+            base2[j] = np.median(L)
+
+        elif len(L) == 4:  # For 4, we typically have 2 centers
+            # means = KMeans(n_clusters=n_clust, random_state=0,
+            #                n_init=1).fit(L.reshape(-1, 1))
+            # ctrs = np.sort(means.cluster_centers_.flatten())
+            # base[j] = ctrs[np.argmin(np.abs(ctrs-base[j-1]))]
+            base2[j] = L[np.argmin(np.abs(L-base[j-1]))]
+
+        else:
+            base2[j] = np.min(L)
+
+    except ValueError:
+        base2[j] = np.nan
+        err2[j] = 1
+
 
 bad_ind = np.nonzero(err)[0]
 
 CL = 20 * base / np.log(10)
+CL2 = 20 * base2 / np.log(10)
+
+wls_all = np.concatenate([wls[:35], wls_in[7:-10], wls[39:]])
+CLs_all = np.concatenate([CL[:35], CL2[7:-10], CL[39:]])
 
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(35, 13))
@@ -65,10 +104,20 @@ fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(35, 13))
 # Plot the data
 ax1.plot(wls, CL, '^-', color='blue',
          # label='shifting_capillaries',
-         linewidth=1.5, markersize=2.4)
-i = 20
+         linewidth=1.5, markersize=5.4)
+
+# Plot the data
+ax1.plot(wls_in[7:-10], CL2[7:-10], '^-', color='green',
+         # label='shifting_capillaries',
+         linewidth=1.5, markersize=5.4)
+
+# ax1.plot(wls_all, CLs_all)
+
+i = 59
 m, M = ax1.get_ylim()
 ax1.plot([wls[i], wls[i]], [m, M])
+i = 42
+ax1.plot([wls_in[i], wls_in[i]], [m, M])
 # Set Figure and Axes parameters ################################
 
 # Set titles
@@ -117,16 +166,16 @@ plt.show()
 # np.save(os.path.relpath(main + 'data/poletti_sub_CLs'), CL[mask])
 # np.save(os.path.relpath(main + 'data/poletti_sub_wls'), wls[mask])
 
-# # %%
+# %%
 
-# # Save to .dat file for pgfplots
+# Save to .dat file for pgfplots
 
 # paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-# figures/data'))
+# slides/figures/data/arf/6tube'))
 
-# mask = ~np.isnan(CL)
+# mask = ~np.isnan(CLs_all)
 
 # # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-# both = np.column_stack((wls[mask], CL[mask]))
+# both = np.column_stack((wls_all[mask]*1e6, CLs_all[mask]))
 # # both = np.column_stack((x,y))
-# np.savetxt(paper_path + '/polleti_wl_subinterval.dat', both, fmt='%.8f')
+# np.savetxt(paper_path + '/spike_subint.dat', both, fmt='%.8f')

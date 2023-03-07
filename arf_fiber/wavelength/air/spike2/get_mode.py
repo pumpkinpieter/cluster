@@ -22,7 +22,7 @@ ys = np.array([4.7, 4.786, 4.9, 4.967, 5.018, 5.071, 5.12])
 a, b, c, d = np.polyfit(xs, ys, 3)
 
 # Embedding parameter array
-wls = np.linspace(1.3252, 1.3257, 100) * 1e-6
+wls = np.linspace(1.32537, 1.3254, 100) * 1e-6
 
 # Search centers
 centers = a * wls**3 + b * wls**2 + c * wls + d
@@ -35,7 +35,8 @@ if __name__ == '__main__':
     ref, p, i = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3])
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
-             curve=max(p+1, 8), shift_capillaries=False, wl=wls[i])
+             curve=max(p+1, 8), shift_capillaries=False, wl=wls[i],
+             glass_maxh=.04, T_buffer=20)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
@@ -60,6 +61,6 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
 
-    a.save_mesh('modes/mesh_index_' + str(i))
-    a.save_modes(Es, 'modes/E_modes_index_' + str(i))
-    a.save_modes(phis, 'modes/phi_modes_index_' + str(i))
+    a.save_mesh('fine_modes/mesh_index_' + str(i))
+    a.save_modes(Es, 'fine_modes/E_modes_index_' + str(i))
+    a.save_modes(phis, 'fine_modes/phi_modes_index_' + str(i))
