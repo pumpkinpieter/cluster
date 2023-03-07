@@ -19,12 +19,12 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in 36 20
+for i in 42 43
     do
         module load ngsolve/serial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
-            python3 get_mode.py 0 4 ${i} &
+            python3 get_mode.py 0 5 ${i} &
 done
 wait
