@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     a = ARF2(name='fine_cladding', poly_core=True, refine=ref,
              curve=max(p+1, 8), shift_capillaries=False, wl=wls[i],
-             glass_maxh=.04, T_buffer=20)
+             glass_maxh=.03, T_buffer=20)
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +

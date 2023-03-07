@@ -19,7 +19,7 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in 42 43 
+for i in 42 43
     do
         module load ngsolve/serial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \
