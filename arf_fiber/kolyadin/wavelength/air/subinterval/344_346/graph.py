@@ -15,7 +15,7 @@ plt.close('all')
 
 # Set up the figure and subplots
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
-                               gridspec_kw={'height_ratios': [2.5, 1]},
+                               gridspec_kw={'height_ratios': [2, 1]},
                                figsize=(35, 18))
 
 wls = np.linspace(3.44, 3.46, 400) * 1e-6
@@ -84,17 +84,17 @@ def hausdist(A, B):
     return max(np.max(hminA), np.max(hminB))
 
 
-base3 = np.zeros_like(wls)
+# base3 = np.zeros_like(wls)
 
-for j in range(len(wls)):
+# for j in range(len(wls)):
 
-    b1, b2 = raw1[j, :], raw2[j, :]
-    L1, L2 = b1[np.where((b1 > 1e-7) * (b1 < 1e0/8))
-                ], b2[np.where((b2 > 1e-7) * (b2 < 1e0/8))]
-    try:
-        base3[j] = hausdist(L1, L2)
-    except ValueError:
-        base3[j] = np.nan
+#     b1, b2 = raw1[j, :], raw2[j, :]
+#     L1, L2 = b1[np.where((b1 > 1e-7) * (b1 < 1e0/8))
+#                 ], b2[np.where((b2 > 1e-7) * (b2 < 1e0/8))]
+#     try:
+#         base3[j] = hausdist(L1, L2)
+#     except ValueError:
+#         base3[j] = np.nan
 
 # resCL = 20 * base3 / np.log(10)
 # good = ~np.isnan(resCL)
@@ -120,7 +120,7 @@ ax2.plot(wls[good], 100*res/CL1[good], color='green',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-# fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
+fig.suptitle("8 Tube ARF Subinterval with Benchmarking.\n",  fontsize=42)
 
 # Set axis labels
 ax2.set_xlabel("\nWavelength", fontsize=40)
@@ -129,11 +129,11 @@ ax2.set_ylabel("% Error\n", fontsize=40)
 
 # Set up ticks and grids
 
-plt.rc('xtick', labelsize=32)
-plt.rc('ytick', labelsize=32)
+plt.rc('xtick', labelsize=22,)
+plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
-ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+ax1.xaxis.set_major_locator(MultipleLocator(1e-9))
+ax1.xaxis.set_minor_locator(AutoMinorLocator(10))
 # ax1.yaxis.set_major_locator(MultipleLocator(1))
 # ax1.yaxis.set_minor_locator(AutoMinorLocator(0))
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
@@ -162,19 +162,27 @@ ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.966,
-                    bottom=0.103,
-                    left=0.071,
-                    right=0.97,
-                    hspace=0.138,
+plt.subplots_adjust(top=0.915,
+                    bottom=0.098,
+                    left=0.072,
+                    right=0.973,
+                    hspace=0.146,
                     wspace=0.2)
 
-ax2.set_ylim(1e-4, 1e2)
-# ax1.set_xlim(3.1e-6, 3.61e-6)
-ax1.legend(fontsize=35)
-ax2.legend(fontsize=35, loc='upper right')
+# ax2.set_ylim(1e-4, 1e2)
+ax1.set_xlim(3.4395e-6, 3.4605e-6)
+ax2.set_xlim(3.4395e-6, 3.4605e-6)
+
+ax2.plot([3.4395e-6, 3.4605e-6], [1, 1], color='gray',
+         linewidth=2.2, linestyle='--', label='$1\\%$')
+
+ax1.legend(fontsize=25)
+ax2.legend(fontsize=25, loc='upper right')
 # Show figure (needed for running from command line)
 plt.show()
+
+
+ax2.set_ylim(1e-4, 1e2)
 
 # %%
 

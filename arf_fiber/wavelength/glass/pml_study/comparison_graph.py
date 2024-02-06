@@ -16,7 +16,7 @@ plt.close('all')
 T = [10]
 P = [4, 5, 6]
 ref = 0
-alphas = [5, 7.5, 10]
+alphas = [2.5, 5, 7.5, 10]
 
 main = relpath(expanduser('~/local/convergence/arf_fiber/wavelength/glass/\
 pml_study/data'))

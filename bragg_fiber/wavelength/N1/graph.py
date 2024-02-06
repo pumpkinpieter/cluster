@@ -24,17 +24,17 @@ wls = np.linspace(1.4, 2, 301) * 1e-6
 base = np.zeros_like(wls)
 
 for j in range(len(wls)):
-    if j == 195:
+    # if j == 195:
+    #     base[j] = np.nan
+    # elif j == 70:
+    #     base[j] = np.nan
+    # else:
+    b = raw[j, :]
+    L = b[np.where((b > 0.08) * (b < 8e2))]
+    try:
+        base[j] = np.min(L)
+    except ValueError:
         base[j] = np.nan
-    elif j == 70:
-        base[j] = np.nan
-    else:
-        b = raw[j, :]
-        L = b[np.where((b > 0.08) * (b < 8e2))]
-        try:
-            base[j] = np.min(L)
-        except ValueError:
-            base[j] = np.nan
 
 
 CL = 20 * base / np.log(10)
@@ -137,7 +137,7 @@ np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
 # Save to .dat file for pgfplots
 
 paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/bragg/N1'))
+slides/figures/data/bragg/N1'))
 
 mask = ~np.isnan(CL)
 

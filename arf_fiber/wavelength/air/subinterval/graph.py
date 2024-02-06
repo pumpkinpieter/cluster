@@ -25,7 +25,7 @@ n_clust = 3
 err = np.zeros_like(wls)
 
 
-msk = np.where((wls > 1.3252e-6)*(wls < 1.3257e-6))
+msk = np.where((wls > 0)*(wls < 1))
 for j in range(len(wls)):
 
     b = raw[j]
@@ -82,7 +82,7 @@ ax1.set_ylabel("CL\n", fontsize=28)
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(.005e-8))
+ax1.xaxis.set_major_locator(MultipleLocator(.005e-6))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 ax1.yaxis.set_major_locator(MultipleLocator(1))
 ax1.yaxis.set_minor_locator(AutoMinorLocator(1))
@@ -119,7 +119,7 @@ plt.show()
 # np.save(os.path.relpath(main + 'data/poletti_sub_CLs'), CL[mask])
 # np.save(os.path.relpath(main + 'data/poletti_sub_wls'), wls[mask])
 
-# # %%
+# %%
 
 # # Save to .dat file for pgfplots
 
