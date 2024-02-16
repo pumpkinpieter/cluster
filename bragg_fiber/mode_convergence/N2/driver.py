@@ -31,11 +31,7 @@ ts = [15*2.7183333333333333e-6, 15*2/3*1e-6,
 ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
               lambda x: n_glass, lambda x: n_glass]
 mats = ['core', 'glass', 'air', 'buffer', 'Outer']
-<<<<<<< HEAD
-maxhs = [.15, .012, .06, .007, .05]
-=======
 maxhs = [.1, .02, .06, .015, .05]
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 scale = 15e-6
 
 if __name__ == '__main__':

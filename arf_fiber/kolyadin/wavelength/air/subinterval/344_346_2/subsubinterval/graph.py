@@ -18,17 +18,10 @@ fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
                                gridspec_kw={'height_ratios': [2.5, 1]},
                                figsize=(35, 18))
 
-<<<<<<< HEAD
-wls = np.linspace(3.44, 3.46, 400) * 1e-6
-
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/')
-path = os.path.relpath(main + 'air/subinterval/344_346/ref0_p5')
-=======
 wls = np.linspace(3.44526316, 3.44576441, 400) * 1e-6
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/\
 air/subinterval/344_346_2/subsubinterval/')
 path = os.path.relpath(main + 'ref0_p5')
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 # First set of data
 raw1 = np.load(path + '/all_e.npy').imag
@@ -37,17 +30,10 @@ base1 = np.zeros_like(wls)
 for j in range(len(wls)):
 
     b = raw1[j, :]
-<<<<<<< HEAD
-    if j == 15:
-        L = b[np.where((b > 1.2e-6) * (b < 1e0/8))]
-    else:
-        L = b[np.where((b > .5e-6) * (b < 1e0/8))]
-=======
     if j == 122:
         L = b[np.where((b > 1.2e-6) * (b < 2))]
     else:
         L = b[np.where((b > .5e-7) * (b < 1e0/8))]
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
     try:
         base1[j] = np.min(L)
     except ValueError:
@@ -57,23 +43,13 @@ for j in range(len(wls)):
 CL1 = 20 * base1 / np.log(10)
 
 
-<<<<<<< HEAD
-nnan = ~np.isnan(CL1)
-
-ax1.plot(wls[nnan], CL1[nnan], color='blue',
-=======
 ax1.plot(wls, CL1, color='blue',
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
          label='p5_ref0', marker='o',
          linewidth=3, markersize=9)
 
 
 # Second set of data
-<<<<<<< HEAD
-path = os.path.relpath(main + 'air/subinterval/344_346/ref0_p6')
-=======
 path = os.path.relpath(main + 'ref0_p6')
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 raw2 = np.load(path + '/all_e.npy').imag
 base2 = np.zeros_like(wls)
@@ -88,52 +64,12 @@ for j in range(len(wls)):
         base2[j] = np.nan
 
 CL2 = 20 * base2 / np.log(10)
-<<<<<<< HEAD
-nnan2 = ~np.isnan(CL2)
-
-# # Plot the data
-ax1.plot(wls[nnan2], CL2[nnan2], color='orange',
-         label='p6_ref0', marker='o',
-         linewidth=0, markersize=8)
-
-# Residuals (using hausdorff dist)
-
-
-def hausdist(A, B):
-    A, B = np.array(A), np.array(B)
-    hmat = np.abs(A[:, np.newaxis] - B[np.newaxis, :])
-    hminA = np.min(hmat, axis=0)
-    hminB = np.min(hmat, axis=1)
-    return max(np.max(hminA), np.max(hminB))
-
-
-base3 = np.zeros_like(wls)
-
-for j in range(len(wls)):
-
-    b1, b2 = raw1[j, :], raw2[j, :]
-    L1, L2 = b1[np.where((b1 > 1e-7) * (b1 < 1e0/8))
-                ], b2[np.where((b2 > 1e-7) * (b2 < 1e0/8))]
-    try:
-        base3[j] = hausdist(L1, L2)
-    except ValueError:
-        base3[j] = np.nan
-
-# resCL = 20 * base3 / np.log(10)
-# good = ~np.isnan(resCL)
-
-# # Plot the data
-# ax2.plot(wls[good], resCL[good], color='green',
-#          linewidth=.9, label='residual', markersize=1)
-
-=======
 
 # # Plot the data
 ax1.plot(wls, CL2, color='orange',
          label='p6_ref0', marker='o',
          linewidth=0, markersize=8)
 
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 good = ~np.isnan(CL1) * ~np.isnan(CL2)
 res = np.abs(CL1[good] - CL2[good])
 rel = np.abs(CL1[good] + CL2[good])/2
@@ -160,17 +96,10 @@ ax2.set_ylabel("% Error\n", fontsize=40)
 
 # Set up ticks and grids
 
-<<<<<<< HEAD
-plt.rc('xtick', labelsize=32)
-plt.rc('ytick', labelsize=32)
-
-ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
-=======
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
 ax1.xaxis.set_major_locator(MultipleLocator(2e-11))
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 # ax1.yaxis.set_major_locator(MultipleLocator(1))
 # ax1.yaxis.set_minor_locator(AutoMinorLocator(0))
@@ -209,13 +138,8 @@ plt.subplots_adjust(top=0.966,
 
 ax2.set_ylim(1e-4, 1e2)
 # ax1.set_xlim(3.1e-6, 3.61e-6)
-<<<<<<< HEAD
-ax1.legend(fontsize=35)
-ax2.legend(fontsize=35, loc='upper right')
-=======
 ax1.legend(fontsize=28)
 ax2.legend(fontsize=28, loc='upper right')
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 # Show figure (needed for running from command line)
 plt.show()
 

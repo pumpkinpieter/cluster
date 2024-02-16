@@ -15,23 +15,14 @@ plt.close('all')
 
 # Set up the figure and subplots
 fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
-<<<<<<< HEAD
-                               gridspec_kw={'height_ratios': [2.5, 1]},
-=======
                                gridspec_kw={'height_ratios': [2.75, 1]},
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
                                figsize=(35, 18))
 
 wls = np.linspace(3.44, 3.46, 400) * 1e-6
 
-<<<<<<< HEAD
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/')
-path = os.path.relpath(main + 'air/subinterval/344_346/ref0_p5')
-=======
 main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/wavelength/\
 air/subinterval/344_346/subsubinterval2/')
 path = os.path.relpath(main + 'ref0_p5')
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 # First set of data
 raw1 = np.load(path + '/all_e.npy').imag
@@ -40,17 +31,10 @@ base1 = np.zeros_like(wls)
 for j in range(len(wls)):
 
     b = raw1[j, :]
-<<<<<<< HEAD
-    if j == 15:
-        L = b[np.where((b > 1.2e-6) * (b < 1e0/8))]
-    else:
-        L = b[np.where((b > .5e-6) * (b < 1e0/8))]
-=======
     # if j == 15:
     #     L = b[np.where((b > 1.2e-6) * (b < 1e0/8))]
     # else:
     L = b[np.where((b > .5e-6) * (b < 1e0/8))]
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
     try:
         base1[j] = np.min(L)
     except ValueError:
@@ -62,15 +46,6 @@ CL1 = 20 * base1 / np.log(10)
 
 nnan = ~np.isnan(CL1)
 
-<<<<<<< HEAD
-ax1.plot(wls[nnan], CL1[nnan], color='blue',
-         label='p5_ref0', marker='o',
-         linewidth=3, markersize=9)
-
-
-# Second set of data
-path = os.path.relpath(main + 'air/subinterval/344_346/ref0_p6')
-=======
 ax1.plot(wls, CL1[nnan], color='blue',
          label='p5_ref0', marker='o',
          linewidth=3, markersize=6)
@@ -78,7 +53,6 @@ ax1.plot(wls, CL1[nnan], color='blue',
 
 # Second set of data
 path = os.path.relpath(main + 'ref0_p6')
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 raw2 = np.load(path + '/all_e.npy').imag
 base2 = np.zeros_like(wls)
@@ -98,39 +72,6 @@ nnan2 = ~np.isnan(CL2)
 # # Plot the data
 ax1.plot(wls[nnan2], CL2[nnan2], color='orange',
          label='p6_ref0', marker='o',
-<<<<<<< HEAD
-         linewidth=0, markersize=8)
-
-# Residuals (using hausdorff dist)
-
-
-def hausdist(A, B):
-    A, B = np.array(A), np.array(B)
-    hmat = np.abs(A[:, np.newaxis] - B[np.newaxis, :])
-    hminA = np.min(hmat, axis=0)
-    hminB = np.min(hmat, axis=1)
-    return max(np.max(hminA), np.max(hminB))
-
-
-base3 = np.zeros_like(wls)
-
-for j in range(len(wls)):
-
-    b1, b2 = raw1[j, :], raw2[j, :]
-    L1, L2 = b1[np.where((b1 > 1e-7) * (b1 < 1e0/8))
-                ], b2[np.where((b2 > 1e-7) * (b2 < 1e0/8))]
-    try:
-        base3[j] = hausdist(L1, L2)
-    except ValueError:
-        base3[j] = np.nan
-
-# resCL = 20 * base3 / np.log(10)
-# good = ~np.isnan(resCL)
-
-# # Plot the data
-# ax2.plot(wls[good], resCL[good], color='green',
-#          linewidth=.9, label='residual', markersize=1)
-=======
          linewidth=0, markersize=5)
 
 # # Residuals (using hausdorff dist)
@@ -162,7 +103,6 @@ for j in range(len(wls)):
 # # # Plot the data
 # # ax2.plot(wls[good], resCL[good], color='green',
 # #          linewidth=.9, label='residual', markersize=1)
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 good = ~np.isnan(CL1) * ~np.isnan(CL2)
 res = np.abs(CL1[good] - CL2[good])
@@ -181,28 +121,13 @@ ax2.plot(wls[good], 100*res/CL1[good], color='green',
 # Set Figure and Axes parameters ################################
 
 # Set titles
-<<<<<<< HEAD
-# fig.suptitle("Wavelength Study: Air outside glass cladding",  fontsize=22)
-=======
 fig.suptitle("8 Tube ARF Benchmarking: Bad error fixed.\n",  fontsize=42)
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 # Set axis labels
 ax2.set_xlabel("\nWavelength", fontsize=40)
 ax1.set_ylabel("CL\n", fontsize=40)
 ax2.set_ylabel("% Error\n", fontsize=40)
 
-<<<<<<< HEAD
-# Set up ticks and grids
-
-plt.rc('xtick', labelsize=32)
-plt.rc('ytick', labelsize=32)
-
-ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
-ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
-# ax1.yaxis.set_major_locator(MultipleLocator(1))
-# ax1.yaxis.set_minor_locator(AutoMinorLocator(0))
-=======
 # # Set up ticks and grids
 
 plt.rc('xtick', labelsize=22)
@@ -212,7 +137,6 @@ ax1.xaxis.set_major_locator(MultipleLocator(2e-9))
 ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
 # # ax1.yaxis.set_major_locator(MultipleLocator(1))
 # # ax1.yaxis.set_minor_locator(AutoMinorLocator(0))
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
 ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
@@ -239,15 +163,6 @@ ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
 # plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-<<<<<<< HEAD
-plt.subplots_adjust(top=0.966,
-                    bottom=0.103,
-                    left=0.071,
-                    right=0.97,
-                    hspace=0.138,
-                    wspace=0.2)
-
-=======
 plt.subplots_adjust(top=0.915,
                     bottom=0.098,
                     left=0.077,
@@ -256,7 +171,6 @@ plt.subplots_adjust(top=0.915,
                     wspace=0.2)
 
 
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 ax2.set_ylim(1e-4, 1e2)
 # ax1.set_xlim(3.1e-6, 3.61e-6)
 ax1.legend(fontsize=35)

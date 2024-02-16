@@ -13,16 +13,9 @@ import matplotlib.pyplot as plt
 plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/')
-<<<<<<< HEAD
-path = os.path.relpath(main + 'polymerN1/k_0.002')
-
-exact = -(np.load(main + 'polymerN1/exact_betas/\
-k_002_scaled_betas.npy')/15e-6).imag
-=======
 path = os.path.relpath(main + 'polymerN3/k_0.0025')
 
 exact = -(np.load(main + 'polymerN3/exact_betas/k_0.0025.npy')/5e-5).imag
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 exact_CL = 20 * exact[0] / np.log(10)
 
 plt.figure(figsize=(20, 16))
@@ -79,11 +72,7 @@ plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\nwith Lossy Polymer\
 plt.yscale('log')
 plt.xscale('log')
 
-<<<<<<< HEAD
-s = 'true: {ex:.1f}'.format(ex=exact_CL)
-=======
 s = 'true: {ex:.3f}'.format(ex=exact_CL)
->>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
 # m, M = ax.get_ylim()
 # m = np.floor(np.log10(m))
