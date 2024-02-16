@@ -10,10 +10,6 @@ if not os.path.isdir('outputs'):
     print('Making directory: outputs')
     os.makedirs('outputs')
 
-if not os.path.isdir('modes'):
-    print('Making directory: modes')
-    os.makedirs('modes')
-
 # Set result arrays
 nspan = 4
 betas = np.zeros(nspan, dtype=complex)
@@ -34,12 +30,15 @@ if __name__ == '__main__':
     if len(sys.argv) > 4:
         L, R = float(sys.argv[4]), float(sys.argv[5])
         save_index = np.where((L < wls) * (wls < R))[0]
+        if not os.path.isdir('modes'):
+            print('making directory: modes')
+            os.makedirs('modes')
 
     n_air = 1.00027717
     n_glass = 1.4388164768221814
     ts = [15*2.7183333333333333e-6, 15*2/3*1e-6, 15*1e-6, 15*1e-6]
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air, lambda x: n_air]
-    maxhs = [.1, .02, .04, .06]
+    maxhs = [.1, .01, .04, .06]
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, wl=wls[i])
@@ -52,18 +51,29 @@ if __name__ == '__main__':
     center = centers[i]
     radius = 0.05
     npts = 4
+    if len(sys.argv) > 4:
+        beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
+                                            rad=radius,
+                                            alpha=alpha,
+                                            nspan=nspan,
+                                            npts=npts,
+                                            p=p,
+                                            niterations=10,
+                                            nrestarts=0,
+                                            stop_tol=1e-10,
+                                            inverse='pardiso')
 
-    beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
-                                        rad=radius,
-                                        alpha=alpha,
-                                        nspan=nspan,
-                                        npts=npts,
-                                        p=p,
-                                        niterations=10,
-                                        nrestarts=0,
-                                        stop_tol=1e-9,
-                                        inverse='pardiso')
-
+    else:
+        beta, _, _, _, _ = a.leakyvecmodes(ctr=center,
+                                           rad=radius,
+                                           alpha=alpha,
+                                           nspan=nspan,
+                                           npts=npts,
+                                           p=p,
+                                           niterations=10,
+                                           nrestarts=0,
+                                           stop_tol=1e-10,
+                                           inverse='pardiso')
     betas[: len(beta)] = beta[:]
 
     print('method done, saving.\n', flush=True)

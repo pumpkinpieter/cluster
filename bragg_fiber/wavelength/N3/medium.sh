@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
-#SBATCH -N 34
-#SBATCH -n 34
+#SBATCH -N 41
+#SBATCH -n 41
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -12,19 +12,19 @@
 #SBATCH --mail-user=piet2@pdx.edu
 
 # Load needed modules.
-module load ngsolve/serial
+module load ngsolve/myserial
 module load gcc-9.2.0
 module load intel
 
 # Run the code.
 echo "Starting convergence study: "
 date
-for i in {0..799}
+for i in {0..200}
     do
-        module load ngsolve/serial gcc-9.2.0 intel
+        module load ngsolve/myserial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
-            python3 emb_modes.py 0 4 ${i} &
+            python3 driver.py 0 5 ${i} &
 done
 wait

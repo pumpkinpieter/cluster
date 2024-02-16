@@ -34,7 +34,7 @@ ts = [15*2.7183333333333333e-6, 10e-6, 15*2.7183333333333333e-6,
 ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
       lambda x: n_glass, lambda x: n_air, lambda x: n_air]
 mats = ['core', 'glass', 'air', 'glass', 'air', 'Outer']
-maxhs = [.2, .02, .1, .01, .2, .3]
+maxhs = [.2, .01, .1, .007, .04, .03]
 scale = 15e-6
 
 
@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
     centers = a.sqrZfrom(centers/a.scale).conjugate()
     center = centers[i]
-    radius = 0.05
+    radius = 0.02
     npts = 4
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
@@ -64,7 +64,7 @@ if __name__ == '__main__':
                                         nspan=nspan,
                                         npts=npts,
                                         p=p,
-                                        niterations=10,
+                                        niterations=8,
                                         nrestarts=0,
                                         stop_tol=1e-9,
                                         inverse='pardiso')

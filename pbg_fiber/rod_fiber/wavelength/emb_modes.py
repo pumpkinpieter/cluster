@@ -18,7 +18,7 @@ betas = np.zeros(nspan, dtype=complex)
 
 # Center interpolation
 wls = np.linspace(.7, 1.2, 400) * 1e-6
-xs = np.array([wls[65], wls[75], wls[100], wls[125],
+xs = np.array([wls[5], wls[75], wls[100], wls[125],
               wls[150], wls[175], wls[199]])
 ys = np.array([4.7, 4.786, 4.9, 4.967, 5.018, 5.071, 5.12])
 a, b, c, d = np.polyfit(xs, ys, 3)
@@ -46,14 +46,14 @@ if __name__ == '__main__':
 
     params['wavelength'] = wls[i]
 
-    a = PBG(params)
+    a = PBG(params, refine=ref, curve=max(p+1,8))
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +
           ', degree: ' + str(p) + ', wavelength: ' + str(wls[i]) +
           '#'*8 + '\n', flush=True)
 
-    center = centers[i]
-    radius = .02
+    center = 3.4
+    radius = .2
     npts = 4
 
     beta, _, Es, _, _ = a.leakyvecmodes(ctr=center,
