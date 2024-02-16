@@ -31,6 +31,13 @@ for j in range(len(wls)):
         L = b[np.where((b > 2)*(b < 3))]
         base[j] = np.mean(L)
 
+    elif j == 37:
+        L = b[np.where((b > .5)*(b < 1))]
+        base[j] = np.mean(L)
+
+    elif j == 39:
+        base[j] = np.nan
+
     elif j == 94:
         L = b[np.where((b > 1)*(b < 2))]
         base[j] = np.mean(L)
@@ -103,21 +110,21 @@ ax2.set_yscale('log')
 plt.rc('xtick', labelsize=22)
 plt.rc('ytick', labelsize=22)
 
-ax1.xaxis.set_major_locator(MultipleLocator(1))
-# ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
-ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
+# ax1.xaxis.set_major_locator(MultipleLocator(1))
+# # ax1.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax1.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+# ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
-ax2.xaxis.set_major_locator(MultipleLocator(1))
-# ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
+# ax2.xaxis.set_major_locator(MultipleLocator(1))
+# # ax2.xaxis.set_minor_locator(AutoMinorLocator(5))
 
-y_major = LogLocator(base=10)
-y_minor = LogLocator(base=10, subs=(2.0, 3., 4., 5., 6., 7., 8., 9.))
+# y_major = LogLocator(base=10)
+# y_minor = LogLocator(base=10, subs=(2.0, 3., 4., 5., 6., 7., 8., 9.))
 
-ax2.yaxis.set_major_locator(y_major)
-ax2.yaxis.set_minor_locator(y_minor)
-ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
-ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
+# ax2.yaxis.set_major_locator(y_major)
+# ax2.yaxis.set_minor_locator(y_minor)
+# ax2.grid(which='major', color='#CCCCCC', linewidth=1.2, linestyle='--')
+# ax2.grid(which='minor', color='#CCCCCC', linestyle=':')
 
 
 ax1.legend(fontsize=22)
@@ -147,13 +154,16 @@ plt.show()
 
 # Save to .dat file for pgfplots
 
-# paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-# slides/figures/data/bragg/N2'))
+paper_path = os.path.relpath(os.path.expanduser('~/school/dissertation/figures/\
+data/bragg/N1'))
 
 # mask = ~np.isnan(CL)
 
 # both = np.column_stack((wls[evens]*1e6, CL[evens]))
 # np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
+
+both = np.column_stack((wls[~np.isnan(CL)]*1e6, res))
+np.savetxt(paper_path + '/residuals.dat', both, fmt='%.8f')
 
 # both = np.column_stack((wls*1e6, exact_CL))
 # np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')

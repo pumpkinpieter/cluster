@@ -45,8 +45,11 @@ for j in range(len(wls)):
 CL = 20 * base / np.log(10)
 
 # Set up the figure and subplots
-fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(24, 12))
-
+# Set up the figure and subplots
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=False,
+                               gridspec_kw={'height_ratios': [2.5, 1]},
+                               figsize=(35, 18))
+# Plot the data
 # Plot the data
 wls_cl = wls[~np.isnan(CL)]
 CL_cl = CL[~np.isnan(CL)]
@@ -60,6 +63,10 @@ ax1.plot(wls_cl[evens], CL_cl[evens],  linestyle='-',
          color='green', label='numerical', markerfacecolor='white',
          linewidth=0, markersize=8, marker='o')
 
+res = 100*(np.abs(CL - exact_CL))/exact_CL
+
+ax2.plot(wls, res, color='green',
+         linewidth=2, label='relative error', markersize=1)
 
 # Set Figure and Axes parameters ################################
 
@@ -84,6 +91,7 @@ ax1.grid(which='minor', color='#CCCCCC', linestyle=':')
 
 # # Set log scale on y axes
 ax1.set_yscale('log')
+ax2.set_yscale('log')
 
 # Turn on subplot tool when graphing to allow finer control of spacing
 # plt.subplot_tool(fig)
@@ -110,11 +118,14 @@ np.save(os.path.relpath(main + 'clean_betas_im'), base)
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-figures/data/bragg/N0'))
+paper_path = os.path.relpath(os.path.expanduser('~/school/dissertation/figures/\
+data/bragg/N0'))
 
-both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
-np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
+# both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
+# np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
 
-both = np.column_stack((wls*1e6, exact_CL))
-np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
+both = np.column_stack((wls[~np.isnan(CL)]*1e6, res[~np.isnan(CL)]))
+np.savetxt(paper_path + '/residuals.dat', both, fmt='%.8f')
+
+# both = np.column_stack((wls*1e6, exact_CL))
+# np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
