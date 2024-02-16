@@ -66,9 +66,15 @@ if __name__ == '__main__':
 
     betas[: len(beta)] = beta[:]
 
+<<<<<<< HEAD
     print('method done, (not saving this time).\n', flush=True)
 
     #np.save('ref'+str(ref)+'_p'+str(p)+'/e'+str(i), betas)
+=======
+    print('method done, saving.\n', flush=True)
+
+    np.save('ref'+str(ref)+'_p'+str(p)+'/e'+str(i), betas)
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 
     if len(sys.argv) > 4 and i in save_index:
         a.save_mesh('modes/mesh_e' + str(i))

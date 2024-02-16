@@ -25,8 +25,9 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/modes/\
-fundamental/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/\
+mode_convergence/fine_cladding/outputs')
+
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -35,7 +36,7 @@ fig = plt.gcf()
 ax = plt.gca()
 
 colors = ['blue', 'salmon']
-for r in range(2):
+for r in range(1):
     betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 

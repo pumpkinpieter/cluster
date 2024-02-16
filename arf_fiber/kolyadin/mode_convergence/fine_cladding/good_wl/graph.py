@@ -25,8 +25,8 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/modes/\
-fundamental/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/\
+mode_convergence/fine_cladding/good_wl/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -41,7 +41,7 @@ for r in range(2):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas >0, betas, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
@@ -66,11 +66,10 @@ for r in range(2):
                         color=plt.gca().lines[-1].get_color())
                         )
 
-xmin, xmax = ax.get_xlim()
+# xmin, xmax = ax.get_xlim()
 
-lim = 7.08052e-06
-ax.plot([xmin, xmax], [lim, lim], linestyle='dashdot', color='gray')
-
+# lim = 7.08052e-06
+# ax.plot([xmin, xmax], [lim, lim], linestyle='dashdot', color='gray')
 
 plt.legend()
 
@@ -83,12 +82,12 @@ air in outer region.\n')
 plt.yscale('log')
 plt.xscale('log')
 
-plt.yticks([1e-6, lim, 1e-4, 1e-2, 1], labels=['$10^{-6}$',
-                                               'lim CL = %.3e' % lim,
-                                               '$10^{-4}$',
-                                               '$10^{-2}$',
-                                               '$10^{0}$'])
-plt.xticks([10**5, 10**6])
+# plt.yticks([1e-6, lim, 1e-4, 1e-2, 1], labels=['$10^{-6}$',
+#                                                'lim CL = %.3e' % lim,
+#                                                '$10^{-4}$',
+#                                                '$10^{-2}$',
+#                                                '$10^{0}$'])
+# plt.xticks([10**5, 10**6])
 
 plt.grid(which='major', axis='y')
 plt.grid(which='major', axis='x')

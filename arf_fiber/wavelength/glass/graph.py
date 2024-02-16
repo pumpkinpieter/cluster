@@ -15,24 +15,24 @@ matplotlib.use("Qt5Agg")
 
 plt.close('all')
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/glass/')
-path = os.path.relpath(main + 'outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/wavelength/glass')
+path = os.path.relpath(main + '/pml_study/data')
 
-raw = np.load(path + '/all_e.npy').imag
+raw = np.load(path + '/ref0_p5_alpha2.50_T10.00.npy')
 
-wls = np.linspace(1, 2, 200) * 1e-6
-base = np.zeros_like(wls)
+wls = np.linspace(1, 2, 199) * 1e-6
+# base = np.zeros_like(wls)
 
-for j in range(len(wls)):
+# for j in range(len(wls)):
 
-    b = raw[j, :]
+#     b = raw[j, :]
 
-    c = np.where((b != 0), 1, 0)
-    base[j] = np.mean(b, where=list(c))
+#     c = np.where((b != 0), 1, 0)
+#     base[j] = np.mean(b, where=list(c))
 
 
-CL = 20 * base / np.log(10)
-
+# CL = 20 * base / np.log(10)
+CL = raw
 # Set up the figure and subplots
 fig, (ax1) = plt.subplots(1, 1, sharex=False, figsize=(15, 7))
 
@@ -82,21 +82,21 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'data/poletti_N0_CLs'), CL)
-np.save(os.path.relpath(main + 'data/poletti_N0_wls'), wls)
+# np.save(os.path.relpath(main + '/data/poletti_N0_CLs'), CL)
+# np.save(os.path.relpath(main + '/data/poletti_N0_wls'), wls)
 
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
-figures'))
+# paper_path = os.path.relpath(os.path.expanduser('~/papers/arf_embedding/\
+# figures'))
 
-mask = ~np.isnan(CL)
-mask[14] = False
+# mask = ~np.isnan(CL)
+# mask[14] = False
 
-# both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
-both = np.column_stack((wls[mask], CL[mask]))
-# both = np.column_stack((x,y))
-np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')
+# # both = np.concatenate((es[mask][np.newaxis], CL[mask][np.newaxis]), axis=1)
+# both = np.column_stack((wls[mask], CL[mask]))
+# # both = np.column_stack((x,y))
+# np.savetxt(paper_path + '/fixed_capillaries.dat', both, fmt='%.8f')

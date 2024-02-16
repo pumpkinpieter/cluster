@@ -14,8 +14,8 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 plt.close('all')
 
 ref = 0
-p = 6
-alpha = 7.5
+p = 5
+alpha = 2.5
 T = 10
 
 main = expanduser('~/local/convergence/arf_fiber/wavelength/glass/pml_study')
@@ -87,7 +87,6 @@ plt.subplots_adjust(top=0.905,
 # Show figure (needed for running from command line)
 plt.show()
 
-# Save cleaned data to numpy arrays for comparison plot
 
 np.save(relpath(main + '/data/ref%i_p%i_alpha%.2f_T%.2f' % (ref, p, alpha, T)),
         CL)
@@ -97,11 +96,11 @@ np.save(relpath(main + '/data/ref%i_p%i_alpha%.2f_T%.2f' % (ref, p, alpha, T)),
 
 # Save to .dat file for pgfplots
 
-paper_path = relpath(expanduser('~/papers/outer_materials/figures/data/arf/\
-6tube/pml/'))
+# paper_path = relpath(expanduser('~/papers/outer_materials/manuscript/figures/\
+# data/arf/6tube/pml/'))
 
-mask = ~np.isnan(CL)
+# mask = ~np.isnan(CL)
 
-both = np.column_stack((wls[mask], CL[mask]))
-np.savetxt(paper_path + '/ref%i_p%i_alpha%.2f_T%.2f.dat' %
-           (ref, p, alpha, T), both, fmt='%.8f')
+# both = np.column_stack((wls[mask]*1e6, CL[mask]))
+# np.savetxt(paper_path + '/ref%i_p%i_alpha%.2f_T%.2f.dat' %
+#            (ref, p, alpha, T), both, fmt='%.8f')

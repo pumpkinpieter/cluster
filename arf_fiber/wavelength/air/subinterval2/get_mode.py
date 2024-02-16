@@ -38,7 +38,11 @@ if __name__ == '__main__':
              poly_core=True, name='fine_cladding',
              glass_maxh=.036, core_maxh=.13,
              inner_air_maxh=.15, fill_air_maxh=.2,
+<<<<<<< HEAD
              pml_maxh=.5, buffer_maxh=.3, T_buffer=35,
+=======
+             pml_maxh=.5, buffer_maxh=.3, T_buffer=20,
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
              wl=wls[i])
 
     print('\n' + '#'*8 + ' refinement: ' + str(ref) +

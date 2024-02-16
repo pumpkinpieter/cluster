@@ -25,8 +25,8 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/modes/vector_modes/\
-fine_cladding/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/mode_convergence/\
+vector_modes/fine_cladding/outputs')
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 15))

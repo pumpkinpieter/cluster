@@ -42,7 +42,11 @@ if __name__ == '__main__':
     ns = [lambda x: n_air, lambda x: n_glass, lambda x: n_air,
           lambda x: n_glass, lambda x: n_glass]
     mats = ['core', 'glass', 'air', 'buffer', 'Outer']
+<<<<<<< HEAD
     maxhs = [.1, .02, .06, .015, .05]
+=======
+    maxhs = [.15, .012, .06, .007, .05]
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
     scale = 15e-6
 
     a = Bragg(ts=ts, scale=scale, maxhs=maxhs, ns=ns, mats=mats,

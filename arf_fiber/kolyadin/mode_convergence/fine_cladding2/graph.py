@@ -25,8 +25,9 @@ plt.rc('legend', fontsize=MEDIUM_SIZE)   # legend fontsize
 plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 
 
-main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/modes/\
-fundamental/outputs')
+main = os.path.expanduser('~/local/convergence/arf_fiber/kolyadin/\
+mode_convergence/fine_cladding2/outputs')
+
 path = os.path.relpath(main)
 
 plt.figure(figsize=(20, 16))
@@ -41,7 +42,7 @@ for r in range(2):
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas > 0, betas, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)

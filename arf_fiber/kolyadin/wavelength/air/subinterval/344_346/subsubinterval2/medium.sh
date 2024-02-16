@@ -1,7 +1,12 @@
 #!/usr/bin/bash
 #SBATCH --job-name arfemb 
+<<<<<<< HEAD
 #SBATCH -N 49
 #SBATCH -n 49
+=======
+#SBATCH -N 29
+#SBATCH -n 29
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 #SBATCH --tasks-per-node 1
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
@@ -22,17 +27,25 @@ module load intel
 # Run the code.
 echo "Starting convergence study: "
 date
+<<<<<<< HEAD
 for i in 185 186 189 190 202 204 211 217 220 221 223 233 239 243 \
     244 246 247 248 249 252 258 260 262 264 268 270 276 278 279 \
     283 289 291 294 296 297 300 304 306 307 316 320 328 331 335 \
     336 358 360 361 364 365 369 371 372 373 375 376 378 379 381 \
     382 383 389 390 393 394 395 396 398
 
+=======
+for i in {170..399}
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
     do
         module load ngsolve/myserial gcc-9.2.0 intel
         srun --unbuffered --nodes 1 --ntasks 1 \
             --output="logs/e_${i}_task_%s.out" \
             --error="errors/e_${i}_task_%s.err" \
+<<<<<<< HEAD
             python3 emb_modes.py 0 6 ${i} &
+=======
+            python3 emb_modes.py 0 5 ${i} &
+>>>>>>> 4fac300c54dc7d0417a5fd711f9fde1c8c2a4aa5
 done
 wait
