@@ -76,10 +76,12 @@ for L in ls:
     ax1.plot([L, L], [m, 2*M],  linewidth=2.5, color='orange',
              linestyle=(0, (2, 2)))
 
-# ax1.plot(wls[~np.isnan(CL)], abs(exact_CL[~np.isnan(CL)]-CL[~np.isnan(CL)]),
-#           '^-', color='green',
-#           label='residual',
-#           linewidth=1.5, markersize=2.4)
+rel_error = 100*abs(exact_CL[~np.isnan(CL)]-CL[~np.isnan(CL)])/CL[~np.isnan(CL)]
+
+ax1.plot(wls[~np.isnan(CL)], rel_error,
+         '^-', color='green',
+         label='residual',
+         linewidth=1.5, markersize=2.4)
 
 # Set Figure and Axes parameters ################################
 
@@ -129,20 +131,23 @@ plt.show()
 
 # Save cleaned data to numpy arrays for comparison plot
 
-np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
+# np.save(os.path.relpath(main + 'fixed_cap_clean_CL'), CL)
 
 
 # %%
 
 # Save to .dat file for pgfplots
 
-paper_path = os.path.relpath(os.path.expanduser('~/papers/outer_materials/\
-slides/figures/data/bragg/N1'))
+paper_path = os.path.relpath(os.path.expanduser('~/school/dissertation/figures/\
+data/bragg/N1'))
 
 mask = ~np.isnan(CL)
 
-both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
-np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
+# both = np.column_stack((wls_cl[evens]*1e6, CL_cl[evens]))
+# np.savetxt(paper_path + '/numeric.dat', both, fmt='%.8f')
 
-both = np.column_stack((wls[~np.isnan(CL)]*1e6, exact_CL[~np.isnan(CL)]))
-np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
+both = np.column_stack((wls[~np.isnan(CL)]*1e6, rel_error))
+np.savetxt(paper_path + '/residuals.dat', both, fmt='%.8f')
+
+# both = np.column_stack((wls[~np.isnan(CL)]*1e6, exact_CL[~np.isnan(CL)]))
+# np.savetxt(paper_path + '/analytic.dat', both, fmt='%.8f')
