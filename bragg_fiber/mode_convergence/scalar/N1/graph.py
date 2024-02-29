@@ -15,8 +15,9 @@ plt.close('all')
 main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/')
 path = os.path.relpath(main + 'N1/outputs')
 
-exact = -(np.load(main + 'N1/exact_scaled_betas.npy')/15e-6).imag
-exact_CL = 20 * exact[0] / np.log(10)
+exact = np.load(main + 'N1/exact_scaled_betas.npy')/15e-6
+exact_im = exact.imag
+exact_CL = -20 * exact_im[0] / np.log(10)
 
 plt.figure(figsize=(20, 16))
 
@@ -24,12 +25,13 @@ fig = plt.gcf()
 ax = plt.gca()
 
 for r in range(2):
-    betas = np.load(path + '/ref'+str(r)+'all_betas.npy').imag
+    betas = np.load(path + '/ref'+str(r)+'all_betas.npy')
+    betas_im = betas.imag
     dofs = np.load(path + '/ref'+str(r)+'all_dofs.npy')
 
     # Filter out bad values
 
-    B = np.where(betas != 0, betas, 1e99)
+    B = np.where(betas_im != 0, betas_im, 1e99)
     BB = np.min(B, axis=1)
 
     CL = 20 * BB / np.log(10)
