@@ -5,13 +5,12 @@ import numpy as np
 import sys
 
 directory = sys.argv[1]
-n_alpha = int(sys.argv[2])
 
 B = []
 
-for i in range(n_alpha):
+for i in range(21):
     try:
-        b = np.load(directory+'alpha'+str(i)+'.npy')
+        b = np.load(directory+'T'+str(i)+'.npy')
         B.append(b)
     except FileNotFoundError:
         print(str(i)+' ')
@@ -19,4 +18,4 @@ for i in range(n_alpha):
 
 B = np.array(B)
 
-np.save(directory+'all_alphas.npy', B)
+np.save(directory+'all_Ts.npy', B)

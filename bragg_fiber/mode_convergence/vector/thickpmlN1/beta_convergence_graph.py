@@ -13,10 +13,10 @@ import matplotlib.pyplot as plt
 # plt.close('all')
 
 main = os.path.expanduser('~/local/convergence/bragg_fiber/mode_convergence/\
-vector/')
-path = os.path.relpath(main + 'N1/outputs')
+vector/thickpmlN1/')
+path = os.path.relpath(main + 'outputs')
 
-exact = (np.load(main + 'N1/exact_scaled_betas.npy')/15e-6)[0]
+exact = (np.load(main + 'exact_scaled_betas.npy')/15e-6)[0]
 
 fig, ax = plt.subplots(1, figsize=(20, 16))
 
@@ -42,16 +42,14 @@ for r in range(refs+1):
 
     all_means.append(list(means))
 
-
-ax.set_ylim(1e-11, 1e2)
-
 plt.legend(fontsize=18)
 
 plt.xlabel('\nndofs', fontsize=25)
 plt.ylabel('Absolute Error\n', fontsize=25)
 
-plt.title('Hollow Core Bragg Fiber: $N_1$ Configuration\n\
-Fundamental Mode Convergence\n', fontsize=35)
+plt.title('Bragg $N_1$ Fiber \
+FM Convergence\nThicker PML layer\n',
+          fontsize=30)
 
 plt.yscale('log')
 plt.xscale('log')

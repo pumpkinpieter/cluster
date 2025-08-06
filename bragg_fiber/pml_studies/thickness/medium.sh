@@ -6,8 +6,6 @@
 #SBATCH --cpus-per-task 20
 #SBATCH --partition medium
 #SBATCH --mem 0
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user piet2@pdx.edu
 #SBATCH --output=logs/log.out
 #SBATCH --error=errors/error.err
 
@@ -26,7 +24,8 @@ if [ ! -d "errors" ]; then
       mkdir errors
   fi
 
-p=8
+p=9
+alpha=10
 
 # Run the code.
 echo "Starting convergence study: "
@@ -36,6 +35,6 @@ for i in {0..20}
         srun --unbuffered --nodes 1 --ntasks 1 \
            --output="logs/ref0_p${p}_T${i}_task%s.out" \
            --error="errors/ref0_p${p}_T${i}_task%s.err" \
-           python3 driver.py 0 $p ${i} &
+           python3 driver.py 0 $p $i $alpha &
 done
 wait

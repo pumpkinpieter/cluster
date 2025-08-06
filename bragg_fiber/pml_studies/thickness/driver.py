@@ -19,16 +19,13 @@ wls = np.linspace(1.4, 2, 301) * 1e-6
 wl_idx = 0
 
 wl = wls[wl_idx]
-
-# PML strength
-alpha = 5
-
 ts = np.linspace(5e-6, 40e-6, 21)
 
 if __name__ == '__main__':
     
     ref, p = int(sys.argv[1]), int(sys.argv[2])
-    t_idx = int(sys.argv[3])
+    t_idx, alpha = int(sys.argv[3]), float(sys.argv[4])
+
     t_outer = ts[t_idx]
 
     n_air = 1.00027717
@@ -65,7 +62,7 @@ if __name__ == '__main__':
 
     print('method done, saving.\n', flush=True)
 
-    outdir = 'ref' + str(ref) + 'p' + str(p) + 'T' + str(t_outer)
+    outdir = 'p' + str(p) + '_alpha' + str(alpha)
 
     if not os.path.isdir(outdir):
         print('Making directory: ' + outdir)

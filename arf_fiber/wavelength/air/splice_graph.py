@@ -91,15 +91,15 @@ axin.set_xticks([])
 axin.set_yticks([])
 
 # Turn on subplot tool when graphing to allow finer control of spacing
-# plt.subplot_tool(fig)
+plt.subplot_tool(fig)
 
 # After fine tuning, these are the values we want (use export from tool)
-plt.subplots_adjust(top=0.905,
-                    bottom=0.11,
-                    left=0.065,
-                    right=0.95,
-                    hspace=0.2,
-                    wspace=0.2)
+# plt.subplots_adjust(top=0.905,
+#                     bottom=0.11,
+#                     left=0.065,
+#                     right=0.95,
+#                     hspace=0.2,
+#                     wspace=0.2)
 
 # ax1.set_ylim(1e-7, 1e3)
 # ax1.legend(fontsize=25)
